@@ -12,3 +12,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.hero .app-logo {
+    max-width: 300px;
+    width: 300px;
+}
+
+img.mb-3.logo-small {
+    height: 100%;
+    width: 80px;
+    margin-bottom: 0px!important;
+    margin-right: 60px;
+}

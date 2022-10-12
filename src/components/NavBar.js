@@ -18,6 +18,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 
+import logo_small from "../assets/sanders-hyland-logo-lg.png";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
@@ -39,7 +40,11 @@ const NavBar = () => {
     <div className="nav-container">
       <Navbar color="light" light expand="md">
         <Container>
-          <NavbarBrand className="logo" />
+          <div>
+            <a href="">
+              <img className="mb-3 logo-small" src={logo_small} alt="React logo" />
+            </a>
+          </div>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
