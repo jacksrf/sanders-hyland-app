@@ -33,3 +33,34 @@
 .result-block-container .result-block {
   opacity: 1;
 }
+
+.multiInputRow {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.form_row.full label {
+    width: 100%;
+}
+
+.form_row label span {
+    width: 100%;
+}
+
+label.medium_input textarea {
+    width: 100%;
+}
+
+label.medium_input {
+    width: 40%;
+}
+
+label.small_input {
+    width: 12%;
+}
+
+label.small_input label {
+    width: 100%;
+}
