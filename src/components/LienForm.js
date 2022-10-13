@@ -112,7 +112,7 @@ class LienForm extends Component {
     console.log(this.state.lineItems)
     e.preventDefault();
 
-    await fetch("http://localhost:4000/lien/add", {
+    await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
