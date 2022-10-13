@@ -1,21 +1,38 @@
 import React, { Component } from "react";
-
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import { Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import ReactPDF from '@react-pdf/renderer';
 
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'row',
+    backgroundColor: '#E4E4E4'
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1
+  }
+});
 
 class LienForm extends Component {
+
   constructor(props) {
+    console.log(props)
     super(props);
+    const user = this.props.user;
     this.state = {
+      'contractor_id': user.sub,
       'jobNumber': '',
-      'contractor': '',
+      'contractor': user.name,
       'lineItems': [
         {
           "id": 1,
           "description": '',
           "quantity": '',
-          "type": '',
+          "type": 'sf',
           "price_per": '',
           "total": '',
           "hours": false
@@ -38,7 +55,7 @@ class LienForm extends Component {
       "id": (current_lineItems.length+1),
       "description": '',
       "quantity": '',
-      "type": '',
+      "type": 'sf',
       "price_per": '',
       "total": '',
       "hours": false
@@ -89,13 +106,28 @@ class LienForm extends Component {
      });
  }
 
-
-  handleSubmit(event) {
+  async handleSubmit(e) {
     console.log('A job number was submitted: ' + this.state.jobNumber);
     console.log('A contractor was submitted: ' + this.state.contractor);
     console.log(this.state.lineItems)
-    event.preventDefault();
+    e.preventDefault();
+
+    await fetch("http://localhost:4000/lien/add", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(this.state),
+    })
+    .catch(error => {
+       window.alert(error);
+       return;
+    });
+
   }
+
+
+
 
   render() {
     return (

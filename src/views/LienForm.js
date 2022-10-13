@@ -8,6 +8,7 @@ import LienForm from "../components/LienForm";
 
 export const LienFormComponent = () => {
 
+  const {user} = useAuth0();
   return (
     <>
       <div className="mb-5">
@@ -17,7 +18,7 @@ export const LienFormComponent = () => {
 
         </p>
 
-        <LienForm />
+        <LienForm user={user} />
 
       </div>
 
