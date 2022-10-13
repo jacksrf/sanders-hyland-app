@@ -61,6 +61,10 @@ label.small_input {
     width: 12%;
 }
 
+label.small_input input {
+    width: 100%;
+}
+
 label.small_input label {
     width: 100%;
 }

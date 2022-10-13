@@ -17,31 +17,63 @@ class LienForm extends Component {
           "quantity": '',
           "type": '',
           "price_per": '',
-          "total": ''
+          "total": '',
+          "hours": false
         }
       ]
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.addInput = this.addInput.bind(this);
+    this.handleLineItemChange = this.handleLineItemChange.bind(this);
   };
 
 
-addInput(e) {
-  e.preventDefault()
-};
+  addInput(event) {
+    event.preventDefault()
+    console.log(event)
+    const current_lineItems = this.state.lineItems;
+    const newLineItem = {
+      "id": (current_lineItems.length+1),
+      "description": '',
+      "quantity": '',
+      "type": '',
+      "price_per": '',
+      "total": '',
+      "hours": false
+    };
+    current_lineItems.push(newLineItem)
+    console.log(current_lineItems)
 
-// handleLineItemChange(e) {
-//     e.preventDefault();
-//
-//     const index = e.target.id;
-//     // setArr(s => {
-//     //   const newArr = s.slice();
-//     //   newArr[index].value = e.target.value;
-//     //
-//     //   return newArr;
-//     // });
-//   };
+    this.setState({
+      lineItems: current_lineItems
+    });
+  };
+
+  handleLineItemChange(event) {
+    event.preventDefault();
+    console.log(event);
+    const id = event.target.id;
+    console.log(id)
+     const target = event.target;
+     console.log(target)
+     const value = target.value;
+     console.log(value)
+     const name = target.name;
+     console.log(name)
+     const current_lineItems = this.state.lineItems;
+     console.log(current_lineItems)
+     console.log(current_lineItems[id-1])
+     current_lineItems[id-1][name] = value;
+     if (name === "price_per") {
+       var total = current_lineItems[id-1].quantity * current_lineItems[id-1].price_per;
+       current_lineItems[id-1].total = total;
+     }
+     this.setState({
+       "lineItems": current_lineItems
+     });
+  };
 
   handleInputChange(event) {
       console.log(event);
@@ -61,6 +93,7 @@ addInput(e) {
   handleSubmit(event) {
     console.log('A job number was submitted: ' + this.state.jobNumber);
     console.log('A contractor was submitted: ' + this.state.contractor);
+    console.log(this.state.lineItems)
     event.preventDefault();
   }
 
@@ -86,32 +119,36 @@ addInput(e) {
                <div className="multiInputRow" key={item.id}>
                  <label className="medium_input">
                    <span>Description:</span>
-                   <textarea type="text" name="description" value={this.state.lineItems[i].description} onChange={this.handleLineItemChange} />
+                   <textarea type="text" id={item.id} name="description" value={this.state.lineItems[i].description} onChange={this.handleLineItemChange} />
                  </label>
                  <label className="small_input">
                    <span>Quantity:</span>
-                   <input type="text" name="quantity" value={this.state.lineItems[i].quantity} onChange={this.handleLineItemChange} />
+                   <input type="text" id={item.id}  name="quantity" value={this.state.lineItems[i].quantity} onChange={this.handleLineItemChange} />
                  </label>
                  <label className="small_input">
                    <span>Type:</span>
-                   <input type="text" name="type" value={this.state.lineItems[i].type} onChange={this.handleLineItemChange} />
+                   <select id={item.id} name="type" value={this.state.lineItems[i].type} onChange={this.handleLineItemChange}>
+                      <option value="sf">SF - square feet</option>
+                      <option value="sy">SY - square yards</option>
+                      <option value="lf">LF - linear feet</option>
+                      <option value="hrs">HRS</option>
+                   </select>
                  </label>
                  <label className="small_input">
                    <span>Price Per:</span>
-                   <input type="text" name="price_per" value={this.state.lineItems[i].price_per} onChange={this.handleLineItemChange} />
+                   <input type="text" id={item.id}  name="price_per" value={this.state.lineItems[i].price_per} onChange={this.handleLineItemChange} />
                  </label>
                  <label className="small_input">
                    <span>Total:</span>
-                   <input type="text" name="total" value={this.state.lineItems[i].total} onChange={this.handleLineItemChange} />
+                   <input type="text" id={item.id}  name="total" value={this.state.lineItems[i].total} onChange={this.handleLineItemChange} />
                  </label>
                </div>
              );
            })}
-
-           <button onChange={this.addInput}>+</button>
+           <button onClick={this.addInput}>+</button>
           </div>
           <div className="form_row">
-
+            <button onClick={this.handleSubmit}>SUBMIT</button>
           </div>
       </form>
     );
