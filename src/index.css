@@ -25,3 +25,13 @@ img.mb-3.logo-small {
     margin-right: 60px;
     margin-left: 40px;
 }
+
+.row > div {
+    width: 20%;
+    text-align: left;
+}
+
+iframe {
+    width: 100%;
+    height: 80vh;
+}

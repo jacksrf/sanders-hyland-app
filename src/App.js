@@ -9,6 +9,7 @@ import Home from "./views/Home";
 import Profile from "./views/Profile";
 import Payments from "./views/Payments";
 import LienForm from "./views/LienForm";
+import Pdf from "./views/Pdf";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/" exact component={Home} />
             <Route path="/payments-submitted" component={Payments} />
             <Route path="/lien-form" component={LienForm} />
+            <Route path="/pdf" component={Pdf} />
           </Switch>
         </Container>
         <Footer />
