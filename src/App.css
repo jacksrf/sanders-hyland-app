@@ -54,11 +54,11 @@ label.medium_input textarea {
 }
 
 label.medium_input {
-    width: 40%;
+    width: 35%;
 }
 
 label.small_input {
-    width: 12%;
+    width: 10%;
 }
 
 label.small_input input {
@@ -67,4 +67,140 @@ label.small_input input {
 
 label.small_input label {
     width: 100%;
+}
+
+.formDivider {
+    border-top: 5px solid #000000;
+    opacity: .1;
+    margin: 50px 0px;
+    width: 100%;
+    border-radius: 5px;
+    float: left;
+}
+
+.form_row.notFull {
+    float: left;
+    margin-right: 20px;
+    margin-top: 25px;
+    width: auto;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.section_title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 26px;
+    border-bottom: 3px solid black;
+    width: auto;
+    display: inline;
+    float: left;
+}
+
+select.form-select {
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.form_row.submit {
+    margin-bottom: 100px;
+}
+
+.form_row.full {
+    margin-top: 24px;
+}
+
+.form_row {
+    width: 100%;
+    float: left;
+    min-height: 1px;
+}
+
+button.btn.btn-success {
+    float: left;
+}
+
+label.small_input.form-label div {
+    height: 24px;
+}
+
+.row {
+    align-items: center;
+    justify-content: center;
+}
+
+.application_row.row {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 100%;
+    float: left;
+    padding: 0px 0px 20px;
+    border-bottom: 1px solid;
+
+}
+
+.application_row_header.row {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 100%;
+    float: left;
+    padding: 0px 0px 20px;
+    border-bottom: 1px solid;
+    font-weight: bold;
+    font-size: 20px
+}
+
+.row button.hide {
+    width: 62px;
+    opacity: 0;
+}
+
+.job_number, .status, .project_manager {
+    text-align: center!important;
+}
+
+.status {
+    text-transform: capitalize;
+}
+
+.status.rejected {
+    color: red;
+    font-weight: bold;
+}
+
+.status.approved {
+    color: green;
+    font-weight: bold;
+}
+
+.status.in_review {
+    color: blue;
+    font-weight: bold;
+}
+
+.status.started {
+    color: black;
+    font-weight: bold;
+}
+
+.status.unsubmitted {
+    color: #17a2b8;
+    font-weight: bold;
+}
+
+.status button.btn-Lg {
+    width: 250px;
+    margin: 30px 30px;
 }

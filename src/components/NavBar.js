@@ -66,7 +66,7 @@ const NavBar = () => {
                     exact
                     activeClassName="router-link-exact-active"
                   >
-                    Submited
+                    Applications
                   </NavLink>
                 </NavItem>
               )}
