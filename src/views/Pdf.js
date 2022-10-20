@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { Button, Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
@@ -185,12 +185,12 @@ export const PdfComponent = () => {
     "startDate":"",
     "endDate":"",
     "lineItems":[],
+    "lineItemsTotal": 0,
     "lineItems_manHours":[],
+    "lineItems_manHours_total":0,
     "status":"started"
   });
 
-  const [workTotal, setWorkTotal] = useState(0);
-  const [hourlyTotal, setHourlyTotal] = useState(0);
   // Create Document Component
   const MyDocument = () => (
     <Document>
@@ -224,11 +224,11 @@ export const PdfComponent = () => {
               <Text style={styles.list_item_header}>Total</Text>
             </View>
           {data.lineItems.map((item, i) => {
-              console.log(workTotal)
+              // console.log(workTotal)
               // var total = total + Number(item.total);
               // setWorkTotal(total)
              return (
-              <View style={styles.list_row}>
+              <View style={styles.list_row} key={i}>
                 <Text style={styles.list_item}>{item.date}</Text>
                 <Text style={styles.list_item_description}>{item.description}</Text>
                 <Text style={styles.list_item}>{item.quantity}</Text>
@@ -244,7 +244,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Work Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${workTotal}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItemsTotal}</Text>
           </View>
           </View>
 
@@ -263,7 +263,7 @@ export const PdfComponent = () => {
             </View>
           {data.lineItems_manHours.map((item, i) => {
              return (
-              <View style={styles.list_row}>
+              <View style={styles.list_row} key={i}>
                 <Text style={styles.list_item}>{item.date}</Text>
                 <Text style={styles.list_item_description}>{item.description}</Text>
                 <Text style={styles.list_item}>{item.hours}</Text>
@@ -279,7 +279,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Hourly Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${hourlyTotal}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItems_manHours_total}</Text>
           </View>
           </View>
 
@@ -290,7 +290,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Application Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${hourlyTotal + workTotal}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)}</Text>
           </View>
           </View>
         </View>
@@ -331,17 +331,7 @@ export const PdfComponent = () => {
     ).then((response) => response.json());
     console.log(response)
     setData(response)
-    data.lineItems.map((item, i) => {
-      console.log(workTotal)
-      const total = workTotal + Number(item.total);
-      setWorkTotal(total)
-    })
 
-    data.lineItems_manHours.map((item, i) => {
-      console.log(hourlyTotal)
-      const total = hourlyTotal + Number(item.total);
-      setHourlyTotal(total)
-    })
 
   };
 
@@ -363,11 +353,22 @@ export const PdfComponent = () => {
   }
 
 
-  useEffect(() => {
-    // setWorkTotal(0);
-    // setHourlyTotal(0);
-    handleSubmit();
-  }, []);
+  const firstUpdate = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      handleSubmit();
+      return;
+    }
+
+    console.log("componentDidUpdateFunction");
+  });
+
+  // useLayoutEffect(() => {
+  //   // setWorkTotal(0);
+  //   // setHourlyTotal(0);
+  //   handleSubmit();
+  // }, []);
 
   if (data.status === 'started') {
     return (

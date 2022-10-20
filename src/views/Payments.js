@@ -8,6 +8,8 @@ import {Form, Button} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from "moment";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -23,13 +25,21 @@ export const PaymentsComponent = () => {
 
   const handleSubmit = async () => {
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/lien/" + user.sub
+      "https://sanders-hyland-server.herokuapp.com/liens/" + user.sub
     ).then((response) => response.json());
     console.log(response)
     setPayments(response)
     // update the state
     // setUsers(response);
   };
+
+  const deleteApp = async (item) => {
+    const response = await fetch(
+      "https://sanders-hyland-server.herokuapp.com/lien/delete/" + item._id + "/" + user.sub
+    ).then((response) => response.json());
+    console.log(response)
+    setPayments(response)
+  }
 
   useEffect(() => {
     handleSubmit();
@@ -59,6 +69,7 @@ export const PaymentsComponent = () => {
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
              <Button className="view" variant="secondary" id={item._id} onClick={(e)=>{goToPDF(item)}}>FINISH</Button>
+             <Button className="delete" variant="danger" id={item._id} onClick={(e)=>{deleteApp(item)}}><FontAwesomeIcon icon={faTrash} /></Button>
            </Row>
          );
        } else if (item.status === "unsubmitted") {
@@ -69,6 +80,7 @@ export const PaymentsComponent = () => {
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
              <Button className="view" variant="info" id={item._id} onClick={(e)=>{goToPDF(item)}}>SUBMIT</Button>
+             <Button className="delete" variant="danger" id={item._id} onClick={(e)=>{deleteApp(item)}}><FontAwesomeIcon icon={faTrash} /></Button>
            </Row>
          );
         } else if (item.status === "approved") {

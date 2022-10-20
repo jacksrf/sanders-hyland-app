@@ -110,10 +110,19 @@ class LienForm extends Component {
        current_lineItems[id-1].total = total;
      }
 
-     form.lineItems = current_lineItems;
-     this.setState({
-       form: form
-     });
+     var lineItemsTotal = 0;
+     current_lineItems.map((item, i) => {
+       lineItemsTotal += item.total;
+       if (i === current_lineItems.length - 1) {
+         form.lineItems = current_lineItems;
+         form.lineItemsTotal = lineItemsTotal;
+         this.setState({
+           form: form
+         });
+       }
+     })
+
+
   };
 
   handleLineItemChange2(event) {
@@ -134,11 +143,19 @@ class LienForm extends Component {
      current_lineItems[id-1][name] = value;
      var total = Number(current_lineItems[id-1].men) * Number(current_lineItems[id-1].hours) * Number(current_lineItems[id-1].rate);
      current_lineItems[id-1].total = total;
+     var lineItemsTotal = 0;
+     current_lineItems.map((item, i) => {
+       lineItemsTotal += item.total;
+       if (i === current_lineItems.length - 1) {
+         form.lineItems_manHours = current_lineItems;
+         form.lineItems_manHours_total = lineItemsTotal;
+         console.log(form)
+         this.setState({
+           form: form
+         });
+       }
+     })
 
-     form.lineItems_manHours = current_lineItems;
-     this.setState({
-       form: form
-     });
   };
 
     deleteLineItem(event) {}
@@ -204,7 +221,7 @@ class LienForm extends Component {
     const studentId = window.location.href.split('/')[4];
     e.preventDefault();
       console.log(studentId)
-      if (studentId != '') {
+      if (studentId != undefined) {
         console.log(this.state.form)
         var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
            method: "POST",
@@ -370,7 +387,7 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Description:</span>
-                     <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems_manHours[i].description} onChange={this.handleLineItemChange} />
+                     <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems_manHours[i].description} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Men:</span>

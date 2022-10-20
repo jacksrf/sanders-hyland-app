@@ -204,3 +204,8 @@ label.small_input.form-label div {
     width: 250px;
     margin: 30px 30px;
 }
+
+.delete {
+    position: absolute;
+    right: 15%;
+}

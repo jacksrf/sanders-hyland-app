@@ -17,7 +17,7 @@ export const LienFormComponent = () => {
   var date = moment().format()
   const [data, setData] = useState({
     "date":date,
-    "contractor_id": user.id,
+    "contractor_id": user.sub,
     "jobNumber":"",
     "projectManager":"",
     "projectManagerId":"",
