@@ -34,7 +34,7 @@ export const PaymentsComponent = () => {
   };
 
   const deleteApp = async (item) => {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/delete/" + item._id + "/" + user.sub, {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/delete/" + item._id, {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const PaymentsComponent = () => {
     })
     .then((response) => response.json())
     console.log(response)
-    setPayments(response)
+    handleSubmit()
   }
 
   useEffect(() => {
