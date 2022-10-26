@@ -371,7 +371,7 @@ export const PdfComponent = () => {
     signActiveSet(false);
     var newData = data;
     newData.status = "signed";
-    setData(newData)
+    setData(newData);
     console.log(this.sigPad)
     setSignature({trimmedDataURL: this.sigPad.getTrimmedCanvas().toDataURL('image/png')})
   }
