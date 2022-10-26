@@ -209,3 +209,38 @@ label.small_input.form-label div {
     position: absolute;
     right: 15%;
 }
+
+label.form-label input {
+    margin-top: 8px;
+}
+
+.signature {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,.8);
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: -1;
+    display: none;
+}
+
+.signature.active {
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signature canvas {
+    background: white;
+    margin-bottom: 20px;
+    border: 2px solid black;
+}
+
+.signatureInner {
+    padding: 50px;
+    background: white;
+    border-radius: 30px;
+}

@@ -30,7 +30,8 @@ class LienForm extends Component {
     var date = moment().format()
     this.state = {
       "form": this.props.data,
-      'projectManagers': [{}]
+      'projectManagers': [{}],
+      'jobs': []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,6 +44,7 @@ class LienForm extends Component {
     this.deleteLineItem = this.deleteLineItem.bind(this);
     this.deleteHourlyLineItem = this.deleteHourlyLineItem.bind(this);
     this.handleDataUpdate = this.handleDataUpdate.bind(this);
+    this.handleJobs = this.handleJobs.bind(this)
   };
 
   addInput(event) {
@@ -281,9 +283,24 @@ class LienForm extends Component {
     });
   }
 
+  async handleJobs() {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs", {
+       method: "GET",
+       headers: {
+         "Content-Type": "application/json",
+       }
+    })
+    .then((response) => response.json())
+
+    this.setState({
+      jobs: response
+    });
+  }
+
 
   componentDidMount() {
     this.handlePms()
+    this.handleJobs()
     this.handleDataUpdate()
   }
 
@@ -312,8 +329,14 @@ class LienForm extends Component {
           <Form.Group className="form_row notFull">
             <Form.Label>
               <span>Job Number:</span>
-              <Form.Control type="text" name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange} />
             </Form.Label>
+            <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
+            {this.state.jobs.map((item, i) => {
+               return (
+                 <option key={i} value={item.number}>{item.number} - {item.title}</option>
+               );
+             })}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className="form_row notFull">

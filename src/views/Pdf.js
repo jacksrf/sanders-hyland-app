@@ -172,8 +172,7 @@ const styles = StyleSheet.create({
 
 export const PdfComponent = () => {
   const history = useHistory();
-
-
+  var sigPad = {}
   const [data, setData] = useState({
     "_id":"",
     "date":"",
@@ -187,10 +186,13 @@ export const PdfComponent = () => {
     "lineItems":[],
     "lineItemsTotal": 0,
     "lineItems_manHours":[],
-    "lineItems_manHours_total":0,
+    "lineItems_manHours_total": 0,
     "status":"started"
   });
 
+  const [signActive, signActiveSet] = useState(false);
+  const [signature, setSignature] = useState({'trimmedDataURL': ''})
+  const [sigCanvas, setSigCanvas] = useState({"ref":''})
   // Create Document Component
   const MyDocument = () => (
     <Document>
@@ -283,14 +285,36 @@ export const PdfComponent = () => {
           </View>
           </View>
 
-          <View style={[styles.list, {marginTop: "40px"}]}>
+          <View style={[styles.list, {marginTop: "20px"}]}>
+          <View style={styles.list_row}>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank_description}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Retention:</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}>10%</Text>
+          </View>
+          </View>
+
+          <View style={[styles.list, {marginTop: "20px"}]}>
+          <View style={styles.list_row}>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank_description}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total:</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * .1)}</Text>
+          </View>
+          </View>
+
+          <View style={[styles.list, {marginTop: "20px"}]}>
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Application Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * .1)}</Text>
           </View>
           </View>
         </View>
@@ -335,6 +359,23 @@ export const PdfComponent = () => {
 
   };
 
+  const signApp = async (item) => {
+    signActiveSet(true);
+  }
+
+  const closeSignature = async (item) => {
+    signActiveSet(false);
+  }
+
+  const saveSignature = async (item) => {
+    signActiveSet(false);
+    var newData = data;
+    newData.status = "signed";
+    setData(newData)
+    console.log(this.sigPad)
+    setSignature({trimmedDataURL: this.sigPad.getTrimmedCanvas().toDataURL('image/png')})
+  }
+
   const editApp = async (item) => {
     history.push('/lien-form/' + item._id)
   };
@@ -373,10 +414,20 @@ export const PdfComponent = () => {
   if (data.status === 'started') {
     return (
       <>
+      <div className={ signActive ? 'signature active' : 'signature' }>
+        <div className="signatureInner">
+          <div className="instructions">Sign Here:</div>
+          <SignatureCanvas penColor='black' canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} ref={(ref) => { this.sigPad = ref }}/>
+          <div className="signature_buttons">
+            <Button variant="warning" size="Lg" onClick={(e)=>{closeSignature(data)}}>CANCEL</Button>
+            <Button variant="success" size="Lg" onClick={(e)=>{saveSignature(data)}}>SAVE</Button>
+          </div>
+        </div>
+      </div>
 
       <div className='status started'>
         <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
+        <Button variant="success" size="Lg" onClick={(e)=>{signApp(data)}}>SIGN</Button>
       </div>
 
       <PDFViewer>
@@ -387,10 +438,20 @@ export const PdfComponent = () => {
   } else if (data.status === 'unsubmitted') {
     return (
       <>
+      <div className={ signActive ? 'signature active' : 'signature' }>
+        <div className="signatureInner">
+          <div className="instructions">Sign Here:</div>
+          <SignatureCanvas penColor='black' canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} />
+          <div className="signature_buttons">
+            <Button variant="warning" size="Lg" onClick={(e)=>{closeSignature(data)}}>CANCEL</Button>
+            <Button variant="success" size="Lg" onClick={(e)=>{saveSignature(data)}}>SAVE</Button>
+          </div>
+        </div>
+      </div>
 
       <div className='status unsubmitted'>
         <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
+        <Button variant="success" size="Lg" onClick={(e)=>{signApp(data)}}>SIGN</Button>
       </div>
 
       <PDFViewer>
@@ -418,6 +479,20 @@ export const PdfComponent = () => {
       <div className='status rejected'>
         <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
         <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
+      </div>
+
+      <PDFViewer>
+        <MyDocument />
+      </PDFViewer>
+      </>
+    );
+  } else if (data.status === "signed") {
+    return (
+      <>
+
+      <div className='status rejected'>
+        <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
+        <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
       </div>
 
       <PDFViewer>

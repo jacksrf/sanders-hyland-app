@@ -25,7 +25,9 @@ export const LienFormComponent = () => {
     "startDate":"",
     "endDate":"",
     "lineItems":[],
+    "lineItemsTotal": 0,
     "lineItems_manHours":[],
+    "lineItems_manHours_total": 0,
     "status":"started"
   });
 
