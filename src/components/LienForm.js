@@ -7,6 +7,9 @@ import ReactPDF from '@react-pdf/renderer';
 import {useHistory} from 'react-router-dom';
 import moment from "moment";
 import {Form, Button} from 'react-bootstrap';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const styles = StyleSheet.create({
   page: {
@@ -45,6 +48,9 @@ class LienForm extends Component {
     this.deleteHourlyLineItem = this.deleteHourlyLineItem.bind(this);
     this.handleDataUpdate = this.handleDataUpdate.bind(this);
     this.handleJobs = this.handleJobs.bind(this)
+    this.handleDateChange = this.handleDateChange.bind(this)
+    this.handleLineItemDateChange = this.handleLineItemDateChange.bind(this)
+    this.handleLineItemDateChange2 = this.handleLineItemDateChange2.bind(this)
   };
 
   addInput(event) {
@@ -127,6 +133,53 @@ class LienForm extends Component {
 
   };
 
+  handleLineItemDateChange(i, date) {
+      // event.preventDefault();
+      console.log(i)
+     const form = this.state.form;
+     const current_lineItems = form.lineItems;
+     console.log(current_lineItems)
+     console.log(current_lineItems[i])
+     current_lineItems[i].date = date;
+
+     var lineItemsTotal = 0;
+     current_lineItems.map((item, i) => {
+       lineItemsTotal += item.total;
+       if (i === current_lineItems.length - 1) {
+         form.lineItems = current_lineItems;
+         form.lineItemsTotal = lineItemsTotal;
+         this.setState({
+           form: form
+         });
+       }
+     })
+
+
+  };
+
+  handleLineItemDateChange2(i, date) {
+    // event.preventDefault();
+     const form = this.state.form;
+     const current_lineItems = form.lineItems_manHours;
+     console.log(current_lineItems)
+     console.log(current_lineItems[i])
+     current_lineItems[i].date = date;
+
+     var lineItemsTotal = 0;
+     current_lineItems.map((item, i) => {
+       lineItemsTotal += item.total;
+       if (i === current_lineItems.length - 1) {
+         form.lineItems_manHours = current_lineItems;
+         form.lineItems_manHours_total = lineItemsTotal;
+         this.setState({
+           form: form
+         });
+       }
+     })
+
+
+  };
+
   handleLineItemChange2(event) {
     event.preventDefault();
     console.log(event);
@@ -160,9 +213,49 @@ class LienForm extends Component {
 
   };
 
-    deleteLineItem(event) {}
+    deleteLineItem(event) {
+      console.log(event);
+      const id = event.target.id;
+      console.log(id)
 
-    deleteHourlyLineItem(event) {}
+       const form = this.state.form;
+       const current_lineItems = form.lineItems;
+       current_lineItems.splice(id-1, 1);
+
+       var lineItemsTotal = 0;
+       current_lineItems.map((item, i) => {
+         lineItemsTotal += item.total;
+         if (i === current_lineItems.length - 1) {
+           form.lineItems = current_lineItems;
+           form.lineItemsTotal = lineItemsTotal;
+           this.setState({
+             form: form
+           });
+         }
+       })
+    }
+
+    deleteHourlyLineItem(event) {
+      console.log(event);
+      const id = event.target.id;
+      console.log(id)
+
+       const form = this.state.form;
+       const current_lineItems = form.lineItems_manHours;
+       current_lineItems.splice(id-1, 1);
+
+       var lineItemsTotal = 0;
+       current_lineItems.map((item, i) => {
+         lineItemsTotal += item.total;
+         if (i === current_lineItems.length - 1) {
+           form.lineItems_manHours = current_lineItems;
+           form.lineItems_manHours_total = lineItemsTotal;
+           this.setState({
+             form: form
+           });
+         }
+       })
+    }
 
   handleInputChange(event) {
       console.log(event);
@@ -182,6 +275,16 @@ class LienForm extends Component {
        form: form
      });
  }
+
+ handleDateChange(name, value) {
+     console.log(name);
+     console.log(value)
+    const form = this.state.form;
+    form[name] = value;
+    this.setState({
+      form: form
+    });
+}
 
   async handleSubmit(e) {
     const studentId = window.location.href.split('/')[4];
@@ -326,7 +429,7 @@ class LienForm extends Component {
              })}
             </Form.Select>
           </Form.Group>
-          <Form.Group className="form_row notFull">
+          <Form.Group className="form_row full">
             <Form.Label>
               <span>Job Number:</span>
             </Form.Label>
@@ -342,13 +445,14 @@ class LienForm extends Component {
           <Form.Group className="form_row notFull">
             <Form.Label>
               <span>Start Date:</span>
-              <Form.Control type="text" name="startDate" value={this.state.form.startDate} onChange={this.handleInputChange} />
+
+              <DatePicker name="startDate" selected={this.state.form.startDate} onChange={(date:Date) => this.handleDateChange('startDate', date)} />
             </Form.Label>
           </Form.Group>
           <Form.Group className="form_row notFull">
             <Form.Label>
               <span>End Date:</span>
-              <Form.Control type="text" name="endDate" value={this.state.form.endDate} onChange={this.handleInputChange} />
+              <DatePicker name="endDate" selected={this.state.form.endDate} onChange={(date:Date) => this.handleDateChange('endDate', date)} />
             </Form.Label>
           </Form.Group>
           <div className="formDivider"></div>
@@ -358,14 +462,17 @@ class LienForm extends Component {
             {this.state.form.lineItems.map((item, i) => {
                return (
                  <div className="multiInputRow" key={item.id}>
+                 <Form.Group className="lineitem_row">
                  <Form.Label className="small_input">
                    <span>Date:</span>
-                   <Form.Control type="text" id={item.id}  name="date" value={this.state.form.lineItems[i].date} onChange={this.handleLineItemChange} />
+                   <DatePicker name="date" id={item.id} selected={this.state.form.lineItems[i].date} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
                  </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Description:</span>
                      <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
                    </Form.Label>
+                   </Form.Group>
+                   <Form.Group className="lineitem_row">
                    <Form.Label className="small_input">
                      <span>Quantity:</span>
                      <Form.Control type="text" id={item.id}  name="quantity" value={this.state.form.lineItems[i].quantity} onChange={this.handleLineItemChange} />
@@ -391,6 +498,7 @@ class LienForm extends Component {
                      <div></div>
                      <Button variant="danger" id={item.key} onClick={this.deleteLineItem}>Delete</Button>
                   </Form.Label>
+                  </Form.Group>
                  </div>
                );
              })}
@@ -406,7 +514,7 @@ class LienForm extends Component {
                  <div className="multiInputRow" key={item.id}>
                    <Form.Label className="small_input">
                      <span>Date:</span>
-                     <Form.Control type="textarea" id={item.id} name="date" value={this.state.form.lineItems_manHours[i].date} onChange={this.handleLineItemChange2} />
+                     <DatePicker name="date" id={item.id} selected={this.state.form.lineItems_manHours[i].date} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
                    </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Description:</span>

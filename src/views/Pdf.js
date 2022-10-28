@@ -5,6 +5,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
 import Loading from "../components/Loading";
 import LienForm from "../components/LienForm";
+import Signature from "../components/signature";
 import { useHistory, useLocation} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { PDFViewer } from '@react-pdf/renderer';
@@ -144,7 +145,8 @@ const styles = StyleSheet.create({
     boxSizing: "border-box"
   },
   signature_row: {
-    width: "100%",
+    width: "200px",
+    height: "100px",
     marginTop: "20px",
     marginBottom: "0px"
   },
@@ -164,6 +166,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "Roboto Bold",
     fontSize: "14px"
+  },
+  footer: {
+    fontSize: "12px",
+    textAlign: "center",
+    paddingBottom: "15px",
+    bottom: "0px"
+  },
+  signature_image: {
+    width: "150px",
+    marginTop: "10px",
+    marginBottom: "5px",
+    borderBottom: "2px",
+    paddingBottom: "5px"
+    // height: "157px"
   }
 });
 
@@ -171,8 +187,11 @@ const styles = StyleSheet.create({
 
 
 export const PdfComponent = () => {
+
+
   const history = useHistory();
-  var sigPad = {}
+  const {user} = useAuth0();
+  // var sigCanvas = {}
   const [data, setData] = useState({
     "_id":"",
     "date":"",
@@ -187,12 +206,11 @@ export const PdfComponent = () => {
     "lineItemsTotal": 0,
     "lineItems_manHours":[],
     "lineItems_manHours_total": 0,
-    "status":"started"
+    "status":"started",
+    "pm_signature": "",
+    "contractor_signature": ""
   });
 
-  const [signActive, signActiveSet] = useState(false);
-  const [signature, setSignature] = useState({'trimmedDataURL': ''})
-  const [sigCanvas, setSigCanvas] = useState({"ref":''})
   // Create Document Component
   const MyDocument = () => (
     <Document>
@@ -249,8 +267,9 @@ export const PdfComponent = () => {
             <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItemsTotal}</Text>
           </View>
           </View>
-
-          <View style={styles.section_title}>
+          </View>
+          <View style={styles.section}>
+          <View style={styles.section_title} break>
             <Text>Hourly Details</Text>
           </View>
 
@@ -327,6 +346,9 @@ export const PdfComponent = () => {
           <View style={styles.signature_section}>
             <View style={styles.signature_row}>
               <Text style={styles.copyTitle}>Signature:</Text>
+              {data.contractor_signature != '' && (
+              <Image src={data.contractor_signature} style={styles.signature_image}/>
+            )}
               <Text style={styles.name}>{data.contractor}</Text>
             </View>
 
@@ -337,10 +359,17 @@ export const PdfComponent = () => {
 
             <View style={styles.signature_row}>
               <Text style={styles.copyTitle}>Witness/Approved by:</Text>
-              <Text style={styles.signature}></Text>
+              {data.pm_signature != '' && (
+              <Image src={data.pm_signature} style={styles.signature_image}/>
+            )}
+              <Text style={styles.name}>{data.projectManager}</Text>
             </View>
           </View>
         </View>
+
+        <Text style={styles.footer} fixed>
+        This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
+      </Text>
       </Page>
     </Document>
   );
@@ -359,22 +388,7 @@ export const PdfComponent = () => {
 
   };
 
-  const signApp = async (item) => {
-    signActiveSet(true);
-  }
 
-  const closeSignature = async (item) => {
-    signActiveSet(false);
-  }
-
-  const saveSignature = async (item) => {
-    signActiveSet(false);
-    var newData = data;
-    newData.status = "signed";
-    setData(newData);
-    console.log(this.sigPad)
-    setSignature({trimmedDataURL: this.sigPad.getTrimmedCanvas().toDataURL('image/png')})
-  }
 
   const editApp = async (item) => {
     history.push('/lien-form/' + item._id)
@@ -414,22 +428,7 @@ export const PdfComponent = () => {
   if (data.status === 'started') {
     return (
       <>
-      <div className={ signActive ? 'signature active' : 'signature' }>
-        <div className="signatureInner">
-          <div className="instructions">Sign Here:</div>
-          <SignatureCanvas penColor='black' canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} ref={(ref) => { this.sigPad = ref }}/>
-          <div className="signature_buttons">
-            <Button variant="warning" size="Lg" onClick={(e)=>{closeSignature(data)}}>CANCEL</Button>
-            <Button variant="success" size="Lg" onClick={(e)=>{saveSignature(data)}}>SAVE</Button>
-          </div>
-        </div>
-      </div>
-
-      <div className='status started'>
-        <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button variant="success" size="Lg" onClick={(e)=>{signApp(data)}}>SIGN</Button>
-      </div>
-
+      <Signature user={user} history={history} data={data}/>
       <PDFViewer>
         <MyDocument />
       </PDFViewer>
@@ -438,22 +437,7 @@ export const PdfComponent = () => {
   } else if (data.status === 'unsubmitted') {
     return (
       <>
-      <div className={ signActive ? 'signature active' : 'signature' }>
-        <div className="signatureInner">
-          <div className="instructions">Sign Here:</div>
-          <SignatureCanvas penColor='black' canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} />
-          <div className="signature_buttons">
-            <Button variant="warning" size="Lg" onClick={(e)=>{closeSignature(data)}}>CANCEL</Button>
-            <Button variant="success" size="Lg" onClick={(e)=>{saveSignature(data)}}>SAVE</Button>
-          </div>
-        </div>
-      </div>
-
-      <div className='status unsubmitted'>
-        <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button variant="success" size="Lg" onClick={(e)=>{signApp(data)}}>SIGN</Button>
-      </div>
-
+      <Signature user={user} history={history} data={data}/>
       <PDFViewer>
         <MyDocument />
       </PDFViewer>
