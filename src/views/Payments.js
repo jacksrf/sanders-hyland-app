@@ -114,6 +114,7 @@ export const PaymentsComponent = () => {
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
+             <Button className="view" variant="info" id={item._id} onClick={(e)=>{goToPDF(item)}}>SUBMIT</Button>
              <Button className="hide"></Button>
            </Row>
          );
