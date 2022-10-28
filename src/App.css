@@ -275,3 +275,10 @@ label.form-label input {
     background: white;
     border-radius: 30px;
 }
+
+.flex-grow-1.mt-5.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

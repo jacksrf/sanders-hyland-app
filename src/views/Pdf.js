@@ -190,6 +190,7 @@ export const PdfComponent = () => {
 
 
   const history = useHistory();
+  // const history = '';
   const {user} = useAuth0();
   // var sigCanvas = {}
   const [data, setData] = useState({
@@ -347,8 +348,8 @@ export const PdfComponent = () => {
             <View style={styles.signature_row}>
               <Text style={styles.copyTitle}>Signature:</Text>
               {data.contractor_signature != '' && (
-              <Image src={data.contractor_signature} style={styles.signature_image}/>
-            )}
+                <Image src={data.contractor_signature} style={styles.signature_image}/>
+              )}
               <Text style={styles.name}>{data.contractor}</Text>
             </View>
 
@@ -360,8 +361,8 @@ export const PdfComponent = () => {
             <View style={styles.signature_row}>
               <Text style={styles.copyTitle}>Witness/Approved by:</Text>
               {data.pm_signature != '' && (
-              <Image src={data.pm_signature} style={styles.signature_image}/>
-            )}
+                <Image src={data.pm_signature} style={styles.signature_image}/>
+              )}
               <Text style={styles.name}>{data.projectManager}</Text>
             </View>
           </View>
@@ -384,8 +385,6 @@ export const PdfComponent = () => {
     ).then((response) => response.json());
     console.log(response)
     setData(response)
-
-
   };
 
 
@@ -410,13 +409,13 @@ export const PdfComponent = () => {
 
   const firstUpdate = useRef(true);
   useLayoutEffect(() => {
+    console.log(data)
     if (firstUpdate.current) {
       firstUpdate.current = false;
       handleSubmit();
       return;
     }
 
-    console.log("componentDidUpdateFunction");
   });
 
   // useLayoutEffect(() => {
@@ -428,6 +427,7 @@ export const PdfComponent = () => {
   if (data.status === 'started') {
     return (
       <>
+      <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
       <Signature user={user} history={history} data={data}/>
       <PDFViewer>
         <MyDocument />
@@ -437,6 +437,7 @@ export const PdfComponent = () => {
   } else if (data.status === 'unsubmitted') {
     return (
       <>
+      <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
       <Signature user={user} history={history} data={data}/>
       <PDFViewer>
         <MyDocument />
@@ -461,6 +462,7 @@ export const PdfComponent = () => {
       <>
 
       <div className='status rejected'>
+      <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
         <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
         <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
       </div>
@@ -475,6 +477,7 @@ export const PdfComponent = () => {
       <>
 
       <div className='status rejected'>
+        <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
         <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
         <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
       </div>

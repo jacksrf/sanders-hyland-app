@@ -60,7 +60,7 @@ class LienForm extends Component {
     const current_lineItems = form.lineItems;
     const newLineItem = {
       "id": (current_lineItems.length+1),
-      "date": '',
+      "date": moment().toDate(),
       "description": '',
       "quantity": '',
       "type": 'sf',
@@ -83,7 +83,7 @@ class LienForm extends Component {
     const current_lineItems = form.lineItems_manHours;
     const newLineItem = {
       "id": (current_lineItems.length+1),
-      "date": '',
+      "date": moment().toDate(),
       "men": '',
       "hours": '',
       "rate": '',
@@ -363,8 +363,41 @@ class LienForm extends Component {
       "https://sanders-hyland-server.herokuapp.com/pdf/"+ studentId
     ).then((response) => response.json());
     console.log(response)
+    console.log(response.contractor)
+    console.log(response.contractor_id)
+    console.log(response.contractor_signature)
+    console.log(response.date)
+    console.log(response.endDate)
+    console.log(response.jobNumber)
+    console.log(response.lineItems)
+    console.log(response.lineItemsTotal)
+    console.log(response.lineItems_manHours)
+    console.log(response.lineItems_manHours_total)
+    console.log(response.pm_signature)
+    console.log(response.projectManager)
+    console.log(response.projectManagerId)
+    console.log(response.startDate)
+    console.log(response.status)
+    console.log(response._id)
     this.setState({
-      form: response,
+      form: {
+        contractor: response.contractor,
+        contractor_id: response.contractor_id,
+        contractor_signature: response.contractor_signature,
+        date: response.date,
+        endDate: response.endDate,
+        jobNumber: response.jobNumber,
+        lineItems: response.lineItems,
+        lineItemsTotal: response.lineItemsTotal,
+        lineItems_manHours: response.lineItems_manHours,
+        lineItems_manHours_total: response.lineItems_manHours_total,
+        pm_signature: response.pm_signature,
+        projectManager: response.projectManager,
+        projectManagerId: response.projectManagerId,
+        startDate: response.startDate,
+        status: response.status,
+        _id: response._id
+      },
     });
   }
 
@@ -404,7 +437,12 @@ class LienForm extends Component {
   componentDidMount() {
     this.handlePms()
     this.handleJobs()
-    this.handleDataUpdate()
+    const studentId = window.location.href.split('/')[4];
+    console.log(studentId)
+    if (studentId != '/lien-form') {
+      this.handleDataUpdate()
+    }
+
   }
 
 
@@ -446,13 +484,13 @@ class LienForm extends Component {
             <Form.Label>
               <span>Start Date:</span>
 
-              <DatePicker name="startDate" selected={this.state.form.startDate} onChange={(date:Date) => this.handleDateChange('startDate', date)} />
+              <DatePicker name="startDate" selected={moment(this.state.form.startDate).toDate()} onChange={(date:Date) => this.handleDateChange('startDate', date)} />
             </Form.Label>
           </Form.Group>
           <Form.Group className="form_row notFull">
             <Form.Label>
               <span>End Date:</span>
-              <DatePicker name="endDate" selected={this.state.form.endDate} onChange={(date:Date) => this.handleDateChange('endDate', date)} />
+              <DatePicker name="endDate" selected={moment(this.state.form.endDate).toDate()} onChange={(date:Date) => this.handleDateChange('endDate', date)} />
             </Form.Label>
           </Form.Group>
           <div className="formDivider"></div>
@@ -465,7 +503,7 @@ class LienForm extends Component {
                  <Form.Group className="lineitem_row">
                  <Form.Label className="small_input">
                    <span>Date:</span>
-                   <DatePicker name="date" id={item.id} selected={this.state.form.lineItems[i].date} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
+                   <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
                  </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Description:</span>
@@ -514,7 +552,7 @@ class LienForm extends Component {
                  <div className="multiInputRow" key={item.id}>
                    <Form.Label className="small_input">
                      <span>Date:</span>
-                     <DatePicker name="date" id={item.id} selected={this.state.form.lineItems_manHours[i].date} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
+                     <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems_manHours[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
                    </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Description:</span>

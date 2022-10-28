@@ -22,13 +22,15 @@ export const LienFormComponent = () => {
     "projectManager":"",
     "projectManagerId":"",
     "contractor":user.name,
-    "startDate":"",
-    "endDate":"",
+    "startDate":date,
+    "endDate":date,
     "lineItems":[],
     "lineItemsTotal": 0,
     "lineItems_manHours":[],
     "lineItems_manHours_total": 0,
-    "status":"started"
+    "status":"started",
+    "contractor_signature": "",
+    "pm_signature": ""
   });
 
   const handleDataUpdate = async (id) => {
@@ -36,7 +38,7 @@ export const LienFormComponent = () => {
       "https://sanders-hyland-server.herokuapp.com/pdf/"+ id
     ).then((response) => response.json());
     console.log(response)
-    setData(response)
+    return response
   }
 
   useEffect(() => {
@@ -45,6 +47,20 @@ export const LienFormComponent = () => {
       handleDataUpdate(id)
     }
   }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (id != "") {
+    handleDataUpdate(id).then((data) => {
+        if(isMounted ){
+        setData(data)
+        }
+      });
+     return () => {
+      isMounted = false;
+      };
+    }
+    }, []);
 
   return (
     <>
