@@ -15,6 +15,30 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export const PaymentsComponent = () => {
   const { user } = useAuth0();
+  console.log(user)
+
+  // function (user, context, callback) {
+  //     // This namespace can be whatever you want - it will be the 'key' that holds
+  //     // an array of roles on the users token
+  //     const namespace = 'http://localhost:3000';
+  //     const assignedRoles = (context.authorization || {}).roles;
+  //
+  //     console.log(context);
+  //     console.log(context.authorization);
+  //     console.log(assignedRoles);
+  //
+  //     let idTokenClaims = context.idToken || {};
+  //     let accessTokenClaims = context.accessToken || {};
+  //
+  //     idTokenClaims[`${namespace}/roles`] = assignedRoles;
+  //     accessTokenClaims[`${namespace}/roles`] = assignedRoles;
+  //
+  //     context.idToken = idTokenClaims;
+  //     context.accessToken = accessTokenClaims;
+  //
+  //     callback(null, user, context);
+  // }
+
   const history = useHistory();
   const [payments, setPayments] = useState([]);
 
@@ -107,7 +131,7 @@ export const PaymentsComponent = () => {
              <Button className="view" variant="secondary" id={item._id} onClick={(e)=>{goToPDF(item)}}>EDIT</Button>
            </Row>
          );
-        } else {
+       } else if ( item.status === "signed") {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
@@ -115,6 +139,16 @@ export const PaymentsComponent = () => {
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
              <Button className="view" variant="info" id={item._id} onClick={(e)=>{goToPDF(item)}}>SUBMIT</Button>
+             <Button className="hide"></Button>
+           </Row>
+         );
+        } else {
+          return (
+           <Row className="application_row" key={i}>
+             <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="job_number">{item.jobNumber}</div>
+             <div className="project_manager">{item.projectManager}</div>
+             <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
              <Button className="hide"></Button>
            </Row>
          );
