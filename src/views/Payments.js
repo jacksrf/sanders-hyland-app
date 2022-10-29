@@ -87,6 +87,7 @@ export const PaymentsComponent = () => {
         <div className="project_manager">PM</div>
         <div className="status">STATUS</div>
         <Button className="hide"></Button>
+        <Button className="hide"></Button>
       </Row>
       {payments.map((item, i) => {
         if (item.status === "started") {
@@ -149,6 +150,7 @@ export const PaymentsComponent = () => {
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
+             <Button className="hide"></Button>
              <Button className="hide"></Button>
            </Row>
          );
