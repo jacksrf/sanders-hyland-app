@@ -198,6 +198,7 @@ export const PdfComponent = () => {
     "date":"",
     "contractor_id":"",
     "jobNumber":"",
+    "job_id": "",
     "projectManager":"",
     "projectManagerId":"",
     "contractor":"",
@@ -209,7 +210,8 @@ export const PdfComponent = () => {
     "lineItems_manHours_total": 0,
     "status":"started",
     "pm_signature": "",
-    "contractor_signature": ""
+    "contractor_signature": "",
+    "comments": ""
   });
 
   // Create Document Component
@@ -228,8 +230,8 @@ export const PdfComponent = () => {
           <Text style={styles.paragraph}><Text style={styles.bold}>Contractor:</Text> {data.contractor}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Job Number:</Text> {data.jobNumber}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Project Manager:</Text> {data.projectManager}</Text>
-          <Text style={styles.paragraph}><Text style={styles.bold}>Start Date:</Text> {data.startDate}</Text>
-          <Text style={styles.paragraph}><Text style={styles.bold}>End Date:</Text> {data.endDate}</Text>
+          <Text style={styles.paragraph}><Text style={styles.bold}>Start Date:</Text> {moment(data.startDate.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+          <Text style={styles.paragraph}><Text style={styles.bold}>End Date:</Text> {moment(data.endDate.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
 
           <View style={styles.section_title}>
             <Text>Work Details</Text>
@@ -238,7 +240,8 @@ export const PdfComponent = () => {
           <View style={styles.list}>
             <View style={styles.list_row_header}>
               <Text style={styles.list_item_header}>Date</Text>
-              <Text style={styles.list_item_header_description}>Description</Text>
+              <Text style={styles.list_item_header_description}>Product Code</Text>
+              <Text style={styles.list_item_header_description}>Product Dimensions</Text>
               <Text style={styles.list_item_header}>Quantity</Text>
               <Text style={styles.list_item_header}>Type</Text>
               <Text style={styles.list_item_header}>Price Per</Text>
@@ -250,8 +253,9 @@ export const PdfComponent = () => {
               // setWorkTotal(total)
              return (
               <View style={styles.list_row} key={i}>
-                <Text style={styles.list_item}>{item.date}</Text>
-                <Text style={styles.list_item_description}>{item.description}</Text>
+                <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+                <Text style={styles.list_item_description}>{item.product_code}</Text>
+                <Text style={styles.list_item_description}>{item.product_dimensions}</Text>
                 <Text style={styles.list_item}>{item.quantity}</Text>
                 <Text style={styles.list_item}>{item.type}</Text>
                 <Text style={styles.list_item}>${item.price_per}</Text>
@@ -286,7 +290,7 @@ export const PdfComponent = () => {
           {data.lineItems_manHours.map((item, i) => {
              return (
               <View style={styles.list_row} key={i}>
-                <Text style={styles.list_item}>{item.date}</Text>
+                <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
                 <Text style={styles.list_item_description}>{item.description}</Text>
                 <Text style={styles.list_item}>{item.hours}</Text>
                 <Text style={styles.list_item}>{item.men}</Text>
@@ -465,6 +469,13 @@ export const PdfComponent = () => {
       <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
         <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
         <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
+      </div>
+
+      <div className="pm_comments_holder">
+        <div className="pm_comments_title">Project Managers Comments:</div>
+        <div className="pm_comments">
+          {data.comments}
+        </div>
       </div>
 
       <PDFViewer>

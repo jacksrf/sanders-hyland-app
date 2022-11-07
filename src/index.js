@@ -26,10 +26,16 @@ const providerConfig = {
 };
 
 ReactDOM.render(
-  <Auth0Provider {...providerConfig}>
-    <App />
-  </Auth0Provider>,
-  document.getElementById("root")
+<Auth0Provider
+domain= {config.domain}
+clientId={config.clientId}
+redirectUri={window.location.origin}
+audience={config.audience}
+scope={config.scope}
+>
+<App />
+</Auth0Provider>,
+document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

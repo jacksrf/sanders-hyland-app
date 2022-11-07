@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 docker build -t auth0-react-02-calling-an-api .
-docker run --init -p 3000:3000 -p 3001:3001 -it auth0-react-02-calling-an-api
+docker run --init -p 3002:3002 -p 3003:3003 -it auth0-react-02-calling-an-api

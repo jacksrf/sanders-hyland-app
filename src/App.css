@@ -63,7 +63,15 @@ label.medium_input textarea {
 }
 
 label.medium_input {
+    width: 33%;
+}
+
+label.large_input {
     width: 70%;
+}
+
+label.large_input textarea {
+    width: 100%;
 }
 
 label.small_input {
@@ -281,4 +289,40 @@ label.form-label input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.pm_comments_holder {
+    width: 75%;
+    border: 2px solid black;
+    padding: 20px;
+    margin: 20px 0px 50px;
+    color: red;
+}
+
+.pm_comments_title {
+    color: red;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.total_holder {
+    width: 100%;
+    float: left;
+    margin-top: 50px;
+    display: flex;
+}
+
+.total_holder span {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.total_holder div {
+    font-size: 24px;
+    margin-left: 15px;
+}
+
+.total_holder.grand {
+    margin-top: -40px;
+    margin-bottom: 40px;
 }

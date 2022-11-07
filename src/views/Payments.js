@@ -14,30 +14,13 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 
 export const PaymentsComponent = () => {
+  console.log(useAuth0())
   const { user } = useAuth0();
   console.log(user)
-
-  // function (user, context, callback) {
-  //     // This namespace can be whatever you want - it will be the 'key' that holds
-  //     // an array of roles on the users token
-  //     const namespace = 'http://localhost:3000';
-  //     const assignedRoles = (context.authorization || {}).roles;
-  //
-  //     console.log(context);
-  //     console.log(context.authorization);
-  //     console.log(assignedRoles);
-  //
-  //     let idTokenClaims = context.idToken || {};
-  //     let accessTokenClaims = context.accessToken || {};
-  //
-  //     idTokenClaims[`${namespace}/roles`] = assignedRoles;
-  //     accessTokenClaims[`${namespace}/roles`] = assignedRoles;
-  //
-  //     context.idToken = idTokenClaims;
-  //     context.accessToken = accessTokenClaims;
-  //
-  //     callback(null, user, context);
-  // }
+  const [userFull, setUser] = useState({
+    "_id": "",
+    "name": ""
+  });
 
   const history = useHistory();
   const [payments, setPayments] = useState([]);
@@ -48,13 +31,19 @@ export const PaymentsComponent = () => {
   }
 
   const handleSubmit = async () => {
+    var contractor = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ user.email, {
+       method: "GET",
+       headers: {
+         "Content-Type": "application/json",
+       }
+    })
+    .then((contractor) => contractor.json())
+    setUser(contractor)
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/liens/" + user.sub
+      "https://sanders-hyland-server.herokuapp.com/liens/" + contractor._id
     ).then((response) => response.json());
     console.log(response)
     setPayments(response)
-    // update the state
-    // setUsers(response);
   };
 
   const deleteApp = async (item) => {

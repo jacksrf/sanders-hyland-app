@@ -37,8 +37,8 @@ To do this, first copy `src/auth_config.json.example` into a new file in the sam
   "domain": "{YOUR AUTH0 DOMAIN}",
   "clientId": "{YOUR AUTH0 CLIENT ID}",
   "audience": "{YOUR AUTH0 API_IDENTIFIER}",
-  "appOrigin": "{OPTIONAL: THE BASE URL OF YOUR APPLICATION (default: http://localhost:3000)}",
-  "apiOrigin": "{OPTIONAL: THE BASE URL OF YOUR API (default: http://localhost:3001)}"
+  "appOrigin": "{OPTIONAL: THE BASE URL OF YOUR APPLICATION (default: http://localhost:3002)}",
+  "apiOrigin": "{OPTIONAL: THE BASE URL OF YOUR API (default: http://localhost:3003)}"
 }
 ```
 

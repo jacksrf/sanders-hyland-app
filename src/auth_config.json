@@ -1,5 +1,6 @@
 {
   "domain": "dev-3ch8p-o1.us.auth0.com",
   "clientId": "0Qir1UsoNpUWUOEqDMbus25sB7iU0MtM",
-  "audience": "YOUR_API_IDENTIFIER"
+  "audience": "YOUR_API_IDENTIFIER",
+  "scope": "read:current_user update:current_user_metadata read:testperm1 read:testperm2"
 }

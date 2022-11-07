@@ -1,11 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const { join } = require("path");
+const {
+  join
+} = require("path");
 
 const app = express();
 
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.SERVER_PORT || 3002;
 
 app.use(morgan("dev"));
 

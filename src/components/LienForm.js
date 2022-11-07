@@ -33,9 +33,12 @@ class LienForm extends Component {
     var date = moment().format()
     this.state = {
       "form": this.props.data,
+      "contractor": {},
       'projectManagers': [{}],
       'jobs': []
     };
+    this.handlePmJobs = this.handlePmJobs.bind(this);
+    this.handleContractor = this.handleContractor.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -61,7 +64,8 @@ class LienForm extends Component {
     const newLineItem = {
       "id": (current_lineItems.length+1),
       "date": moment().toDate(),
-      "description": '',
+      "product_code": '',
+      "product_dimensions": '',
       "quantity": '',
       "type": 'sf',
       "price_per": '',
@@ -257,6 +261,22 @@ class LienForm extends Component {
        })
     }
 
+    async handlePmJobs (id) {
+      console.log(id)
+        var jobs = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/"+ id, {
+         method: "GET",
+         headers: {
+           "Content-Type": "application/json",
+         }
+      })
+      .then((jobs) => jobs.json())
+      console.log(jobs)
+
+      this.setState({
+        jobs: jobs
+      });
+    }
+
   handleInputChange(event) {
       console.log(event);
      const target = event.target;
@@ -268,8 +288,19 @@ class LienForm extends Component {
      const form = this.state.form;
      form[name] = value;
      if (name === 'projectManager') {
-       var projectManager = this.state.projectManagers[event.key]
-       form.projectManagerId = projectManager._id
+       console.log(event)
+       console.log(this.state.projectManagers)
+       var projectManagerCurrent = this.state.projectManagers.find(x => x.name === target.value);
+       console.log(projectManagerCurrent)
+
+       form.projectManagerId = projectManagerCurrent._id
+       this.handlePmJobs(projectManagerCurrent._id);
+     }
+     if (name === 'jobNumber') {
+       var jobCurrent = this.state.jobs.find(x => x.number === target.value);
+       console.log(jobCurrent)
+
+       form.job_id = jobCurrent._id
      }
      this.setState({
        form: form
@@ -433,8 +464,28 @@ class LienForm extends Component {
     });
   }
 
+  async handleContractor() {
+    var contractor = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ this.props.user.email, {
+       method: "GET",
+       headers: {
+         "Content-Type": "application/json",
+       }
+    })
+    .then((contractor) => contractor.json())
+    console.log(contractor)
+    const formNow = this.state.form;
+    formNow.contractor_id = contractor._id;
+    formNow.contractor = contractor.name;
+
+    this.setState({
+      form: formNow,
+      contractor: contractor
+    });
+  }
+
 
   componentDidMount() {
+    this.handleContractor()
     this.handlePms()
     this.handleJobs()
     const studentId = window.location.href.split('/')[4];
@@ -462,7 +513,7 @@ class LienForm extends Component {
             <Form.Select name="projectManager" value={this.state.form.projectManager} onChange={this.handleInputChange}  aria-label="Default select example">
             {this.state.projectManagers.map((item, i) => {
                return (
-                 <option key={i} value={item.name}>{item.name}</option>
+                 <option id={i} key={i} value={item.name}>{item.name}</option>
                );
              })}
             </Form.Select>
@@ -474,7 +525,7 @@ class LienForm extends Component {
             <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
             {this.state.jobs.map((item, i) => {
                return (
-                 <option key={i} value={item.number}>{item.number} - {item.title}</option>
+                 <option key={i} value={item.number}>{item.number} - {item.name}</option>
                );
              })}
             </Form.Select>
@@ -506,8 +557,12 @@ class LienForm extends Component {
                    <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
                  </Form.Label>
                    <Form.Label className="medium_input">
-                     <span>Description:</span>
-                     <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
+                     <span>Product Code:</span>
+                     <Form.Control type="text" id={item.id} name="product_code" value={this.state.form.lineItems[i].product_code} onChange={this.handleLineItemChange} />
+                   </Form.Label>
+                   <Form.Label className="medium_input">
+                     <span>Product Dimensions:</span>
+                     <Form.Control type="text" id={item.id} name="product_dimensions" value={this.state.form.lineItems[i].product_dimensions} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    </Form.Group>
                    <Form.Group className="lineitem_row">
@@ -521,7 +576,7 @@ class LienForm extends Component {
                         <option value="sf">SF - square feet</option>
                         <option value="sy">SY - square yards</option>
                         <option value="lf">LF - linear feet</option>
-                        <option value="hrs">HRS</option>
+                        <option value="ea">EA - Each</option>
                      </Form.Select>
                    </Form.Label>
                    <Form.Label className="small_input">
@@ -542,6 +597,11 @@ class LienForm extends Component {
              })}
              </Form.Group>
            <Button variant="success" onClick={this.addInput}>Add Work Line Item</Button>
+
+           <div className="total_holder">
+               <span>Line Items Total:</span>
+               <div>${this.state.form.lineItemsTotal}</div>
+           </div>
           </Form.Group>
           <div className="formDivider"></div>
           <Form.Group className="form_row section">
@@ -554,7 +614,7 @@ class LienForm extends Component {
                      <span>Date:</span>
                      <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems_manHours[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
                    </Form.Label>
-                   <Form.Label className="medium_input">
+                   <Form.Label className="large_input">
                      <span>Description:</span>
                      <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems_manHours[i].description} onChange={this.handleLineItemChange2} />
                    </Form.Label>
@@ -583,8 +643,16 @@ class LienForm extends Component {
              })}
              </Form.Group>
            <Button variant="success" onClick={this.addInput_hours}>Add Hours Line Item</Button>
+           <div className="total_holder">
+               <span>Hourly Items Total:</span>
+               <div>${this.state.form.lineItems_manHours_total}</div>
+           </div>
           </Form.Group>
           <div className="formDivider"></div>
+          <div className="total_holder grand">
+              <span>Grand Total (before retention):</span>
+              <div>${this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total}</div>
+          </div>
           <div className="form_row submit d-grid gap-2">
             <Button variant="info" size="lg" onClick={this.handleSave}>SAVE</Button>{" "}{" "}
             <Button variant="warning" size="lg" onClick={this.handleSubmit}>SUBMIT</Button>

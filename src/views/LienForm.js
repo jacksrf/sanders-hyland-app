@@ -17,11 +17,12 @@ export const LienFormComponent = () => {
   var date = moment().format()
   const [data, setData] = useState({
     "date":date,
-    "contractor_id": user.sub,
+    "contractor_id": '',
     "jobNumber":"",
+    "job_id": "",
     "projectManager":"",
     "projectManagerId":"",
-    "contractor":user.name,
+    "contractor":'',
     "startDate":date,
     "endDate":date,
     "lineItems":[],
@@ -30,7 +31,8 @@ export const LienFormComponent = () => {
     "lineItems_manHours_total": 0,
     "status":"started",
     "contractor_signature": "",
-    "pm_signature": ""
+    "pm_signature": "",
+    "comments": ""
   });
 
   const handleDataUpdate = async (id) => {
@@ -41,12 +43,12 @@ export const LienFormComponent = () => {
     return response
   }
 
-  useEffect(() => {
-
-    if (id) {
-      handleDataUpdate(id)
-    }
-  }, []);
+  // useEffect(() => {
+  //
+  //   if (id) {
+  //     handleDataUpdate(id)
+  //   }
+  // }, []);
 
   useEffect(() => {
     let isMounted = true;
