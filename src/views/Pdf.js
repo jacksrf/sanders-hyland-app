@@ -240,8 +240,9 @@ export const PdfComponent = () => {
           <View style={styles.list}>
             <View style={styles.list_row_header}>
               <Text style={styles.list_item_header}>Date</Text>
-              <Text style={styles.list_item_header_description}>Product Code</Text>
-              <Text style={styles.list_item_header_description}>Product Dimensions</Text>
+              <Text style={styles.list_item_header_description}>Description</Text>
+              <Text style={styles.list_item_header}>Product Code</Text>
+              <Text style={styles.list_item_header}>Product Dimensions</Text>
               <Text style={styles.list_item_header}>Quantity</Text>
               <Text style={styles.list_item_header}>Type</Text>
               <Text style={styles.list_item_header}>Price Per</Text>
@@ -254,8 +255,9 @@ export const PdfComponent = () => {
              return (
               <View style={styles.list_row} key={i}>
                 <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
-                <Text style={styles.list_item_description}>{item.product_code}</Text>
-                <Text style={styles.list_item_description}>{item.product_dimensions}</Text>
+                <Text style={styles.list_item_description}>{item.description}</Text>
+                <Text style={styles.list_item}>{item.product_code}</Text>
+                <Text style={styles.list_item}>{item.product_dimensions}</Text>
                 <Text style={styles.list_item}>{item.quantity}</Text>
                 <Text style={styles.list_item}>{item.type}</Text>
                 <Text style={styles.list_item}>${item.price_per}</Text>

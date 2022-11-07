@@ -64,6 +64,7 @@ class LienForm extends Component {
     const newLineItem = {
       "id": (current_lineItems.length+1),
       "date": moment().toDate(),
+      "description": '',
       "product_code": '',
       "product_dimensions": '',
       "quantity": '',
@@ -555,6 +556,10 @@ class LienForm extends Component {
                  <Form.Label className="small_input">
                    <span>Date:</span>
                    <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
+                 </Form.Label>
+                 <Form.Label className="large_input">
+                   <span>Product Code:</span>
+                   <Form.Control type="text" id={item.id} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
                  </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Product Code:</span>

@@ -30,6 +30,18 @@
   right: 0;
 }
 
+.application_row_header.row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.application_row.row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .result-block-container .result-block {
   opacity: 1;
 }

@@ -72,6 +72,7 @@ export const PaymentsComponent = () => {
       </Row>
       <Row className="application_row_header">
         <div className="date">DATE</div>
+        <div className="invoice_value">VALUE</div>
         <div className="job_number">JOB NUMBER</div>
         <div className="project_manager">PM</div>
         <div className="status">STATUS</div>
@@ -83,6 +84,7 @@ export const PaymentsComponent = () => {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="invoice_value">${item.lineItemsTotal + item.lineItems_manHours_total}</div>
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
@@ -94,6 +96,7 @@ export const PaymentsComponent = () => {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="invoice_value">${item.lineItemsTotal + item.lineItems_manHours_total}</div>
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
@@ -105,6 +108,7 @@ export const PaymentsComponent = () => {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="invoice_value">${item.lineItemsTotal + item.lineItems_manHours_total}</div>
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
@@ -115,6 +119,7 @@ export const PaymentsComponent = () => {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="invoice_value">${item.lineItemsTotal + item.lineItems_manHours_total}</div>
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
@@ -125,6 +130,7 @@ export const PaymentsComponent = () => {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="invoice_value">${item.lineItemsTotal + item.lineItems_manHours_total}</div>
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
@@ -136,6 +142,7 @@ export const PaymentsComponent = () => {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+             <div className="invoice_value">${item.lineItemsTotal + item.lineItems_manHours_total}</div>
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
