@@ -32,7 +32,7 @@ export const LienFormComponent = () => {
     "status":"started",
     "contractor_signature": "",
     "pm_signature": "",
-    "comments": "";
+    "comments": "",
     "retention": ""
   });
 
