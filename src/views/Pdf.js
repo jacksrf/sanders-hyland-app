@@ -340,7 +340,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Application Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * (data.retention/100)}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * (data.retention/100))}</Text>
           </View>
           </View>
         </View>
