@@ -299,9 +299,9 @@ class LienForm extends Component {
      }
      if (name === 'jobNumber') {
        var jobCurrent = this.state.jobs.find(x => x.number === target.value);
-       console.log(jobCurrent)
-
-       form.job_id = jobCurrent._id
+       console.log(jobCurrent);
+       form.retention = jobCurrent.retention;
+       form.job_id = jobCurrent._id;
      }
      this.setState({
        form: form
