@@ -211,7 +211,8 @@ export const PdfComponent = () => {
     "status":"started",
     "pm_signature": "",
     "contractor_signature": "",
-    "comments": ""
+    "comments": "",
+    "retention": ""
   });
 
   // Create Document Component

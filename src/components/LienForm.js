@@ -300,7 +300,9 @@ class LienForm extends Component {
      if (name === 'jobNumber') {
        var jobCurrent = this.state.jobs.find(x => x.number === target.value);
        console.log(jobCurrent);
-       form.retention = jobCurrent.retention;
+       var contractorFromJob = jobCurrent.contractors.find(x => x.id === this.state.contractor._id);
+       console.log(contractorFromJob)
+       form.retention = contractorFromJob.retention;
        form.job_id = jobCurrent._id;
      }
      this.setState({
@@ -512,6 +514,7 @@ class LienForm extends Component {
               <span>Project Manager:</span>
             </Form.Label>
             <Form.Select name="projectManager" value={this.state.form.projectManager} onChange={this.handleInputChange}  aria-label="Default select example">
+                <option id="none" key="none">Select One</option>
             {this.state.projectManagers.map((item, i) => {
                return (
                  <option id={i} key={i} value={item.name}>{item.name}</option>
@@ -524,6 +527,7 @@ class LienForm extends Component {
               <span>Job Number:</span>
             </Form.Label>
             <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
+            <option id="none" key="none">Select One</option>
             {this.state.jobs.map((item, i) => {
                return (
                  <option key={i} value={item.number}>{item.number} - {item.name}</option>
@@ -558,7 +562,7 @@ class LienForm extends Component {
                    <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
                  </Form.Label>
                  <Form.Label className="large_input">
-                   <span>Product Code:</span>
+                   <span>Description:</span>
                    <Form.Control type="text" id={item.id} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
                  </Form.Label>
                    <Form.Label className="medium_input">
@@ -578,6 +582,7 @@ class LienForm extends Component {
                    <Form.Label className="small_input">
                      <span>Type:</span>
                      <Form.Select id={item.id} name="type" value={this.state.form.lineItems[i].type} onChange={this.handleLineItemChange}>
+                        <option id="none" key="none">Select One</option>
                         <option value="sf">SF - square feet</option>
                         <option value="sy">SY - square yards</option>
                         <option value="lf">LF - linear feet</option>
