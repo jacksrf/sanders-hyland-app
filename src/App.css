@@ -353,3 +353,23 @@ button.btn.btn-secondary.btn-Lg.edit {
     background: yellow;
     color: black;
 }
+
+.application_row_header.row div {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow {
+    /* display: none; */
+    opacity: 0;
+}
+
+.application_row_header.row.active .arrow {
+    transform: rotate(180deg);
+}
+
+.current .arrow {
+    opacity: 1;
+}

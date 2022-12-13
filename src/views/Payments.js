@@ -24,10 +24,27 @@ export const PaymentsComponent = () => {
 
   const history = useHistory();
   const [payments, setPayments] = useState([]);
+  const [ascending, setAscending] = useState(false)
+  const [currentSort, setCurrentSort] = useState("")
 
   const goToPDF = async (item) => {
     console.log(item)
     history.push('/pdf/'+item._id)
+  }
+
+  const sortPayments = async (column) => {
+    if (ascending === false) {
+      setAscending(true)
+    } else {
+      setAscending(false)
+    }
+    setCurrentSort(column)
+    console.log(column)
+     const response = await fetch(
+      "http://localhost:4000/liens-sort/" + userFull._id + "/" + column + "/" + ascending
+    ).then((response) => response.json());
+    console.log(response)
+    setPayments(response)
   }
 
   const handleSubmit = async () => {
@@ -70,15 +87,15 @@ export const PaymentsComponent = () => {
           <h2>Latest Payments Submitted:</h2>
         </Col>
       </Row>
-      <Row className="application_row_header">
-        <div className="date">DATE</div>
-        <div className="invoice_value">VALUE</div>
-        <div className="job_number">JOB NUMBER</div>
-        <div className="project_manager">PM</div>
-        <div className="status">STATUS</div>
+      <div className={ascending ? 'application_row_header row active' : 'application_row_header row'}>
+        <div className={currentSort === "date" ? "date current" : "date"} onClick={(e)=>{sortPayments('date')}}>DATE <div className="arrow">↑</div></div>
+        <div className={currentSort === "value" ? "invoice_value current" : "invoice_value"} onClick={(e)=>{sortPayments('value')}}>VALUE <div className="arrow">↑</div></div>
+        <div className={currentSort === "job_number" ? "job_number current" : "job_number"} onClick={(e)=>{sortPayments('job_number')}}>JOB NUMBER <div className="arrow">↑</div></div>
+        <div className={currentSort === "pm" ? "project_manager current" : "project_manager"} onClick={(e)=>{sortPayments('pm')}}>PM <div className="arrow">↑</div></div>
+        <div className={currentSort === "status" ? "status current" : "status"} onClick={(e)=>{sortPayments('status')}}>STATUS <div className="arrow">↑</div></div>
         <Button className="hide"></Button>
         <Button className="hide"></Button>
-      </Row>
+      </div>
       {payments.map((item, i) => {
         if (item.status === "started") {
           return (
