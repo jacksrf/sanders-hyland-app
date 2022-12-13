@@ -227,6 +227,7 @@ export const PdfComponent = () => {
             <Text>Application for Payment and Partial Release of Lien</Text>
           </View>
 
+          <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}><Text style={styles.bold}>Invoice Number:</Text> #{data.invoice}</Text>
           <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}>{moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Contractor:</Text> {data.contractor}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Job Number:</Text> {data.jobNumber}</Text>
@@ -244,6 +245,7 @@ export const PdfComponent = () => {
               <Text style={styles.list_item_header_description}>Description</Text>
               <Text style={styles.list_item_header}>Product Code</Text>
               <Text style={styles.list_item_header}>Product Dimensions</Text>
+              <Text style={styles.list_item_header}>Material</Text>
               <Text style={styles.list_item_header}>Quantity</Text>
               <Text style={styles.list_item_header}>Type</Text>
               <Text style={styles.list_item_header}>Price Per</Text>
@@ -259,6 +261,7 @@ export const PdfComponent = () => {
                 <Text style={styles.list_item_description}>{item.description}</Text>
                 <Text style={styles.list_item}>{item.product_code}</Text>
                 <Text style={styles.list_item}>{item.product_dimensions}</Text>
+                <Text style={styles.list_item}>{item.material}</Text>
                 <Text style={styles.list_item}>{item.quantity}</Text>
                 <Text style={styles.list_item}>{item.type}</Text>
                 <Text style={styles.list_item}>${item.price_per}</Text>
@@ -388,7 +391,7 @@ export const PdfComponent = () => {
 
   const handleSubmit = async () => {
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/pdf/"+ id
+      "http://localhost:4000/pdf/"+ id
     ).then((response) => response.json());
     console.log(response)
     setData(response)
@@ -402,7 +405,7 @@ export const PdfComponent = () => {
 
   const submitApp = async (item) => {
 
-      var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
+      var response = await fetch("http://localhost:4000/lien/submit/"+ item._id, {
          method: "POST",
          headers: {
            "Content-Type": "application/json",
@@ -470,8 +473,8 @@ export const PdfComponent = () => {
 
       <div className='status rejected'>
       <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
-        <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
+        <Button className="edit" variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
+        <Button className="success" variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
       </div>
 
       <div className="pm_comments_holder">
@@ -492,8 +495,8 @@ export const PdfComponent = () => {
 
       <div className='status rejected'>
         <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
-        <Button variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
+        <Button className="edit" variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
+        <Button className="success" variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
       </div>
 
       <PDFViewer>
@@ -501,6 +504,18 @@ export const PdfComponent = () => {
       </PDFViewer>
       </>
     );
+  } else {
+    return (
+      <>
+      <div className='status approved'>
+
+      </div>
+
+      <PDFViewer>
+        <MyDocument />
+      </PDFViewer>
+      </>
+      )
   }
 
 };

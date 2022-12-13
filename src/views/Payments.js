@@ -31,7 +31,7 @@ export const PaymentsComponent = () => {
   }
 
   const handleSubmit = async () => {
-    var contractor = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ user.email, {
+    var contractor = await fetch("http://localhost:4000/user/"+ user.email, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -40,14 +40,14 @@ export const PaymentsComponent = () => {
     .then((contractor) => contractor.json())
     setUser(contractor)
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/liens/" + contractor._id
+      "http://localhost:4000/liens/" + contractor._id
     ).then((response) => response.json());
     console.log(response)
     setPayments(response)
   };
 
   const deleteApp = async (item) => {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/delete/" + item._id, {
+    var response = await fetch("http://localhost:4000/lien/delete/" + item._id, {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
@@ -146,7 +146,7 @@ export const PaymentsComponent = () => {
              <div className="job_number">{item.jobNumber}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
-             <Button className="hide"></Button>
+             <Button className="view" variant="success" id={item._id} onClick={(e)=>{goToPDF(item)}}>VIEW</Button>
              <Button className="hide"></Button>
            </Row>
          );

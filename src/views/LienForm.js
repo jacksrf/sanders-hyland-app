@@ -17,6 +17,7 @@ export const LienFormComponent = () => {
   var date = moment().format()
   const [data, setData] = useState({
     "date":date,
+    "invoice": "",
     "contractor_id": '',
     "jobNumber":"",
     "job_id": "",
@@ -38,7 +39,7 @@ export const LienFormComponent = () => {
 
   const handleDataUpdate = async (id) => {
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/pdf/"+ id
+      "http://localhost:4000/pdf/"+ id
     ).then((response) => response.json());
     console.log(response)
     return response

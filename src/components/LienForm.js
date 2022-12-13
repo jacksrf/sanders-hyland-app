@@ -54,6 +54,7 @@ class LienForm extends Component {
     this.handleDateChange = this.handleDateChange.bind(this)
     this.handleLineItemDateChange = this.handleLineItemDateChange.bind(this)
     this.handleLineItemDateChange2 = this.handleLineItemDateChange2.bind(this)
+    this.handleInvoiceNumber = this.handleInvoiceNumber.bind(this)
   };
 
   addInput(event) {
@@ -67,6 +68,7 @@ class LienForm extends Component {
       "description": '',
       "product_code": '',
       "product_dimensions": '',
+      "material": '',
       "quantity": '',
       "type": 'sf',
       "price_per": '',
@@ -264,7 +266,7 @@ class LienForm extends Component {
 
     async handlePmJobs (id) {
       console.log(id)
-        var jobs = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/"+ id, {
+        var jobs = await fetch("http://localhost:4000/jobs/"+ id, {
          method: "GET",
          headers: {
            "Content-Type": "application/json",
@@ -330,7 +332,7 @@ class LienForm extends Component {
      });
 
      if (this.state.form._id) {
-       var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
+       var response = await fetch("http://localhost:4000/lien/update/"+ studentId, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -341,7 +343,7 @@ class LienForm extends Component {
        console.log(response)
        this.props.history.push('/pdf/'+studentId)
      } else {
-       var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
+       var response = await fetch("http://localhost:4000/lien/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -362,7 +364,7 @@ class LienForm extends Component {
       console.log(studentId)
       if (studentId != undefined) {
         console.log(this.state.form)
-        var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
+        var response = await fetch("http://localhost:4000/lien/update/"+ studentId, {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
@@ -377,7 +379,7 @@ class LienForm extends Component {
         console.log(response)
         this.props.history.push('/payments-submitted/')
       } else {
-        var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
+        var response = await fetch("http://localhost:4000/lien/add", {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
@@ -394,7 +396,7 @@ class LienForm extends Component {
   async handleDataUpdate() {
     const studentId = window.location.href.split('/')[4];
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/pdf/"+ studentId
+      "http://localhost:4000/pdf/"+ studentId
     ).then((response) => response.json());
     console.log(response)
     console.log(response.contractor)
@@ -415,6 +417,7 @@ class LienForm extends Component {
     console.log(response._id)
     this.setState({
       form: {
+        invoice: response.invoice,
         contractor: response.contractor,
         contractor_id: response.contractor_id,
         contractor_signature: response.contractor_signature,
@@ -436,7 +439,7 @@ class LienForm extends Component {
   }
 
   async handlePms() {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/project-managers", {
+    var response = await fetch("http://localhost:4000/project-managers", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -454,7 +457,7 @@ class LienForm extends Component {
   }
 
   async handleJobs() {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs", {
+    var response = await fetch("http://localhost:4000/jobs", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -467,8 +470,25 @@ class LienForm extends Component {
     });
   }
 
+  async handleInvoiceNumber() {
+    var response = await fetch("http://localhost:4000/invoice-number", {
+       method: "GET",
+       headers: {
+         "Content-Type": "application/json",
+       }
+    })
+    .then((response) => response.json())
+
+    const currentForm = this.state.form;
+    currentForm.invoice = response+1;
+
+    this.setState({
+      form: currentForm
+    });
+  }
+
   async handleContractor() {
-    var contractor = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ this.props.user.email, {
+    var contractor = await fetch("http://localhost:4000/user/"+ this.props.user.email, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -491,6 +511,7 @@ class LienForm extends Component {
     this.handleContractor()
     this.handlePms()
     this.handleJobs()
+    this.handleInvoiceNumber()
     const studentId = window.location.href.split('/')[4];
     console.log(studentId)
     if (studentId != '/lien-form') {
@@ -573,6 +594,25 @@ class LienForm extends Component {
                      <span>Product Dimensions:</span>
                      <Form.Control type="text" id={item.id} name="product_dimensions" value={this.state.form.lineItems[i].product_dimensions} onChange={this.handleLineItemChange} />
                    </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Material:</span>
+                     <Form.Select id={item.id} name="material" value={this.state.form.lineItems[i].material} onChange={this.handleLineItemChange}>
+                        <option id="none" key="none">Select One</option>
+                        <option value="Hard tile">Hard tile</option>
+                        <option value="Stone tile">Stone tile</option>
+                        <option value="Broadloom carpet">Broadloom carpet</option>
+                        <option value="Carpet tile">Carpet tile</option>
+                        <option value="Wood flooring">Wood flooring</option>
+                        <option value="Resilient flooring">Resilient flooring</option>
+                        <option value="Resilient base">Resilient base</option>
+                        <option value="Resinous flooring">Resinous flooring</option>
+                        <option value="Sheet Vinyl">Sheet Vinyl</option>
+                        <option value="Brick">Brick</option>
+                        <option value="Mortar bed">Mortar bed</option>
+                        <option value="Leveling and Patch">Leveling and Patch</option>
+                        <option value="Other">Other</option>
+                     </Form.Select>
+                   </Form.Label>
                    </Form.Group>
                    <Form.Group className="lineitem_row">
                    <Form.Label className="small_input">
@@ -606,7 +646,7 @@ class LienForm extends Component {
                );
              })}
              </Form.Group>
-           <Button variant="success" onClick={this.addInput}>Add Work Line Item</Button>
+           <Button className="addLineButton" variant="success" onClick={this.addInput}>Add Work Line Item</Button>
 
            <div className="total_holder">
                <span>Line Items Total:</span>
@@ -652,7 +692,7 @@ class LienForm extends Component {
                );
              })}
              </Form.Group>
-           <Button variant="success" onClick={this.addInput_hours}>Add Hours Line Item</Button>
+           <Button className="addLineButton" variant="success" onClick={this.addInput_hours}>Add Hours Line Item</Button>
            <div className="total_holder">
                <span>Hourly Items Total:</span>
                <div>${this.state.form.lineItems_manHours_total}</div>

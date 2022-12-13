@@ -52,6 +52,8 @@
     align-items: flex-start;
     justify-content: space-between;
     flex-wrap: wrap;
+    padding: 20px 0px;
+    border-bottom: 2px solid;
 }
 
 .lineitem_row {
@@ -88,6 +90,10 @@ label.large_input textarea {
 
 label.small_input {
     width: 18%;
+}
+
+button.addLineButton.btn.btn-success {
+    margin-top: 25px;
 }
 
 label.small_input input {
@@ -337,4 +343,13 @@ label.form-label input {
 .total_holder.grand {
     margin-top: -40px;
     margin-bottom: 40px;
+}
+
+button.btn.btn-secondary.btn-Lg.success {
+    background: green;
+}
+
+button.btn.btn-secondary.btn-Lg.edit {
+    background: yellow;
+    color: black;
 }
