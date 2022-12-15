@@ -9,7 +9,7 @@ import Signature from "../components/signature";
 import { useHistory, useLocation} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { PDFViewer } from '@react-pdf/renderer';
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import ReactPDF ,{ Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import SignatureCanvas from 'react-signature-canvas';
 import moment from "moment";
 import classNames from 'classnames';
@@ -212,7 +212,8 @@ export const PdfComponent = () => {
     "pm_signature": "",
     "contractor_signature": "",
     "comments": "",
-    "retention": ""
+    "retention": "",
+    "invoice": 0
   });
 
   // Create Document Component
@@ -227,7 +228,7 @@ export const PdfComponent = () => {
             <Text>Application for Payment and Partial Release of Lien</Text>
           </View>
 
-          <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}><Text style={styles.bold}>Invoice Number:</Text> #{data.invoice}</Text>
+          <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}><Text style={styles.bold}>Invoice Number:</Text> #{data.invoice.toString().padStart(5, '0')}</Text>
           <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}>{moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Contractor:</Text> {data.contractor}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Job Number:</Text> {data.jobNumber}</Text>
@@ -385,6 +386,8 @@ export const PdfComponent = () => {
     </Document>
   );
 
+  
+
   const location = useLocation();
   const id = location.pathname.replace('/pdf/', '')
   console.log('id', id);
@@ -394,6 +397,7 @@ export const PdfComponent = () => {
       "http://localhost:4000/pdf/"+ id
     ).then((response) => response.json());
     console.log(response)
+    response.invoice = response.invoice.toString().padStart(5, '0')
     setData(response)
   };
 

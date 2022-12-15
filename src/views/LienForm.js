@@ -34,7 +34,8 @@ export const LienFormComponent = () => {
     "contractor_signature": "",
     "pm_signature": "",
     "comments": "",
-    "retention": ""
+    "retention": "",
+    "invoice": 0
   });
 
   const handleDataUpdate = async (id) => {

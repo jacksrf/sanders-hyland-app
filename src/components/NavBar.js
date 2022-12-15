@@ -29,6 +29,7 @@ const NavBar = () => {
     loginWithRedirect,
     logout,
   } = useAuth0();
+
   const toggle = () => setIsOpen(!isOpen);
 
   const logoutWithRedirect = () =>
@@ -58,6 +59,7 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </NavItem>
+              
               {isAuthenticated && (
                 <NavItem>
                   <NavLink

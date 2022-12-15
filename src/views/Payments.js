@@ -91,6 +91,7 @@ export const PaymentsComponent = () => {
         <div className={currentSort === "date" ? "date current" : "date"} onClick={(e)=>{sortPayments('date')}}>DATE <div className="arrow">↑</div></div>
         <div className={currentSort === "value" ? "invoice_value current" : "invoice_value"} onClick={(e)=>{sortPayments('value')}}>VALUE <div className="arrow">↑</div></div>
         <div className={currentSort === "job_number" ? "job_number current" : "job_number"} onClick={(e)=>{sortPayments('job_number')}}>JOB NUMBER <div className="arrow">↑</div></div>
+        <div className={currentSort === "invoice" ? "invoice current" : "invoice"} onClick={(e)=>{sortPayments('invoice')}}> INVOICE #<div className="arrow">↑</div></div>
         <div className={currentSort === "pm" ? "project_manager current" : "project_manager"} onClick={(e)=>{sortPayments('pm')}}>PM <div className="arrow">↑</div></div>
         <div className={currentSort === "status" ? "status current" : "status"} onClick={(e)=>{sortPayments('status')}}>STATUS <div className="arrow">↑</div></div>
         <Button className="hide"></Button>
@@ -103,6 +104,7 @@ export const PaymentsComponent = () => {
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
              <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
              <div className="job_number">{item.jobNumber}</div>
+             <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
              <Button className="view" variant="secondary" id={item._id} onClick={(e)=>{goToPDF(item)}}>FINISH</Button>
@@ -115,6 +117,7 @@ export const PaymentsComponent = () => {
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
              <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
              <div className="job_number">{item.jobNumber}</div>
+             <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
              <Button className="view" variant="info" id={item._id} onClick={(e)=>{goToPDF(item)}}>SUBMIT</Button>
@@ -127,6 +130,7 @@ export const PaymentsComponent = () => {
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
              <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
              <div className="job_number">{item.jobNumber}</div>
+             <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status}</div>
              <Button className="view" variant="success" id={item._id} onClick={(e)=>{goToPDF(item)}}>VIEW</Button>
@@ -138,6 +142,7 @@ export const PaymentsComponent = () => {
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
              <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
              <div className="job_number">{item.jobNumber}</div>
+             <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
              <Button className="view" variant="secondary" id={item._id} onClick={(e)=>{goToPDF(item)}}>EDIT</Button>
@@ -149,6 +154,7 @@ export const PaymentsComponent = () => {
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
              <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
              <div className="job_number">{item.jobNumber}</div>
+             <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
              <Button className="view" variant="info" id={item._id} onClick={(e)=>{goToPDF(item)}}>SUBMIT</Button>
@@ -161,6 +167,7 @@ export const PaymentsComponent = () => {
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
              <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
              <div className="job_number">{item.jobNumber}</div>
+             <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
              <div className="project_manager">{item.projectManager}</div>
              <div className={classNames('status', item.status)}>{item.status.replace('_', " ")}</div>
              <Button className="view" variant="success" id={item._id} onClick={(e)=>{goToPDF(item)}}>VIEW</Button>

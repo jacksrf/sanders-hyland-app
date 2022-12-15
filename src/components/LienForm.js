@@ -511,7 +511,9 @@ class LienForm extends Component {
     this.handleContractor()
     this.handlePms()
     this.handleJobs()
-    this.handleInvoiceNumber()
+    if (jobNumber != "" && invoice === 0) {
+      this.handleInvoiceNumber()
+    }
     const studentId = window.location.href.split('/')[4];
     console.log(studentId)
     if (studentId != '/lien-form') {
