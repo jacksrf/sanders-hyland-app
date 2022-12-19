@@ -266,7 +266,7 @@ class LienForm extends Component {
 
     async handlePmJobs (id) {
       console.log(id)
-        var jobs = await fetch("http://localhost:4000/jobs/"+ id, {
+        var jobs = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/"+ id, {
          method: "GET",
          headers: {
            "Content-Type": "application/json",
@@ -332,7 +332,7 @@ class LienForm extends Component {
      });
 
      if (this.state.form._id) {
-       var response = await fetch("http://localhost:4000/lien/update/"+ studentId, {
+       var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -343,7 +343,7 @@ class LienForm extends Component {
        console.log(response)
        this.props.history.push('/pdf/'+studentId)
      } else {
-       var response = await fetch("http://localhost:4000/lien/add", {
+       var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -364,7 +364,7 @@ class LienForm extends Component {
       console.log(studentId)
       if (studentId != undefined) {
         console.log(this.state.form)
-        var response = await fetch("http://localhost:4000/lien/update/"+ studentId, {
+        var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
@@ -379,7 +379,7 @@ class LienForm extends Component {
         console.log(response)
         this.props.history.push('/payments-submitted/')
       } else {
-        var response = await fetch("http://localhost:4000/lien/add", {
+        var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
@@ -396,7 +396,7 @@ class LienForm extends Component {
   async handleDataUpdate() {
     const studentId = window.location.href.split('/')[4];
     const response = await fetch(
-      "http://localhost:4000/pdf/"+ studentId
+      "https://sanders-hyland-server.herokuapp.com/pdf/"+ studentId
     ).then((response) => response.json());
     console.log(response)
     console.log(response.contractor)
@@ -439,7 +439,7 @@ class LienForm extends Component {
   }
 
   async handlePms() {
-    var response = await fetch("http://localhost:4000/project-managers", {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/project-managers", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -457,7 +457,7 @@ class LienForm extends Component {
   }
 
   async handleJobs() {
-    var response = await fetch("http://localhost:4000/jobs", {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -471,7 +471,7 @@ class LienForm extends Component {
   }
 
   async handleInvoiceNumber() {
-    var response = await fetch("http://localhost:4000/invoice-number", {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/invoice-number", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -488,7 +488,7 @@ class LienForm extends Component {
   }
 
   async handleContractor() {
-    var contractor = await fetch("http://localhost:4000/user/"+ this.props.user.email, {
+    var contractor = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ this.props.user.email, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",

@@ -41,14 +41,14 @@ export const PaymentsComponent = () => {
     setCurrentSort(column)
     console.log(column)
      const response = await fetch(
-      "http://localhost:4000/liens-sort/" + userFull._id + "/" + column + "/" + ascending
+      "https://sanders-hyland-server.herokuapp.com/liens-sort/" + userFull._id + "/" + column + "/" + ascending
     ).then((response) => response.json());
     console.log(response)
     setPayments(response)
   }
 
   const handleSubmit = async () => {
-    var contractor = await fetch("http://localhost:4000/user/"+ user.email, {
+    var contractor = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ user.email, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -57,14 +57,14 @@ export const PaymentsComponent = () => {
     .then((contractor) => contractor.json())
     setUser(contractor)
     const response = await fetch(
-      "http://localhost:4000/liens/" + contractor._id
+      "https://sanders-hyland-server.herokuapp.com/liens/" + contractor._id
     ).then((response) => response.json());
     console.log(response)
     setPayments(response)
   };
 
   const deleteApp = async (item) => {
-    var response = await fetch("http://localhost:4000/lien/delete/" + item._id, {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/delete/" + item._id, {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
