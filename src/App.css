@@ -219,6 +219,13 @@ button.btn.btn-success {
     font-size: 20px
 }
 
+.application_row.row, .application_row_header.row {
+    position: relative;
+    padding: 0 53px 20px 0px;
+}
+
+
+
 .row button.hide {
     width: 62px;
     opacity: 0;
@@ -264,7 +271,7 @@ button.btn.btn-success {
 
 .delete {
     position: absolute;
-    right: 15%;
+    right: 0%;
 }
 
 label.form-label input {
