@@ -309,6 +309,10 @@ label.form-label input {
     justify-content: center;
 }
 
+.container {
+    max-width: 1400px!important;
+}
+
 .pm_comments_holder {
     width: 75%;
     border: 2px solid black;
