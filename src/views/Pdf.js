@@ -202,6 +202,7 @@ export const PdfComponent = () => {
     "projectManager":"",
     "projectManagerId":"",
     "contractor":"",
+    "contractorCompany":"",
     "startDate":"",
     "endDate":"",
     "lineItems":[],
@@ -230,7 +231,7 @@ export const PdfComponent = () => {
 
           <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}><Text style={styles.bold}>Invoice Number:</Text> #{data.invoice.toString().padStart(5, '0')}</Text>
           <Text style={[styles.paragraph, {paddingTop: "5px", paddingBottom: "5px", fontSize: "16px"}]}>{moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")}</Text>
-          <Text style={styles.paragraph}><Text style={styles.bold}>Contractor:</Text> {data.contractor}</Text>
+          <Text style={styles.paragraph}><Text style={styles.bold}>Contractor:</Text> {data.contractorCompany}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Job Number:</Text> {data.jobNumber}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Project Manager:</Text> {data.projectManager}</Text>
           <Text style={styles.paragraph}><Text style={styles.bold}>Start Date:</Text> {moment(data.startDate.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
@@ -386,7 +387,7 @@ export const PdfComponent = () => {
     </Document>
   );
 
-  
+
 
   const location = useLocation();
   const id = location.pathname.replace('/pdf/', '')

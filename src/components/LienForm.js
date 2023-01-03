@@ -421,6 +421,7 @@ class LienForm extends Component {
         contractor: response.contractor,
         contractor_id: response.contractor_id,
         contractor_signature: response.contractor_signature,
+        contractorCompany: response.contractorCompany,
         date: response.date,
         endDate: response.endDate,
         jobNumber: response.jobNumber,
@@ -499,6 +500,7 @@ class LienForm extends Component {
     const formNow = this.state.form;
     formNow.contractor_id = contractor._id;
     formNow.contractor = contractor.name;
+    formNow.contractorCompany = contractor.company;
 
     this.setState({
       form: formNow,

@@ -24,6 +24,7 @@ export const LienFormComponent = () => {
     "projectManager":"",
     "projectManagerId":"",
     "contractor":'',
+    "contractorCompany": "",
     "startDate":date,
     "endDate":date,
     "lineItems":[],
