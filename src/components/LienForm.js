@@ -528,12 +528,9 @@ class LienForm extends Component {
   render() {
     return (
       <Form>
-          <Form.Group className="form_row full">
-            <Form.Label>
-              <span>Contractor:</span>
-              <Form.Control type="text" name="contractor" value={this.state.form.contractor} onChange={this.handleInputChange} />
-            </Form.Label>
-          </Form.Group>
+
+          <Form.Control type="hidden" name="contractor" value={this.state.form.contractor} onChange={this.handleInputChange} />
+
           <Form.Group className="form_row full">
             <Form.Label>
               <span>Project Manager:</span>
