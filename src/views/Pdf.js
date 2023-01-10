@@ -83,6 +83,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: '12px'
   },
+  list_row_details: {
+    flexDirection: "column",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: 'center',
+    fontSize: '12px'
+  },
+  list_inner_row: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: 'center',
+    fontSize: '12px'
+  },
   list_item_header: {
     textAlign: "center",
     width: "12%",
@@ -108,8 +122,8 @@ const styles = StyleSheet.create({
     paddingBottom: "5px"
   },
   list_item_description: {
-    textAlign: "center",
-    width: "35%",
+    textAlign: "left",
+    width: "100%%",
     paddingTop: "5px",
     paddingBottom: "5px"
   },
@@ -244,9 +258,8 @@ export const PdfComponent = () => {
           <View style={styles.list}>
             <View style={styles.list_row_header}>
               <Text style={styles.list_item_header}>Date</Text>
-              <Text style={styles.list_item_header_description}>Description</Text>
-              <Text style={styles.list_item_header}>Product Code</Text>
-              <Text style={styles.list_item_header}>Product Dimensions</Text>
+              <Text style={styles.list_item_header}>Code</Text>
+              <Text style={styles.list_item_header}>Dimensions</Text>
               <Text style={styles.list_item_header}>Material</Text>
               <Text style={styles.list_item_header}>Quantity</Text>
               <Text style={styles.list_item_header}>Type</Text>
@@ -258,16 +271,18 @@ export const PdfComponent = () => {
               // var total = total + Number(item.total);
               // setWorkTotal(total)
              return (
-              <View style={styles.list_row} key={i}>
-                <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+              <View style={styles.list_row_details} key={i}>
+                <div style={styles.list_inner_row}>
+                  <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+                  <Text style={styles.list_item}>{item.product_code}</Text>
+                  <Text style={styles.list_item}>{item.product_dimensions}</Text>
+                  <Text style={styles.list_item}>{item.material}</Text>
+                  <Text style={styles.list_item}>{item.quantity}</Text>
+                  <Text style={styles.list_item}>{item.type}</Text>
+                  <Text style={styles.list_item}>${item.price_per}</Text>
+                  <Text style={styles.list_item}>${item.total}</Text>
+                </div>
                 <Text style={styles.list_item_description}>{item.description}</Text>
-                <Text style={styles.list_item}>{item.product_code}</Text>
-                <Text style={styles.list_item}>{item.product_dimensions}</Text>
-                <Text style={styles.list_item}>{item.material}</Text>
-                <Text style={styles.list_item}>{item.quantity}</Text>
-                <Text style={styles.list_item}>{item.type}</Text>
-                <Text style={styles.list_item}>${item.price_per}</Text>
-                <Text style={styles.list_item}>${item.total}</Text>
               </View>
             )
           })}
@@ -289,7 +304,6 @@ export const PdfComponent = () => {
           <View style={styles.list}>
             <View style={styles.list_row_header}>
               <Text style={styles.list_item_header}>Date</Text>
-              <Text style={styles.list_item_header_description}>Description</Text>
               <Text style={styles.list_item_header}>Hours</Text>
               <Text style={styles.list_item_header}>Men</Text>
               <Text style={styles.list_item_header}>Rate</Text>
@@ -297,13 +311,15 @@ export const PdfComponent = () => {
             </View>
           {data.lineItems_manHours.map((item, i) => {
              return (
-              <View style={styles.list_row} key={i}>
-                <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+              <View style={styles.list_row_details} key={i}>
+                <div style={styles.list_inner_row}>
+                  <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+                  <Text style={styles.list_item}>{item.hours}</Text>
+                  <Text style={styles.list_item}>{item.men}</Text>
+                  <Text style={styles.list_item}>${item.rate}</Text>
+                  <Text style={styles.list_item}>${item.total}</Text>
+                </div>
                 <Text style={styles.list_item_description}>{item.description}</Text>
-                <Text style={styles.list_item}>{item.hours}</Text>
-                <Text style={styles.list_item}>{item.men}</Text>
-                <Text style={styles.list_item}>${item.rate}</Text>
-                <Text style={styles.list_item}>${item.total}</Text>
               </View>
             )
           })}

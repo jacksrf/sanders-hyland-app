@@ -264,9 +264,9 @@ class LienForm extends Component {
        })
     }
 
-    async handlePmJobs (id) {
+    async handlePmJobs (id, id2) {
       console.log(id)
-        var jobs = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/"+ id, {
+        var jobs = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/"+ id+ "/" + id2, {
          method: "GET",
          headers: {
            "Content-Type": "application/json",
@@ -297,11 +297,12 @@ class LienForm extends Component {
        console.log(projectManagerCurrent)
 
        form.projectManagerId = projectManagerCurrent._id
-       this.handlePmJobs(projectManagerCurrent._id);
+       this.handlePmJobs(projectManagerCurrent._id, this.state.contractor._id);
      }
      if (name === 'jobNumber') {
        var jobCurrent = this.state.jobs.find(x => x.number === target.value);
        console.log(jobCurrent);
+       console.log(this.state.contractor)
        var contractorFromJob = jobCurrent.contractors.find(x => x.id === this.state.contractor._id);
        console.log(contractorFromJob)
        form.retention = contractorFromJob.retention;
@@ -457,8 +458,8 @@ class LienForm extends Component {
     });
   }
 
-  async handleJobs() {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs", {
+  async handleJobs(id, id2) {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/" + id + "/" + id2, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
