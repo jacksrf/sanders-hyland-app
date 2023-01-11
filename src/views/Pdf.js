@@ -123,7 +123,13 @@ const styles = StyleSheet.create({
   },
   list_item_description: {
     textAlign: "left",
-    width: "100%%",
+    width: "50%",
+    paddingTop: "5px",
+    paddingBottom: "5px"
+  },
+  list_item_material: {
+    textAlign: "left",
+    width: "50%",
     paddingTop: "5px",
     paddingBottom: "5px"
   },
@@ -256,73 +262,77 @@ export const PdfComponent = () => {
           </View>
 
           <View style={styles.list}>
-            <View style={styles.list_row_header}>
-              <Text style={styles.list_item_header}>Date</Text>
-              <Text style={styles.list_item_header}>Code</Text>
-              <Text style={styles.list_item_header}>Dimensions</Text>
-              <Text style={styles.list_item_header}>Material</Text>
-              <Text style={styles.list_item_header}>Quantity</Text>
-              <Text style={styles.list_item_header}>Type</Text>
-              <Text style={styles.list_item_header}>Price Per</Text>
-              <Text style={styles.list_item_header}>Total</Text>
-            </View>
-          {data.lineItems.map((item, i) => {
-              // console.log(workTotal)
-              // var total = total + Number(item.total);
-              // setWorkTotal(total)
-             return (
-              <View style={styles.list_row_details} key={i}>
-                <div style={styles.list_inner_row}>
-                  <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
-                  <Text style={styles.list_item}>{item.product_code}</Text>
-                  <Text style={styles.list_item}>{item.product_dimensions}</Text>
-                  <Text style={styles.list_item}>{item.material}</Text>
-                  <Text style={styles.list_item}>{item.quantity}</Text>
-                  <Text style={styles.list_item}>{item.type}</Text>
-                  <Text style={styles.list_item}>${item.price_per}</Text>
-                  <Text style={styles.list_item}>${item.total}</Text>
-                </div>
-                <Text style={styles.list_item_description}>{item.description}</Text>
+              <View style={styles.list_row_header}>
+                <Text style={styles.list_item_header}>Date</Text>
+                <Text style={styles.list_item_header}>Code</Text>
+                <Text style={styles.list_item_header}>Dimensions</Text>
+                <Text style={styles.list_item_header}>Quantity</Text>
+                <Text style={styles.list_item_header}>Type</Text>
+                <Text style={styles.list_item_header}>Price Per</Text>
+                <Text style={styles.list_item_header}>Total</Text>
               </View>
-            )
-          })}
-          <View style={styles.list_row}>
-            <Text style={styles.list_item_blank}></Text>
-            <Text style={styles.list_item_blank_description}></Text>
-            <Text style={styles.list_item_blank}></Text>
-            <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Work Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItemsTotal}</Text>
-          </View>
-          </View>
-          </View>
-          <View style={styles.section}>
-          <View style={styles.section_title} break>
-            <Text>Hourly Details</Text>
-          </View>
+            {data.lineItems.map((item, i) => {
+                // console.log(workTotal)
+                // var total = total + Number(item.total);
+                // setWorkTotal(total)
+               return (
+                <View style={styles.list_row_details} key={i}>
+                  <div style={styles.list_inner_row}>
+                    <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
+                    <Text style={styles.list_item_material}>MATERIAL: {item.material}</Text>
+                  </div>
+                  <div style={styles.list_inner_row}>
+                    <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+                    <Text style={styles.list_item}>{item.product_code}</Text>
+                    <Text style={styles.list_item}>{item.product_dimensions}</Text>
+                    <Text style={styles.list_item}>{item.quantity}</Text>
+                    <Text style={styles.list_item}>{item.type}</Text>
+                    <Text style={styles.list_item}>${item.price_per}</Text>
+                    <Text style={styles.list_item}>${item.total}</Text>
+                  </div>
 
-          <View style={styles.list}>
-            <View style={styles.list_row_header}>
-              <Text style={styles.list_item_header}>Date</Text>
-              <Text style={styles.list_item_header}>Hours</Text>
-              <Text style={styles.list_item_header}>Men</Text>
-              <Text style={styles.list_item_header}>Rate</Text>
-              <Text style={styles.list_item_header}>Total</Text>
+                </View>
+              )
+            })}
+            <View style={styles.list_row}>
+              <Text style={styles.list_item_blank}></Text>
+              <Text style={styles.list_item_blank_description}></Text>
+              <Text style={styles.list_item_blank}></Text>
+              <Text style={styles.list_item_blank}></Text>
+              <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Work Total:</Text>
+              <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItemsTotal}</Text>
             </View>
-          {data.lineItems_manHours.map((item, i) => {
-             return (
-              <View style={styles.list_row_details} key={i}>
-                <div style={styles.list_inner_row}>
-                  <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
-                  <Text style={styles.list_item}>{item.hours}</Text>
-                  <Text style={styles.list_item}>{item.men}</Text>
-                  <Text style={styles.list_item}>${item.rate}</Text>
-                  <Text style={styles.list_item}>${item.total}</Text>
-                </div>
-                <Text style={styles.list_item_description}>{item.description}</Text>
+            </View>
+            </View>
+            <View style={styles.section}>
+            <View style={styles.section_title} break>
+              <Text>Hourly Details</Text>
+            </View>
+
+            <View style={styles.list}>
+              <View style={styles.list_row_header}>
+                <Text style={styles.list_item_header}>Date</Text>
+                <Text style={styles.list_item_header}>Hours</Text>
+                <Text style={styles.list_item_header}>Men</Text>
+                <Text style={styles.list_item_header}>Rate</Text>
+                <Text style={styles.list_item_header}>Total</Text>
               </View>
-            )
-          })}
+            {data.lineItems_manHours.map((item, i) => {
+               return (
+                <View style={styles.list_row_details} key={i}>
+                <div style={styles.list_inner_row}>
+                  <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
+                </div>
+                  <div style={styles.list_inner_row}>
+                    <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+                    <Text style={styles.list_item}>{item.hours}</Text>
+                    <Text style={styles.list_item}>{item.men}</Text>
+                    <Text style={styles.list_item}>${item.rate}</Text>
+                    <Text style={styles.list_item}>${item.total}</Text>
+                  </div>
+                </View>
+              )
+            })}
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank_description}></Text>
@@ -351,7 +361,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) ) * (data.retention/100))}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
           </View>
           </View>
 
