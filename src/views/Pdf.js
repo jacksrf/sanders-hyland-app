@@ -88,10 +88,19 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: 'center',
-    fontSize: '12px'
+    fontSize: '12px',
+    borderBottomWidth: "1px",
+    borderBottomColor: "grey",
   },
   list_inner_row: {
     flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: 'center',
+    fontSize: '12px'
+  },
+  list_inner_row_top: {
+    flexDirection: "column",
     width: "100%",
     justifyContent: "space-between",
     alignItems: 'center',
@@ -123,13 +132,19 @@ const styles = StyleSheet.create({
   },
   list_item_description: {
     textAlign: "left",
-    width: "50%",
+    width: "100%",
+    paddingTop: "5px",
+    paddingBottom: "5px"
+  },
+  list_item_description: {
+    textAlign: "left",
+    width: "100%",
     paddingTop: "5px",
     paddingBottom: "5px"
   },
   list_item_material: {
     textAlign: "left",
-    width: "50%",
+    width: "100%",
     paddingTop: "5px",
     paddingBottom: "5px"
   },
@@ -277,7 +292,7 @@ export const PdfComponent = () => {
                 // setWorkTotal(total)
                return (
                 <View style={styles.list_row_details} key={i}>
-                  <div style={styles.list_inner_row}>
+                  <div style={styles.list_inner_row_top}>
                     <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
                     <Text style={styles.list_item_material}>MATERIAL: {item.material}</Text>
                   </div>
@@ -320,7 +335,7 @@ export const PdfComponent = () => {
             {data.lineItems_manHours.map((item, i) => {
                return (
                 <View style={styles.list_row_details} key={i}>
-                <div style={styles.list_inner_row}>
+                <div style={styles.list_inner_row_top}>
                   <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
                 </div>
                   <div style={styles.list_inner_row}>
