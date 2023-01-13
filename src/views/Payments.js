@@ -60,7 +60,7 @@ export const PaymentsComponent = () => {
       "https://sanders-hyland-server.herokuapp.com/liens/" + contractor._id
     ).then((response) => response.json());
     console.log(response)
-    setPayments(response)
+    setPayments(response.reverse())
   };
 
   const deleteApp = async (item) => {
