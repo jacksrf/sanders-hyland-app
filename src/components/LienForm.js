@@ -32,6 +32,7 @@ class LienForm extends Component {
     const user = this.props.user;
     var date = moment().format()
     this.state = {
+      "data": this.props.data,
       "form": this.props.data,
       "contractor": {},
       'projectManagers': [{}],
@@ -278,6 +279,12 @@ class LienForm extends Component {
       this.setState({
         jobs: jobs
       });
+      const form = this.state.form;
+      console.log(this.state.data.jobNumber)
+      form.jobNumber = this.state.data.jobNumber;
+      this.setState({
+        form: form
+      });
     }
 
   handleInputChange(event) {
@@ -400,7 +407,7 @@ class LienForm extends Component {
       "https://sanders-hyland-server.herokuapp.com/pdf/"+ studentId
     ).then((response) => response.json());
     console.log(response)
-    console.log(response.contractor)
+    console.log(response.contractorCompany)
     console.log(response.contractor_id)
     console.log(response.contractor_signature)
     console.log(response.date)
@@ -417,27 +424,11 @@ class LienForm extends Component {
     console.log(response.status)
     console.log(response._id)
     this.setState({
-      form: {
-        invoice: response.invoice,
-        contractor: response.contractor,
-        contractor_id: response.contractor_id,
-        contractor_signature: response.contractor_signature,
-        contractorCompany: response.contractorCompany,
-        date: response.date,
-        endDate: response.endDate,
-        jobNumber: response.jobNumber,
-        lineItems: response.lineItems,
-        lineItemsTotal: response.lineItemsTotal,
-        lineItems_manHours: response.lineItems_manHours,
-        lineItems_manHours_total: response.lineItems_manHours_total,
-        pm_signature: response.pm_signature,
-        projectManager: response.projectManager,
-        projectManagerId: response.projectManagerId,
-        startDate: response.startDate,
-        status: response.status,
-        _id: response._id
-      },
+      data: response,
+      form: response
     });
+    console.log(response.projectManagerId)
+    this.handlePmJobs(response.projectManagerId, response.contractor_id);
   }
 
   async handlePms() {
@@ -449,8 +440,13 @@ class LienForm extends Component {
     })
     .then((response) => response.json())
     const form = this.state.form;
-    form.projectManager = response[0].name;
-    form.projectManagerId = response[0]._id
+    const studentId = window.location.href.split('/')[4];
+    console.log(studentId)
+    if (studentId === '/lien-form') {
+      form.contractor_id = response._id;
+      form.contractor = response.name;
+      form.contractorCompany = response.company;
+    }
 
     this.setState({
       form: form,
@@ -469,6 +465,11 @@ class LienForm extends Component {
 
     this.setState({
       jobs: response
+    });
+    const form = this.state.form;
+    form.jobNumber = this.state.data.jobNumber;
+    this.setState({
+      form: form
     });
   }
 
@@ -499,9 +500,13 @@ class LienForm extends Component {
     .then((contractor) => contractor.json())
     console.log(contractor)
     const formNow = this.state.form;
-    formNow.contractor_id = contractor._id;
-    formNow.contractor = contractor.name;
-    formNow.contractorCompany = contractor.company;
+    const studentId = window.location.href.split('/')[4];
+    console.log(studentId)
+    if (studentId === '/lien-form') {
+      formNow.contractor_id = contractor._id;
+      formNow.contractor = contractor.name;
+      formNow.contractorCompany = contractor.company;
+    }
 
     this.setState({
       form: formNow,
@@ -513,8 +518,9 @@ class LienForm extends Component {
   componentDidMount() {
     this.handleContractor()
     this.handlePms()
-    this.handleJobs()
-    if (this.state.form.jobNumber != "" && this.state.form.invoice === 0) {
+
+    // this.handleJobs()
+    if (this.state.form.invoice === 0) {
       this.handleInvoiceNumber()
     }
     const studentId = window.location.href.split('/')[4];
@@ -540,7 +546,7 @@ class LienForm extends Component {
                 <option id="none" key="none">Select One</option>
             {this.state.projectManagers.map((item, i) => {
                return (
-                 <option id={i} key={i} value={item.name}>{item.name}</option>
+                 <option id={i} key={i} value={item.name} selected={this.state.form.projectManager == item.name}>{item.name}</option>
                );
              })}
             </Form.Select>
