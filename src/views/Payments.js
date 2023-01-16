@@ -161,7 +161,7 @@ export const PaymentsComponent = () => {
              <Button className="hide"></Button>
            </Row>
          );
-       } else if ( item.status = "completed") {
+       } else if ( item.status === "completed") {
            return (
             <Row className="application_row" key={i}>
               <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
@@ -174,7 +174,20 @@ export const PaymentsComponent = () => {
               <Button className="hide"></Button>
             </Row>
           );
-        } else {
+        } else if ( item.status === "in_review") {
+            return (
+             <Row className="application_row" key={i}>
+               <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>
+               <div className="invoice_value">${(Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) - ((Number(item.lineItems_manHours_total) + Number(item.lineItemsTotal)) * (item.retention/100))}</div>
+               <div className="job_number">{item.jobNumber}</div>
+               <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
+               <div className="project_manager">{item.projectManager}</div>
+               <div className={classNames('status', item.status)}>{item.status}</div>
+               <Button className="view" variant="success" id={item._id} onClick={(e)=>{goToPDF(item)}}>VIEW</Button>
+               <Button className="hide"></Button>
+             </Row>
+           );
+         } else {
           return (
            <Row className="application_row" key={i}>
              <div className="date">{moment(item.date.replace(' ', "T")).format("MM/DD/YY")}</div>

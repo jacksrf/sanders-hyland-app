@@ -442,7 +442,7 @@ class LienForm extends Component {
     const form = this.state.form;
     const studentId = window.location.href.split('/')[4];
     console.log(studentId)
-    if (studentId === '/lien-form') {
+    if (studentId != 'lien-form') {
       form.contractor_id = response._id;
       form.contractor = response.name;
       form.contractorCompany = response.company;
@@ -502,7 +502,7 @@ class LienForm extends Component {
     const formNow = this.state.form;
     const studentId = window.location.href.split('/')[4];
     console.log(studentId)
-    if (studentId === '/lien-form') {
+    if (studentId != 'lien-form') {
       formNow.contractor_id = contractor._id;
       formNow.contractor = contractor.name;
       formNow.contractorCompany = contractor.company;
@@ -525,7 +525,7 @@ class LienForm extends Component {
     }
     const studentId = window.location.href.split('/')[4];
     console.log(studentId)
-    if (studentId != '/lien-form') {
+    if (studentId != undefined) {
       this.handleDataUpdate()
     }
 
@@ -546,7 +546,7 @@ class LienForm extends Component {
                 <option id="none" key="none">Select One</option>
             {this.state.projectManagers.map((item, i) => {
                return (
-                 <option id={i} key={i} value={item.name} selected={this.state.form.projectManager == item.name}>{item.name}</option>
+                 <option id={i} key={i} value={item.name} defaultValue={this.state.form.projectManager == item.name}>{item.name}</option>
                );
              })}
             </Form.Select>

@@ -10,7 +10,8 @@ import moment from "moment";
 
 export const LienFormComponent = () => {
   const location = useLocation();
-  const id = location.pathname.replace('/lien-form/', '')
+  console.log(location.pathname)
+  const id = location.pathname.replace('/lien-form', '').replace('/', '')
   console.log('id', id);
   const {user} = useAuth0();
   const history= useHistory();
