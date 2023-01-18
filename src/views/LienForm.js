@@ -16,16 +16,17 @@ export const LienFormComponent = () => {
   const {user} = useAuth0();
   const history= useHistory();
   var date = moment().format()
+  console.log(user)
   const [data, setData] = useState({
     "date":date,
     "invoice": "",
-    "contractor_id": '',
+    "contractor_id": user._id,
     "jobNumber":"",
     "job_id": "",
     "projectManager":"",
     "projectManagerId":"",
-    "contractor":'',
-    "contractorCompany": "",
+    "contractor":user.name,
+    "contractorCompany": user.company,
     "startDate":date,
     "endDate":date,
     "lineItems":[],

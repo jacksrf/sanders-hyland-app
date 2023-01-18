@@ -331,7 +331,7 @@ class LienForm extends Component {
 }
 
   async handleSubmit(e) {
-    const studentId = window.location.href.split('/')[4];
+    const studentId = window.location.href.replace('https://', '').split('/')[3]
     e.preventDefault();
      const form = this.state.form;
      form.status = 'unsubmitted';
@@ -367,7 +367,8 @@ class LienForm extends Component {
   }
 
   async handleSave(e) {
-    const studentId = window.location.href.split('/')[4];
+    console.log(this.state.form)
+    const studentId = window.location.href.replace('https://', '').split('/')[4]
     e.preventDefault();
       console.log(studentId)
       if (studentId != undefined) {
@@ -402,7 +403,7 @@ class LienForm extends Component {
   }
 
   async handleDataUpdate() {
-    const studentId = window.location.href.split('/')[4];
+    const studentId = window.location.href.replace('https://', '').split('/')[4]
     const response = await fetch(
       "https://sanders-hyland-server.herokuapp.com/pdf/"+ studentId
     ).then((response) => response.json());
@@ -440,16 +441,16 @@ class LienForm extends Component {
     })
     .then((response) => response.json())
     const form = this.state.form;
-    const studentId = window.location.href.split('/')[4];
-    console.log(studentId)
-    if (studentId != 'lien-form') {
-      form.contractor_id = response._id;
-      form.contractor = response.name;
-      form.contractorCompany = response.company;
-    }
+    // const studentId = window.location.href.replace('https://', '').split('/')[3]
+    // console.log(studentId)
+    // if (studentId != 'lien-form') {
+    //   form.contractor_id = response._id;
+    //   form.contractor = response.name;
+    //   form.contractorCompany = response.company;
+    // }
 
     this.setState({
-      form: form,
+      // form: form,
       projectManagers: response
     });
   }
@@ -500,13 +501,14 @@ class LienForm extends Component {
     .then((contractor) => contractor.json())
     console.log(contractor)
     const formNow = this.state.form;
-    const studentId = window.location.href.split('/')[4];
-    console.log(studentId)
-    if (studentId != 'lien-form') {
+    // const studentId = window.location.href.replace('https://', '').split('/')[3]
+    // console.log(studentId)
+    console.log(contractor)
+    // if (studentId != 'lien-form') {
       formNow.contractor_id = contractor._id;
       formNow.contractor = contractor.name;
       formNow.contractorCompany = contractor.company;
-    }
+    // }
 
     this.setState({
       form: formNow,
@@ -523,7 +525,7 @@ class LienForm extends Component {
     if (this.state.form.invoice === 0) {
       this.handleInvoiceNumber()
     }
-    const studentId = window.location.href.split('/')[4];
+    const studentId = window.location.href.replace('https://', '').split('/')[4]
     console.log(studentId)
     if (studentId != undefined) {
       this.handleDataUpdate()
