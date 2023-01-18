@@ -121,10 +121,12 @@ class LienForm extends Component {
      console.log(current_lineItems)
      console.log(current_lineItems[id-1])
      current_lineItems[id-1][name] = value;
-     if (name === "price_per") {
+     if (name === "price_per" || name === "quantity") {
        var total = current_lineItems[id-1].quantity * current_lineItems[id-1].price_per;
        current_lineItems[id-1].total = total;
      }
+
+
 
      var lineItemsTotal = 0;
      current_lineItems.map((item, i) => {
@@ -331,7 +333,7 @@ class LienForm extends Component {
 }
 
   async handleSubmit(e) {
-    const studentId = window.location.href.replace('https://', '').split('/')[3]
+    const studentId = window.location.href.replace('https://', '').split('/')[4]
     e.preventDefault();
      const form = this.state.form;
      form.status = 'unsubmitted';
@@ -441,16 +443,8 @@ class LienForm extends Component {
     })
     .then((response) => response.json())
     const form = this.state.form;
-    // const studentId = window.location.href.replace('https://', '').split('/')[3]
-    // console.log(studentId)
-    // if (studentId != 'lien-form') {
-    //   form.contractor_id = response._id;
-    //   form.contractor = response.name;
-    //   form.contractorCompany = response.company;
-    // }
 
     this.setState({
-      // form: form,
       projectManagers: response
     });
   }
@@ -501,14 +495,10 @@ class LienForm extends Component {
     .then((contractor) => contractor.json())
     console.log(contractor)
     const formNow = this.state.form;
-    // const studentId = window.location.href.replace('https://', '').split('/')[3]
-    // console.log(studentId)
     console.log(contractor)
-    // if (studentId != 'lien-form') {
-      formNow.contractor_id = contractor._id;
-      formNow.contractor = contractor.name;
-      formNow.contractorCompany = contractor.company;
-    // }
+    formNow.contractor_id = contractor._id;
+    formNow.contractor = contractor.name;
+    formNow.contractorCompany = contractor.company;
 
     this.setState({
       form: formNow,
@@ -709,9 +699,14 @@ class LienForm extends Component {
            </div>
           </Form.Group>
           <div className="formDivider"></div>
+          <div className="total_holder">
+              <span>Retention ({this.state.form.retention}%):</span>
+              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total) * (this.state.form.retention/100)}</div>
+          </div>
+          <div className="formDivider"></div>
           <div className="total_holder grand">
-              <span>Grand Total (before retention):</span>
-              <div>${this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total}</div>
+              <span>Grand Total (after retention):</span>
+              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total) - ((this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total) * (this.state.form.retention/100))}</div>
           </div>
           <div className="form_row submit d-grid gap-2">
             <Button variant="info" size="lg" onClick={this.handleSave}>SAVE</Button>{" "}{" "}
