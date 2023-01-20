@@ -36,7 +36,8 @@ class LienForm extends Component {
       "form": this.props.data,
       "contractor": {},
       'projectManagers': [{}],
-      'jobs': []
+      'jobs': [],
+      'materials': []
     };
     this.handlePmJobs = this.handlePmJobs.bind(this);
     this.handleContractor = this.handleContractor.bind(this);
@@ -56,6 +57,7 @@ class LienForm extends Component {
     this.handleLineItemDateChange = this.handleLineItemDateChange.bind(this)
     this.handleLineItemDateChange2 = this.handleLineItemDateChange2.bind(this)
     this.handleInvoiceNumber = this.handleInvoiceNumber.bind(this)
+    this.handleMaterials = this.handleMaterials.bind(this)
   };
 
   addInput(event) {
@@ -468,6 +470,20 @@ class LienForm extends Component {
     });
   }
 
+  async handleMaterials() {
+    var materials = await fetch("https://sanders-hyland-server.herokuapp.com/materials", {
+       method: "GET",
+       headers: {
+         "Content-Type": "application/json",
+       }
+    })
+    .then((materials) => materials.json())
+
+    this.setState({
+      materials: materials
+    });
+  }
+
   async handleInvoiceNumber() {
     var response = await fetch("https://sanders-hyland-server.herokuapp.com/invoice-number", {
        method: "GET",
@@ -510,6 +526,7 @@ class LienForm extends Component {
   componentDidMount() {
     this.handleContractor()
     this.handlePms()
+    this.handleMaterials()
 
     // this.handleJobs()
     if (this.state.form.invoice === 0) {
@@ -598,19 +615,11 @@ class LienForm extends Component {
                      <span>Material:</span>
                      <Form.Select id={item.id} name="material" value={this.state.form.lineItems[i].material} onChange={this.handleLineItemChange}>
                         <option id="none" key="none">Select One</option>
-                        <option value="Hard tile">Hard tile</option>
-                        <option value="Stone tile">Stone tile</option>
-                        <option value="Broadloom carpet">Broadloom carpet</option>
-                        <option value="Carpet tile">Carpet tile</option>
-                        <option value="Wood flooring">Wood flooring</option>
-                        <option value="Resilient flooring">Resilient flooring</option>
-                        <option value="Resilient base">Resilient base</option>
-                        <option value="Resinous flooring">Resinous flooring</option>
-                        <option value="Sheet Vinyl">Sheet Vinyl</option>
-                        <option value="Brick">Brick</option>
-                        <option value="Mortar bed">Mortar bed</option>
-                        <option value="Leveling and Patch">Leveling and Patch</option>
-                        <option value="Other">Other</option>
+                        {this.state.materials.map((item, i) => {
+                           return (
+                             <option key={i} value={item.name}>{item.name}</option>
+                           );
+                         })}
                      </Form.Select>
                    </Form.Label>
                    </Form.Group>
