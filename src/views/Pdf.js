@@ -358,6 +358,18 @@ export const PdfComponent = () => {
           </View>
           </View>
 
+          
+          <View style={[styles.list, {marginTop: "20px"}]}>
+          <View style={styles.list_row}>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank_description}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Total:</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px" }]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal))}</Text>
+          </View>
+          </View>
+
           <View style={[styles.list, {marginTop: "20px"}]}>
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
