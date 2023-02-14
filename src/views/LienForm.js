@@ -70,21 +70,47 @@ export const LienFormComponent = () => {
     }
     }, []);
 
-  return (
-    <>
-      <div className="mb-5">
 
-        <h1>Lien Form</h1>
-        <p className="lead">
+  if (data.comments) {
+    return (
+      <>
+        <div className="mb-5">
 
-        </p>
+          <h1>Lien Form</h1>
+          <p className="lead">
 
-        <LienForm user={user} history={history} data={data} />
+          <div className="pm_comments_holder">
+            <div className="pm_comments_title">Project Managers Comments:</div>
+            <div className="pm_comments">
+              {data.comments}
+            </div>
+          </div>
 
-      </div>
+          </p>
 
-    </>
-  );
+          <LienForm user={user} history={history} data={data} />
+
+        </div>
+
+      </>
+    )
+  } else {
+    return (
+      <>
+        <div className="mb-5">
+
+          <h1>Lien Form</h1>
+          <p className="lead">
+
+          </p>
+
+          <LienForm user={user} history={history} data={data} />
+
+        </div>
+
+      </>
+    )
+  }
 };
 
 export default withAuthenticationRequired(LienFormComponent, {
