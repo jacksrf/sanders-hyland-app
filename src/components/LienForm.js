@@ -532,6 +532,7 @@ class LienForm extends Component {
     if (this.state.form.invoice === 0) {
       this.handleInvoiceNumber()
     }
+    console.log(window.location.href.replace('https://', '').split('/'))
     const studentId = window.location.href.replace('https://', '').split('/')[4]
     console.log(studentId)
     if (studentId != undefined) {
