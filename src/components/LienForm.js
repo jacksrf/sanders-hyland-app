@@ -335,7 +335,7 @@ class LienForm extends Component {
 }
 
   async handleSubmit(e) {
-    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[4]
+    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     e.preventDefault();
      const form = this.state.form;
      form.status = 'unsubmitted';
@@ -372,7 +372,7 @@ class LienForm extends Component {
 
   async handleSave(e) {
     console.log(this.state.form)
-    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[4]
+    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     e.preventDefault();
       console.log(studentId)
       if (studentId != undefined) {
@@ -407,7 +407,7 @@ class LienForm extends Component {
   }
 
   async handleDataUpdate() {
-    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[4]
+    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     const response = await fetch(
       "https://sanders-hyland-server.herokuapp.com/pdf/"+ studentId
     ).then((response) => response.json());
@@ -533,7 +533,7 @@ class LienForm extends Component {
       this.handleInvoiceNumber()
     }
     console.log(window.location.href.replace('https://', '').replace('http://', '').split('/'))
-    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[4]
+    const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     console.log(studentId)
     if (studentId != undefined) {
       this.handleDataUpdate()
