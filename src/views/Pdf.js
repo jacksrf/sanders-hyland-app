@@ -486,11 +486,7 @@ export const PdfComponent = () => {
 
   });
 
-  // useLayoutEffect(() => {
-  //   // setWorkTotal(0);
-  //   // setHourlyTotal(0);
-  //   handleSubmit();
-  // }, []);
+
 
   if (data.status === 'started') {
     return (
