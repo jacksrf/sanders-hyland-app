@@ -444,13 +444,13 @@ export const PdfComponent = () => {
 
   const location = useLocation();
   const id = location.pathname.replace('/pdf/', '')
-  console.log('id', id);
+  // console.log('id', id);
 
   const handleSubmit = async () => {
     const response = await fetch(
       "https://sanders-hyland-server.herokuapp.com/pdf/"+ id
     ).then((response) => response.json());
-    console.log(response)
+    // console.log(response)
     response.invoice = response.invoice.toString().padStart(5, '0')
     setData(response)
   };
@@ -470,14 +470,14 @@ export const PdfComponent = () => {
          }
       })
       .then((response) => response.json())
-      console.log(response)
+      // console.log(response)
       history.push('/payments-submitted/')
   }
 
 
   const firstUpdate = useRef(true);
   useLayoutEffect(() => {
-    console.log(data)
+    // console.log(data)
     if (firstUpdate.current) {
       firstUpdate.current = false;
       handleSubmit();
