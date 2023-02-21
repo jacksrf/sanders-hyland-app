@@ -28,9 +28,15 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: 'white',
-    fontFamily: "Roboto"
+    fontFamily: "Roboto",
     // marginTop: "5%",
     // marginBottom: "5%"
+    // margin: "2.5%",
+    padding: "5%",
+    // flexGrow: 1,
+    // width: "95%",
+    float: "left",
+    boxSizing: "border-box"
   },
   section: {
     margin: "2.5%",
@@ -206,7 +212,8 @@ const styles = StyleSheet.create({
     fontSize: "12px",
     textAlign: "center",
     paddingBottom: "15px",
-    bottom: "0px"
+    bottom: "0px",
+    position: "fixed"
   },
   signature_image: {
     width: "150px",
@@ -256,7 +263,6 @@ export const PdfComponent = () => {
   const MyDocument = () => (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
           <View style={styles.logo_row}>
             <Image src={logo_small} style={styles.pdf_logo}></Image>
           </View>
@@ -316,11 +322,9 @@ export const PdfComponent = () => {
               <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItemsTotal}</Text>
             </View>
             </View>
-            </View>
           </Page>
           <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-            <View style={styles.section_title} break>
+            <View style={styles.section_title}>
               <Text>Hourly Details</Text>
             </View>
 
@@ -357,13 +361,7 @@ export const PdfComponent = () => {
             <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItems_manHours_total}</Text>
           </View>
           </View>
-          </View>
-        <Text style={styles.footer} fixed>
-        This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
-        </Text>
-      </Page>
-        <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
+  
           <View style={[styles.list, {marginTop: "20px"}]}>
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
@@ -404,13 +402,8 @@ export const PdfComponent = () => {
             <Text style={[styles.list_item_blank, {width: "50%",  textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Application Total: ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * (data.retention/100))}</Text>
           </View>
           </View>
-        </View>
-        <Text style={styles.footer} fixed>
-        This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
-        </Text>
       </Page>
       <Page size="A4" style={styles.page}>
-        <View style={styles.section} break>
           <Text style={styles.copyTitle}>Terms & Conditions</Text>
           <Text style={styles.copyText}>Having first been duly sworn, the undersigned authorized representative of the Subcontractor or on behalf of the Subcontractor, hereby warrants and certifies that Subcontractor has fully paid for all labor, equipment, services, incidentals and other bills and obligations of every kind or nature that relate to the subcontract, purchase orders, or other agreements, whether oral or written, between Subcontractor and Sanders Hyland Corp. for the referenced project.</Text>
           <Text style={styles.copyText}>Subcontractor hereby warrants that the premises of the above named project cannot be made subject to any valid lien or claim by anyone who furnishes material, supplies, labor, equipment, or services to Subcontractor for use in the above named project, and in consideration of the payment by Sanders Hyland Corp. Subcontractor hereby releases and waives any and all claims and liens whatsoever kind or nature against Sanders Hyland Corp., the Owner, the Architect and Engineers, and against the building, improvements or project and the land on which same is located with respect to work performed for obligations undertaken by Subcontractor or by any of Subcontractor’s laborers, Subcontractor’s suppliers, or equipment providers which in any way relates to the above mentioned construction improvements or project through the date of execution of this document, except those stated below (if none, so state):</Text>
@@ -438,7 +431,6 @@ export const PdfComponent = () => {
               <Text style={styles.name}>{data.projectManager}</Text>
             </View>
           </View>
-        </View>
 
         <Text style={styles.footer} fixed>
         This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
