@@ -287,9 +287,7 @@ export const PdfComponent = () => {
                 <Text style={styles.list_item_header}>Total</Text>
               </View>
             {data.lineItems.map((item, i) => {
-                // console.log(workTotal)
-                // var total = total + Number(item.total);
-                // setWorkTotal(total)
+              if (i < 10) {
                return (
                 <View style={styles.list_row_details} key={i}>
                   <div style={styles.list_inner_row_top}>
@@ -308,6 +306,7 @@ export const PdfComponent = () => {
 
                 </View>
               )
+             }
             })}
             <View style={styles.list_row}>
               <Text style={styles.list_item_blank}></Text>
@@ -333,6 +332,7 @@ export const PdfComponent = () => {
                 <Text style={styles.list_item_header}>Total</Text>
               </View>
             {data.lineItems_manHours.map((item, i) => {
+              if (i < 10) {
                return (
                 <View style={styles.list_row_details} key={i}>
                 <div style={styles.list_inner_row_top}>
@@ -347,6 +347,7 @@ export const PdfComponent = () => {
                   </div>
                 </View>
               )
+             }
             })}
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
