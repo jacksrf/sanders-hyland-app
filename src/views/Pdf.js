@@ -317,6 +317,8 @@ export const PdfComponent = () => {
             </View>
             </View>
             </View>
+          </Page>
+          <Page size="A4" style={styles.page}>
             <View style={styles.section}>
             <View style={styles.section_title} break>
               <Text>Hourly Details</Text>
@@ -355,8 +357,13 @@ export const PdfComponent = () => {
             <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItems_manHours_total}</Text>
           </View>
           </View>
-
-          
+          </View>
+        <Text style={styles.footer} fixed>
+        This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
+        </Text>
+      </Page>
+        <Page size="A4" style={styles.page}>
+            <View style={styles.section}>
           <View style={[styles.list, {marginTop: "20px"}]}>
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
@@ -398,6 +405,11 @@ export const PdfComponent = () => {
           </View>
           </View>
         </View>
+        <Text style={styles.footer} fixed>
+        This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
+        </Text>
+      </Page>
+      <Page size="A4" style={styles.page}>
         <View style={styles.section} break>
           <Text style={styles.copyTitle}>Terms & Conditions</Text>
           <Text style={styles.copyText}>Having first been duly sworn, the undersigned authorized representative of the Subcontractor or on behalf of the Subcontractor, hereby warrants and certifies that Subcontractor has fully paid for all labor, equipment, services, incidentals and other bills and obligations of every kind or nature that relate to the subcontract, purchase orders, or other agreements, whether oral or written, between Subcontractor and Sanders Hyland Corp. for the referenced project.</Text>
@@ -430,7 +442,7 @@ export const PdfComponent = () => {
 
         <Text style={styles.footer} fixed>
         This document was created on {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")} and SHOULD NOT BE EDITED
-      </Text>
+        </Text>
       </Page>
     </Document>
   );
