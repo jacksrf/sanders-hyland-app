@@ -303,7 +303,7 @@ export const PdfComponent = () => {
                     <Text style={styles.list_item}>{item.quantity}</Text>
                     <Text style={styles.list_item}>{item.type}</Text>
                     <Text style={styles.list_item}>${item.price_per}</Text>
-                    <Text style={styles.list_item}>${item.total}</Text>
+                    <Text style={styles.list_item}>${Number(item.total).toFixed(2)}</Text>
                   </div>
 
                 </View>
@@ -376,8 +376,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Retention:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}>{data.retention}%</Text>
+            <Text style={[styles.list_item_blank, { width: "50%", textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Retention: {data.retention}%</Text>
           </View>
           </View>
 
@@ -387,8 +386,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
+            <Text style={[styles.list_item_blank, {width: "50%", textAlign: "right", paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total: ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
           </View>
           </View>
 
@@ -398,8 +396,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderLeftWidth: "2px"}]}>Application Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px"}]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * (data.retention/100))}</Text>
+            <Text style={[styles.list_item_blank, {width: "50%",  textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Application Total: ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * (data.retention/100))}</Text>
           </View>
           </View>
         </View>
