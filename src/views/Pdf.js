@@ -492,9 +492,11 @@ export const PdfComponent = () => {
       <>
       <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
       <Signature user={user} history={history} data={data}/>
-      <PDFViewer>
-        <MyDocument />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => 
+          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
+        }
+      </BlobProvider>
       </>
     );
   } else if (data.status === 'unsubmitted') {
@@ -502,9 +504,11 @@ export const PdfComponent = () => {
       <>
       <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
       <Signature user={user} history={history} data={data}/>
-      <PDFViewer>
-        <MyDocument />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => 
+          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
+        }
+      </BlobProvider>
       </>
     );
   } else if (data.status === 'approved') {
@@ -515,9 +519,11 @@ export const PdfComponent = () => {
 
       </div>
 
-      <PDFViewer>
-        <MyDocument />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => 
+          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
+        }
+      </BlobProvider>
       </>
     );
   } else if (data.status === 'rejected') {
@@ -537,9 +543,11 @@ export const PdfComponent = () => {
         </div>
       </div>
 
-      <PDFViewer>
-        <MyDocument />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => 
+          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
+        }
+      </BlobProvider>
       </>
     );
   } else if (data.status === "signed") {
@@ -552,9 +560,11 @@ export const PdfComponent = () => {
         <Button className="success" variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
       </div>
 
-      <PDFViewer>
-        <MyDocument />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => 
+          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
+        }
+      </BlobProvider>
       </>
     );
   } else {
