@@ -8,7 +8,7 @@ import LienForm from "../components/LienForm";
 import Signature from "../components/signature";
 import { useHistory, useLocation} from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFViewer, BlobProvider } from '@react-pdf/renderer';
 import ReactPDF ,{ Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import SignatureCanvas from 'react-signature-canvas';
 import moment from "moment";
@@ -564,9 +564,13 @@ export const PdfComponent = () => {
 
       </div>
 
-      <PDFViewer>
-        <MyDocument />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => 
+          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
+        }
+      </BlobProvider>
+
+      
       </>
       )
   }
