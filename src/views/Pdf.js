@@ -286,28 +286,7 @@ export const PdfComponent = () => {
                 <Text style={styles.list_item_header}>Price Per</Text>
                 <Text style={styles.list_item_header}>Total</Text>
               </View>
-            {data.lineItems.map((item, i) => {
-              if (i < 10) {
-               return (
-                <View style={styles.list_row_details} key={i}>
-                  <div style={styles.list_inner_row_top}>
-                    <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
-                    <Text style={styles.list_item_material}>MATERIAL: {item.material}</Text>
-                  </div>
-                  <div style={styles.list_inner_row}>
-                    <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
-                    <Text style={styles.list_item}>{item.product_code}</Text>
-                    <Text style={styles.list_item}>{item.product_dimensions}</Text>
-                    <Text style={styles.list_item}>{item.quantity}</Text>
-                    <Text style={styles.list_item}>{item.type}</Text>
-                    <Text style={styles.list_item}>${item.price_per}</Text>
-                    <Text style={styles.list_item}>${Number(item.total).toFixed(2)}</Text>
-                  </div>
-
-                </View>
-              )
-             }
-            })}
+            
             <View style={styles.list_row}>
               <Text style={styles.list_item_blank}></Text>
               <Text style={styles.list_item_blank_description}></Text>
@@ -331,24 +310,7 @@ export const PdfComponent = () => {
                 <Text style={styles.list_item_header}>Rate</Text>
                 <Text style={styles.list_item_header}>Total</Text>
               </View>
-            {data.lineItems_manHours.map((item, i) => {
-              if (i < 10) {
-               return (
-                <View style={styles.list_row_details} key={i}>
-                <div style={styles.list_inner_row_top}>
-                  <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
-                </div>
-                  <div style={styles.list_inner_row}>
-                    <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
-                    <Text style={styles.list_item}>{item.hours}</Text>
-                    <Text style={styles.list_item}>{item.men}</Text>
-                    <Text style={styles.list_item}>${item.rate}</Text>
-                    <Text style={styles.list_item}>${item.total}</Text>
-                  </div>
-                </View>
-              )
-             }
-            })}
+            
           <View style={styles.list_row}>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank_description}></Text>
