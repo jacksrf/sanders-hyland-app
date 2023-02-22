@@ -30,6 +30,19 @@
   right: 0;
 }
 
+a.PDFDownload {
+    width: 250px;
+    margin: 30px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: green;
+    color: white;
+    padding: 10px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
+    border-radius: 10px;
+}
+
 .application_row_header.row {
     display: flex;
     align-items: center;

@@ -8,7 +8,7 @@ import LienForm from "../components/LienForm";
 import Signature from "../components/signature";
 import { useHistory, useLocation} from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import { PDFViewer, BlobProvider } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer, BlobProvider } from '@react-pdf/renderer';
 import ReactPDF ,{ Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import SignatureCanvas from 'react-signature-canvas';
 import moment from "moment";
@@ -492,11 +492,18 @@ export const PdfComponent = () => {
       <>
       <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
       <Signature user={user} history={history} data={data}/>
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => 
-          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
-        }
-      </BlobProvider>
+       <PDFDownloadLink 
+      className="PDFDownload"
+      document={<MyDocument />}
+      fileName={"invoice-" + data.invoice + ".pdf"}
+    >
+      {({ blob, loading, url }) => {
+        return loading
+          ? "Loading..."
+          : "Download";
+      }}
+    </PDFDownloadLink>
+       <PDFViewer><MyDocument /></PDFViewer>
       </>
     );
   } else if (data.status === 'unsubmitted') {
@@ -504,11 +511,18 @@ export const PdfComponent = () => {
       <>
       <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
       <Signature user={user} history={history} data={data}/>
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => 
-          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
-        }
-      </BlobProvider>
+       <PDFDownloadLink 
+      className="PDFDownload"
+      document={<MyDocument />}
+      fileName={"invoice-" + data.invoice + ".pdf"}
+    >
+      {({ blob, loading, url }) => {
+        return loading
+          ? "Loading..."
+          : "Download";
+      }}
+    </PDFDownloadLink>
+       <PDFViewer><MyDocument /></PDFViewer>
       </>
     );
   } else if (data.status === 'approved') {
@@ -519,11 +533,18 @@ export const PdfComponent = () => {
 
       </div>
 
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => 
-          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
-        }
-      </BlobProvider>
+       <PDFDownloadLink 
+      className="PDFDownload"
+      document={<MyDocument />}
+      fileName={"invoice-" + data.invoice + ".pdf"}
+    >
+      {({ blob, loading, url }) => {
+        return loading
+          ? "Loading..."
+          : "Download";
+      }}
+    </PDFDownloadLink>
+       <PDFViewer><MyDocument /></PDFViewer>
       </>
     );
   } else if (data.status === 'rejected') {
@@ -543,11 +564,18 @@ export const PdfComponent = () => {
         </div>
       </div>
 
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => 
-          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
-        }
-      </BlobProvider>
+       <PDFDownloadLink 
+      className="PDFDownload"
+      document={<MyDocument />}
+      fileName={"invoice-" + data.invoice + ".pdf"}
+    >
+      {({ blob, loading, url }) => {
+        return loading
+          ? "Loading..."
+          : "Download";
+      }}
+    </PDFDownloadLink>
+       <PDFViewer><MyDocument /></PDFViewer>
       </>
     );
   } else if (data.status === "signed") {
@@ -560,11 +588,18 @@ export const PdfComponent = () => {
         <Button className="success" variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
       </div>
 
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => 
-          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
-        }
-      </BlobProvider>
+       <PDFDownloadLink 
+      className="PDFDownload"
+      document={<MyDocument />}
+      fileName={"invoice-" + data.invoice + ".pdf"}
+    >
+      {({ blob, loading, url }) => {
+        return loading
+          ? "Loading..."
+          : "Download";
+      }}
+    </PDFDownloadLink>
+       <PDFViewer><MyDocument /></PDFViewer>
       </>
     );
   } else {
@@ -574,11 +609,18 @@ export const PdfComponent = () => {
 
       </div>
 
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => 
-          loading ? 'Loading document...' : <PDFViewer><MyDocument /></PDFViewer>
-        }
-      </BlobProvider>
+       <PDFDownloadLink 
+      className="PDFDownload"
+      document={<MyDocument />}
+      fileName={"invoice-" + data.invoice + ".pdf"}
+    >
+      {({ blob, loading, url }) => {
+        return loading
+          ? "Loading..."
+          : "Download";
+      }}
+    </PDFDownloadLink>
+       <PDFViewer><MyDocument /></PDFViewer>
 
       
       </>

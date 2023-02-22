@@ -182,7 +182,7 @@ export const PaymentsComponent = () => {
                <div className="job_number">{item.jobNumber}</div>
                <div className="name">#{item.invoice.toString().padStart(5, '0')}</div>
                <div className="project_manager">{item.projectManager}</div>
-               <div className={classNames('status', item.status)}>{item.status}</div>
+               <div className={classNames('status', item.status)}>In Review</div>
                <Button className="view" variant="success" id={item._id} onClick={(e)=>{goToPDF(item)}}>VIEW</Button>
                <Button className="hide"></Button>
              </Row>
