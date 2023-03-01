@@ -13,7 +13,8 @@ class Signature extends Component {
     const user = this.props.user;
     this.state = {
       "trimmedDataURL": null,
-      "signActive": false
+      "signActive": false,
+      "signError": false,
     }
     this.editApp = this.editApp.bind(this);
     this.signApp = this.signApp.bind(this);
@@ -30,8 +31,11 @@ class Signature extends Component {
     console.log(this.state)
   }
   async trim() {
+    const checkForSignature = this.sigPad.isEmpty(); 
+    console.log(checkForSignature)
     console.log(this.sigPad.getTrimmedCanvas().toDataURL('image/png'))
-    var signature_image = this.sigPad.getTrimmedCanvas().toDataURL('image/png').toString();
+    if (checkForSignature === false) {
+      var signature_image = this.sigPad.getTrimmedCanvas().toDataURL('image/png').toString();
     this.setState({
       trimmedDataURL: signature_image,
       signActive: false
@@ -51,6 +55,13 @@ class Signature extends Component {
     .then((response) => response.json())
     console.log(response)
     window.location.reload(false);
+    } else {
+      this.setState({
+        signError: true
+      });
+
+    }
+    
   }
   signApp() {
     this.setState({signActive:true});
@@ -68,7 +79,8 @@ class Signature extends Component {
     return <div>
     <div className={ this.state.signActive ? 'signature active' : 'signature' }>
       <div className="signatureInner">
-        <div className="instructions">Sign Here:</div>
+          <div className={this.state.signError ? 'error active' : 'error'}>Please sign your name before you submit!</div>
+        <div className="instructions">Sign Here (use your finger or mouse):</div>
         <div className={styles.container}>
           <div className={styles.sigContainer}>
           <SignaturePad canvasProps={{height: 200, width: 400, className: styles.sigPad}}
