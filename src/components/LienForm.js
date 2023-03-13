@@ -37,7 +37,9 @@ class LienForm extends Component {
       "contractor": {},
       'projectManagers': [{}],
       'jobs': [],
-      'materials': []
+      'materials': [],
+      'errorStatus': false,
+      'errorState': ""
     };
     this.handlePmJobs = this.handlePmJobs.bind(this);
     this.handleContractor = this.handleContractor.bind(this);
@@ -58,6 +60,7 @@ class LienForm extends Component {
     this.handleLineItemDateChange2 = this.handleLineItemDateChange2.bind(this)
     this.handleInvoiceNumber = this.handleInvoiceNumber.bind(this)
     this.handleMaterials = this.handleMaterials.bind(this)
+    this.closeError = this.closeError.bind(this);
   };
 
   addInput(event) {
@@ -338,35 +341,41 @@ class LienForm extends Component {
     const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     e.preventDefault();
      const form = this.state.form;
-     form.status = 'unsubmitted';
-     this.setState({
-       form: form
-     });
+     if (this.state.form.jobNumber != "" && this.state.form.job_id != "") {
+      form.status = 'unsubmitted';
+      this.setState({
+        form: form
+      });
 
-     if (this.state.form._id) {
-       var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.state.form),
-       })
-       .then((response) => response.json())
-       console.log(response)
-       this.props.history.push('/pdf/'+studentId)
+      if (this.state.form._id) {
+        var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.state.form),
+        })
+        .then((response) => response.json())
+        console.log(response)
+        this.props.history.push('/pdf/'+studentId)
+      } else {
+        var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.state.form),
+        })
+        .then((response) => response.json())
+        console.log(response)
+        this.props.history.push('/pdf/'+response.id)
+      }
      } else {
-       var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/add", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.state.form),
-       })
-       .then((response) => response.json())
-       console.log(response)
-       this.props.history.push('/pdf/'+response.id)
-     }
-
+       this.setState({
+          errorStatus: true,
+          errorText: "Please select a Job Number to be able to save!"
+        }); 
+      }
 
   }
 
@@ -375,6 +384,8 @@ class LienForm extends Component {
     const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     e.preventDefault();
       console.log(studentId)
+      console.log(this.state.form)
+      if (this.state.form.jobNumber != "" && this.state.form.job_id != "") {
       if (studentId != undefined) {
         console.log(this.state.form)
         var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/update/"+ studentId, {
@@ -403,9 +414,22 @@ class LienForm extends Component {
         console.log(response)
         this.props.history.push('/payments-submitted/')
       }
-
+      } else {
+       this.setState({
+          errorStatus: true,
+          errorText: "Please select a Job Number to be able to save!"
+        }); 
+      }
   }
 
+  closeError() {
+   this.setState({
+          errorStatus: false,
+          errorText: ""
+        }); 
+  }
+  
+  
   async handleDataUpdate() {
     const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     const response = await fetch(
@@ -545,7 +569,12 @@ class LienForm extends Component {
   render() {
     return (
       <Form>
-
+          <div className={ this.state.errorStatus ? 'error_popup active' : 'error_popup' }>
+            <div className="error_popup_holder">
+              <div className="errortext">{ this.state.errorText }</div>
+              <Button variant="info" size="lg" onClick={this.closeError}>CLOSE</Button>
+            </div>
+          </div>
           <Form.Control type="hidden" name="contractor" value={this.state.form.contractor} onChange={this.handleInputChange} />
 
           <Form.Group className="form_row full">
@@ -723,6 +752,8 @@ class LienForm extends Component {
             <Button variant="warning" size="lg" onClick={this.handleSubmit}>SUBMIT</Button>
           </div>
       </Form>
+
+      
     );
   }
 }

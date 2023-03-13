@@ -409,3 +409,50 @@ button.btn.btn-secondary.btn-Lg.edit {
 .current .arrow {
     opacity: 1;
 }
+
+.error_popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: rgba(0,0,0,.5);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error_popup.active {
+    z-index: 1000;
+    opacity: 1;
+}
+
+.errortext {
+    margin-bottom: 20px;
+}
+
+.error_popup_holder {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: white;
+    justify-content: center;
+    border-radius: 30px;
+    font-size: 25px;
+    text-align: center;
+    padding: 25px;
+    box-sizing: border-box;
+    transform: translateY(100vh);
+    opacity: 0;
+    transition: all 1000ms;
+    -webkit-transition: all 1000ms;
+}
+
+.error_popup.active .error_popup_holder {
+    transform: translateY(0vh);
+    opacity: 1;
+}
