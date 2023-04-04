@@ -50,6 +50,7 @@ class LienForm extends Component {
     this.addInput_hours = this.addInput_hours.bind(this);
     this.handleLineItemChange = this.handleLineItemChange.bind(this);
     this.handleLineItemChange2 = this.handleLineItemChange2.bind(this);
+    this.handleLineItemChange3 = this.handleLineItemChange3.bind(this);
     this.handlePms = this.handlePms.bind(this)
     this.deleteLineItem = this.deleteLineItem.bind(this);
     this.deleteHourlyLineItem = this.deleteHourlyLineItem.bind(this);
@@ -58,9 +59,11 @@ class LienForm extends Component {
     this.handleDateChange = this.handleDateChange.bind(this)
     this.handleLineItemDateChange = this.handleLineItemDateChange.bind(this)
     this.handleLineItemDateChange2 = this.handleLineItemDateChange2.bind(this)
+    this.handleLineItemDateChange3 = this.handleLineItemDateChange3.bind(this)
     this.handleInvoiceNumber = this.handleInvoiceNumber.bind(this)
     this.handleMaterials = this.handleMaterials.bind(this)
     this.closeError = this.closeError.bind(this);
+    this.addInput_other = this.addInput_other.bind(this);
   };
 
   addInput(event) {
@@ -105,6 +108,28 @@ class LienForm extends Component {
     current_lineItems.push(newLineItem)
     console.log(current_lineItems)
     form.lineItems_manHours = current_lineItems;
+    this.setState({
+      form: form
+    });
+  };
+
+  addInput_other(event) {
+    event.preventDefault()
+    console.log(event)
+    const form = this.state.form;
+    const current_lineItems_other = form.lineItems_other;
+    const newLineItem2 = {
+      "id": (current_lineItems_other.length+1),
+      "date": moment().toDate(),
+      "description": '',
+      "quantity": '',
+      "type": '',
+      "price_per": '',
+      "total": ''
+    };
+    current_lineItems_other.push(newLineItem2)
+    console.log(current_lineItems_other)
+    form.lineItems_other = current_lineItems_other;
     this.setState({
       form: form
     });
@@ -228,6 +253,62 @@ class LienForm extends Component {
 
   };
 
+  handleLineItemChange3(event) {
+    event.preventDefault();
+    console.log(event);
+    const id = event.target.id;
+    console.log(id)
+     const target = event.target;
+     console.log(target)
+     const value = target.value;
+     console.log(value)
+     const name = target.name;
+     console.log(name)
+     const form = this.state.form;
+     const current_lineItems = form.lineItems_other;
+     console.log(current_lineItems)
+     console.log(current_lineItems[id-1])
+     current_lineItems[id-1][name] = value;
+     var total = Number(current_lineItems[id-1].quantity) *  Number(current_lineItems[id-1].price_per);
+     current_lineItems[id-1].total = total;
+     var lineItemsTotal = 0;
+     current_lineItems.map((item, i) => {
+       lineItemsTotal += item.total;
+       if (i === current_lineItems.length - 1) {
+         form.lineItems_other = current_lineItems;
+         form.lineItems_other_total = lineItemsTotal;
+         console.log(form)
+         this.setState({
+           form: form
+         });
+       }
+     })
+
+  };
+
+    handleLineItemDateChange3(i, date) {
+    // event.preventDefault();
+     const form = this.state.form;
+     const current_lineItems = form.lineItems_other;
+     console.log(current_lineItems)
+     console.log(current_lineItems[i])
+     current_lineItems[i].date = date;
+
+     var lineItemsTotal = 0;
+     current_lineItems.map((item, i) => {
+       lineItemsTotal += item.total;
+       if (i === current_lineItems.length - 1) {
+         form.lineItems_other = current_lineItems;
+         form.lineItems_other_total = lineItemsTotal;
+         this.setState({
+           form: form
+         });
+       }
+     })
+
+
+  };
+
     deleteLineItem(event) {
       console.log(event);
       const id = event.target.id;
@@ -265,6 +346,29 @@ class LienForm extends Component {
          if (i === current_lineItems.length - 1) {
            form.lineItems_manHours = current_lineItems;
            form.lineItems_manHours_total = lineItemsTotal;
+           this.setState({
+             form: form
+           });
+         }
+       })
+    }
+
+
+    deleteOtherLineItem(event) {
+      console.log(event);
+      const id = event.target.id;
+      console.log(id)
+
+       const form = this.state.form;
+       const current_lineItems = form.lineItems_other;
+       current_lineItems.splice(id-1, 1);
+
+       var lineItemsTotal = 0;
+       current_lineItems.map((item, i) => {
+         lineItemsTotal += item.total;
+         if (i === current_lineItems.length - 1) {
+           form.lineItems_other = current_lineItems;
+           form.lineItems_other_total = lineItemsTotal;
            this.setState({
              form: form
            });
@@ -738,14 +842,61 @@ class LienForm extends Component {
            </div>
           </Form.Group>
           <div className="formDivider"></div>
+
+          <Form.Group className="form_row section">
+            <div className="section_title">Scope(s) of Other Hours Requesting Payment:</div>
+            <Form.Group className="form_row">
+            {this.state.form.lineItems_other.map((item, i) => {
+               return (
+                 <div className="multiInputRow" key={item.id}>
+                   <Form.Label className="small_input">
+                     <span>Date:</span>
+                     <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems_other[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange3(i, date)} />
+                   </Form.Label>
+                   <Form.Label className="large_input">
+                     <span>Description:</span>
+                     <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems_other[i].description} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Quantity:</span>
+                     <Form.Control type="text" id={item.id}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Type:</span>
+                     <Form.Control type="text" id={item.id}  name="type" value={this.state.form.lineItems_other[i].type} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Price Per:</span>
+                     <Form.Control type="text" id={item.id}  name="price_per" value={this.state.form.lineItems_other[i].price_per} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Total:</span>
+                     <Form.Control type="text" id={item.id}  name="total" value={this.state.form.lineItems_other[i].total} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <div></div>
+                     <Button variant="danger" id={item.key} onClick={this.deleteOtherLineItem}>Delete</Button>
+                  </Form.Label>
+                 </div>
+               );
+             })}
+             </Form.Group>
+           <Button className="addLineButton" variant="success" onClick={this.addInput_other}>Add Other Line Item</Button>
+           <div className="total_holder">
+               <span>Other Items Total:</span>
+               <div>${this.state.form.lineItems_other_total}</div>
+           </div>
+          </Form.Group>
+
+
           <div className="total_holder">
               <span>Retention ({this.state.form.retention}%):</span>
-              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total) * (this.state.form.retention/100)}</div>
+              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) * (this.state.form.retention/100)}</div>
           </div>
           <div className="formDivider"></div>
           <div className="total_holder grand">
               <span>Grand Total (after retention):</span>
-              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total) - ((this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total) * (this.state.form.retention/100))}</div>
+              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) - ((this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) * (this.state.form.retention/100))}</div>
           </div>
           <div className="form_row submit d-grid gap-2">
             <Button variant="info" size="lg" onClick={this.handleSave}>SAVE</Button>{" "}{" "}

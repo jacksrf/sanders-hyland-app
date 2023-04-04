@@ -191,6 +191,12 @@ const styles = StyleSheet.create({
     marginTop: "20px",
     marginBottom: "0px"
   },
+  signature_date: {
+    width: "200px",
+    height: "30px",
+    marginTop: "0px",
+    marginBottom: "0px"
+  },
   name: {
     fontSize: "13px",
     lineHeight: "1.2",
@@ -201,7 +207,7 @@ const styles = StyleSheet.create({
   signature: {
     borderBottom: "2px",
     width: "200px",
-    height: "50px"
+    height: "0px"
   },
   copyTitle: {
     fontWeight: "bold",
@@ -251,6 +257,8 @@ export const PdfComponent = () => {
     "lineItemsTotal": 0,
     "lineItems_manHours":[],
     "lineItems_manHours_total": 0,
+    "lineItems_other":[],
+    "lineItems_other_total": 0,
     "status":"started",
     "pm_signature": "",
     "contractor_signature": "",
@@ -322,8 +330,7 @@ export const PdfComponent = () => {
               <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItemsTotal}</Text>
             </View>
             </View>
-          </Page>
-          <Page size="A4" style={styles.page}>
+     
             <View style={styles.section_title}>
               <Text>Hourly Details</Text>
             </View>
@@ -361,6 +368,44 @@ export const PdfComponent = () => {
             <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItems_manHours_total}</Text>
           </View>
           </View>
+   
+          <View style={styles.section_title}>
+              <Text>Other Details</Text>
+            </View>
+
+            <View style={styles.list}>
+              <View style={styles.list_row_header}>
+                <Text style={styles.list_item_header}>Date</Text>
+                <Text style={styles.list_item_header}>Hours</Text>
+                <Text style={styles.list_item_header}>Men</Text>
+                <Text style={styles.list_item_header}>Rate</Text>
+                <Text style={styles.list_item_header}>Total</Text>
+              </View>
+            {data.lineItems_other.map((item, i) => {
+               return (
+                <View style={styles.list_row_details} key={i}>
+                <div style={styles.list_inner_row_top}>
+                  <Text style={styles.list_item_description}>DESCRIPTION: {item.description}</Text>
+                </div>
+                  <div style={styles.list_inner_row}>
+                    <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
+                    <Text style={styles.list_item}>{item.quantity}</Text>
+                    <Text style={styles.list_item}>{item.type}</Text>
+                    <Text style={styles.list_item}>${item.price_per}</Text>
+                    <Text style={styles.list_item}>${item.total}</Text>
+                  </div>
+                </View>
+              )
+            })}
+          <View style={styles.list_row}>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank_description}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={styles.list_item_blank}></Text>
+            <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Other Total:</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${data.lineItems_other_total}</Text>
+          </View>
+          </View>
   
           <View style={[styles.list, {marginTop: "20px"}]}>
           <View style={styles.list_row}>
@@ -369,7 +414,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px" }]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal))}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px" }]}> ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total))}</Text>
           </View>
           </View>
 
@@ -389,7 +434,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "50%", textAlign: "right", paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total: ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
+            <Text style={[styles.list_item_blank, {width: "50%", textAlign: "right", paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total: ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
           </View>
           </View>
 
@@ -399,7 +444,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "50%",  textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Application Total: ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal)) * (data.retention/100))}</Text>
+            <Text style={[styles.list_item_blank, {width: "50%",  textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Application Total: ${(Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total)) * (data.retention/100))}</Text>
           </View>
           </View>
       </Page>
@@ -415,12 +460,7 @@ export const PdfComponent = () => {
               {data.contractor_signature != '' && (
                 <Image src={data.contractor_signature} style={styles.signature_image}/>
               )}
-              <Text style={styles.name}>{data.contractor}</Text>
-            </View>
-
-            <View style={styles.signature_row}>
-              <Text style={styles.copyTitle}>Date:</Text>
-              <Text style={styles.name}>{moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")}</Text>
+              <Text style={styles.name}>{data.contractor} - {moment(data.date.replace(' ', "T")).format("MMMM Do, YYYY")}</Text>
             </View>
 
             <View style={styles.signature_row}>

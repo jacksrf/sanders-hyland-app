@@ -33,6 +33,8 @@ export const LienFormComponent = () => {
     "lineItemsTotal": 0,
     "lineItems_manHours":[],
     "lineItems_manHours_total": 0,
+    "lineItems_other":[],
+    "lineItems_other_total": 0,
     "status":"started",
     "contractor_signature": "",
     "pm_signature": "",
