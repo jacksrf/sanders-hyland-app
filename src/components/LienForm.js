@@ -123,7 +123,6 @@ class LienForm extends Component {
       "date": moment().toDate(),
       "description": '',
       "quantity": '',
-      "type": '',
       "price_per": '',
       "total": ''
     };
@@ -860,10 +859,6 @@ class LienForm extends Component {
                    <Form.Label className="small_input">
                      <span>Quantity:</span>
                      <Form.Control type="text" id={item.id}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
-                   </Form.Label>
-                   <Form.Label className="small_input">
-                     <span>Type:</span>
-                     <Form.Control type="text" id={item.id}  name="type" value={this.state.form.lineItems_other[i].type} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Price Per:</span>

@@ -376,9 +376,9 @@ export const PdfComponent = () => {
             <View style={styles.list}>
               <View style={styles.list_row_header}>
                 <Text style={styles.list_item_header}>Date</Text>
-                <Text style={styles.list_item_header}>Hours</Text>
-                <Text style={styles.list_item_header}>Men</Text>
-                <Text style={styles.list_item_header}>Rate</Text>
+                <Text style={styles.list_item_header}>Quantity</Text>
+                <Text style={styles.list_item_header}></Text>
+                <Text style={styles.list_item_header}>Price_Per</Text>
                 <Text style={styles.list_item_header}>Total</Text>
               </View>
             {data.lineItems_other.map((item, i) => {
@@ -390,7 +390,7 @@ export const PdfComponent = () => {
                   <div style={styles.list_inner_row}>
                     <Text style={styles.list_item}>{moment(item.date.replace(' ', "T")).format("MM/DD/YYYY")}</Text>
                     <Text style={styles.list_item}>{item.quantity}</Text>
-                    <Text style={styles.list_item}>{item.type}</Text>
+                    <Text style={styles.list_item}></Text>
                     <Text style={styles.list_item}>${item.price_per}</Text>
                     <Text style={styles.list_item}>${item.total}</Text>
                   </div>
