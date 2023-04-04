@@ -843,7 +843,7 @@ class LienForm extends Component {
           <div className="formDivider"></div>
 
           <Form.Group className="form_row section">
-            <div className="section_title">Scope(s) of Other Hours Requesting Payment:</div>
+            <div className="section_title">Scope(s) of Other Work Requesting Payment:</div>
             <Form.Group className="form_row">
             {this.state.form.lineItems_other.map((item, i) => {
                return (
