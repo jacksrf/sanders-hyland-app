@@ -491,7 +491,13 @@ export const PdfComponent = () => {
     ).then((response) => response.json());
     // console.log(response)
     response.invoice = response.invoice.toString().padStart(5, '0')
-    setData(response)
+    if (!response.lineItems_other) {
+      response.lineItems_other = [];
+      response.lineItems_other_total = 0;
+    } else {
+      setData(response)
+    }
+    
   };
 
 
