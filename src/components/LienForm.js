@@ -555,10 +555,20 @@ class LienForm extends Component {
     console.log(response.startDate)
     console.log(response.status)
     console.log(response._id)
-    this.setState({
+    if (!response.lineItems_other) {
+      response.lineItems_other = [];
+      response.lineItems_other_total = 0;
+      this.setState({
       data: response,
       form: response
     });
+    } else {
+      this.setState({
+      data: response,
+      form: response
+    });
+    }
+    
     console.log(response.projectManagerId)
     this.handlePmJobs(response.projectManagerId, response.contractor_id);
   }
