@@ -494,6 +494,7 @@ export const PdfComponent = () => {
     if (!response.lineItems_other) {
       response.lineItems_other = [];
       response.lineItems_other_total = 0;
+      setData(response)
     } else {
       setData(response)
     }
@@ -503,6 +504,7 @@ export const PdfComponent = () => {
 
 
   const editApp = async (item) => {
+    console.log(item)
     history.push('/lien-form/' + item._id)
   };
 

@@ -67,6 +67,7 @@ class Signature extends Component {
     this.setState({signActive:true});
   }
   editApp() {
+    console.log(this.props.data)
     this.props.history.push('/lien-form/' + this.props.data._id)
   }
 
