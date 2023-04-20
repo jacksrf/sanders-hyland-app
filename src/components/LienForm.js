@@ -39,7 +39,8 @@ class LienForm extends Component {
       'jobs': [],
       'materials': [],
       'errorStatus': false,
-      'errorState': ""
+      'errorState': "",
+      "attachementStatus": null
     };
     this.handlePmJobs = this.handlePmJobs.bind(this);
     this.handleContractor = this.handleContractor.bind(this);
@@ -64,6 +65,7 @@ class LienForm extends Component {
     this.handleMaterials = this.handleMaterials.bind(this)
     this.closeError = this.closeError.bind(this);
     this.addInput_other = this.addInput_other.bind(this);
+    this.setSelectedFile = this.setSelectedFile.bind(this);
   };
 
   addInput(event) {
@@ -91,6 +93,35 @@ class LienForm extends Component {
       form: form
     });
   };
+
+  async setSelectedFile(event) {
+    console.log(event)
+    const form = this.state.form;
+    const file_data = new FormData();
+    console.log(event.target.files[0])
+    file_data.append('file', event.target.files[0]);
+    file_data.append('contractor_id', this.state.contractor._id)
+    console.log(file_data.get('file'))
+
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/file_upload/", {
+      method: "POST",
+      body: file_data
+    })
+    .then((response) => response.json())
+    console.log(response)
+    if (response.status === "success") {
+      form.attachment_url = response.fileName;
+      this.setState({
+        attachementStatus: true,
+        form: form
+      });
+      console.log(this.state.form)
+    } else {
+      this.setState({
+        attachementStatus: false
+      });
+    }
+  }
 
   addInput_hours(event) {
     event.preventDefault()
@@ -903,6 +934,14 @@ class LienForm extends Component {
               <span>Grand Total (after retention):</span>
               <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) - ((this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) * (this.state.form.retention/100))}</div>
           </div>
+
+          <Form.Group className="form_row section attachment">
+            <div className="section_title">Add File Attachment:</div>
+            <Form.Control type="file" onChange={(e) => this.setSelectedFile(e)}/>
+            <span className={this.state.attachementStatus ? 'attachementError' : 'attachementError active'}>Attachment Upload Failed!</span>
+            <span className={this.state.attachementStatus ? 'attachementSuccess active' : 'attachementSuccess'}>Attachment Upload Successful!</span>
+          </Form.Group>
+
           <div className="form_row submit d-grid gap-2">
             <Button variant="info" size="lg" onClick={this.handleSave}>SAVE</Button>{" "}{" "}
             <Button variant="warning" size="lg" onClick={this.handleSubmit}>SUBMIT</Button>

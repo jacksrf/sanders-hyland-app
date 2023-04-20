@@ -40,7 +40,8 @@ export const LienFormComponent = () => {
     "pm_signature": "",
     "comments": "",
     "retention": "",
-    "invoice": 0
+    "invoice": 0,
+    "attachment_url": ""
   });
 
   const handleDataUpdate = async (id) => {

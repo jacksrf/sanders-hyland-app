@@ -42,6 +42,36 @@
   right: 0;
 }
 
+span.attachementError {
+    color: red;
+    font-weight: bold;
+    padding: 5px 10px 30px;
+    width: 100%;
+    float: left;
+    display: none;
+}
+
+span.attachementSuccess.active {
+    display: block;
+}
+
+span.attachementSuccess {
+    color: green;
+    font-weight: bold;
+    padding: 5px 10px 30px;
+    width: 100%;
+    float: left;
+    display: none;
+}
+
+span.attachementError.active {
+    display: block;
+}
+
+.form_row.section.attachment {
+    margin-bottom: 50px;
+}
+
 a.PDFDownload {
     width: 250px;
     margin: 30px 30px;
