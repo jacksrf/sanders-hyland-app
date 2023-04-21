@@ -40,7 +40,8 @@ class LienForm extends Component {
       'materials': [],
       'errorStatus': false,
       'errorState': "",
-      "attachementStatus": null
+      "attachementStatus": false,
+      "attachementStatusError": false
     };
     this.handlePmJobs = this.handlePmJobs.bind(this);
     this.handleContractor = this.handleContractor.bind(this);
@@ -103,6 +104,7 @@ class LienForm extends Component {
     file_data.append('contractor_id', this.state.contractor._id)
     console.log(file_data.get('file'))
 
+    // var response = await fetch("http://localhost:4000/file_upload/", {
     var response = await fetch("https://sanders-hyland-server.herokuapp.com/file_upload/", {
       method: "POST",
       body: file_data
@@ -110,14 +112,16 @@ class LienForm extends Component {
     .then((response) => response.json())
     console.log(response)
     if (response.status === "success") {
-      form.attachment_url = response.fileName;
+      form.attachment_url = response.filePath.replace('https://sanders-hyland.s3.amazonaws.com/uploads/', "");
       this.setState({
         attachementStatus: true,
+        attachementStatusError: false,
         form: form
       });
       console.log(this.state.form)
     } else {
       this.setState({
+        attachementStatusError: true,
         attachementStatus: false
       });
     }
@@ -937,9 +941,10 @@ class LienForm extends Component {
 
           <Form.Group className="form_row section attachment">
             <div className="section_title">Add File Attachment:</div>
+            <div className={this.state.form.attachment_url ? 'attachementSaved active' : 'attachementSaved'}>Current attachment: {this.state.form.attachment_url}</div>
             <Form.Control type="file" onChange={(e) => this.setSelectedFile(e)}/>
-            <span className={this.state.attachementStatus ? 'attachementError' : 'attachementError active'}>Attachment Upload Failed!</span>
-            <span className={this.state.attachementStatus ? 'attachementSuccess active' : 'attachementSuccess'}>Attachment Upload Successful!</span>
+            <span className={this.state.attachementStatusError ? 'attachementError active' : 'attachementError'}>Attachment Upload Failed!</span>
+            <span className={this.state.attachementStatus ? 'attachementSuccess active' : 'attachementSuccess'}>Attachment Upload Successful! Click save or submit to connect it to the application!</span>
           </Form.Group>
 
           <div className="form_row submit d-grid gap-2">

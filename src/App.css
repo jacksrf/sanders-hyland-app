@@ -263,6 +263,22 @@ button.btn.btn-success {
 
 }
 
+.attachementSaved {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: none;
+}
+
+.attachementSaved.active {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: block;
+}
+
 .application_row_header.row {
     margin-top: 0px;
     margin-bottom: 20px;
