@@ -42,6 +42,12 @@
   right: 0;
 }
 
+.flex.justify-space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 span.attachementError {
     color: red;
     font-weight: bold;
@@ -384,7 +390,13 @@ label.form-label input {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+.button_flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .container {
