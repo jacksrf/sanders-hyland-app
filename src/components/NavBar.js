@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef
+} from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { Menubar } from 'primereact/menubar';
+import { InputText } from 'primereact/inputtext';
+import { Avatar } from 'primereact/avatar';
+import { Menu } from 'primereact/menu';
+import { Button } from 'primereact/button';
 import {
   Collapse,
   Container,
@@ -11,17 +19,25 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Button,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
 
-import logo_small from "../assets/sanders-hyland-logo-lg.png";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
+  const profile_menu = useRef(null);
+  var items;
+
+  var profile_items;
+
+  var profile;
+
+    const start = <img alt="logo" src="/static/media/sanders-hyland-logo-lg.73e6d73e07d28542ec37.png" height="40" className="mr-2"></img>;
+    // const end = <InputText placeholder="Search" type="text" className="w-full" />;
+
   const [isOpen, setIsOpen] = useState(false);
   const {
     user,
@@ -29,161 +45,132 @@ const NavBar = () => {
     loginWithRedirect,
     logout,
   } = useAuth0();
+  const [userFull, setUser] = useState({
+    "_id": "",
+    "name": ""
+  });
+  console.log(isAuthenticated)
+  console.log(user)
 
-  const toggle = () => setIsOpen(!isOpen);
+  const handleDataUpdate = async (email) => {
+    console.log(email)
+      var response = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ email, {
+        // mode:'no-cors',
+       method: "GET",
+       headers: {
+         "Content-Type": "application/json",
+       }
+    })
+    .then((response) => response.json())
+      console.log(response)
+      return response
+  }
 
-  const logoutWithRedirect = () =>
+   const logoutWithRedirect = () =>
     logout({
       returnTo: window.location.origin,
     });
 
+  const toggle = () => setIsOpen(!isOpen);
+
+  if (isAuthenticated) {
+      items = [
+        {
+            label: 'Dashboard',
+            icon: 'pi pi-fw pi-chart-bar',
+            url: '/',
+        },
+        {
+            label: 'Payments',
+            icon: 'pi pi-fw pi-dollar',
+            url: '/payments-submitted'
+        },
+        {
+            label: 'Application',
+            icon: 'pi pi-fw pi-envelope',
+            url: '/lien-form'
+        }
+    ];
+   
+    
+
+    profile_items = [
+        {
+            // label: 'Options',
+            items: [
+                // {
+                //     label: 'Notifications',
+                //     icon: 'pi pi-bell',
+                //     url: '/notifications'
+                // },
+                {
+                    label: 'Signout',
+                    icon: 'pi pi-times',
+                    command: () => {
+                        logoutWithRedirect({})
+                    }
+                }
+            ]
+        }
+        ];
+
+    profile = <div>
+                      <Menu model={profile_items} popup ref={profile_menu} />
+                      <button onClick={(e) => profile_menu.current.toggle(e)} className={'w-full p-link flex align-items-center'}>
+                          <Avatar image={user.picture} className="mr-2" shape="circle" />
+                          <div className="flex flex-column align">
+                              <span className="font-bold">{userFull.name}</span>
+                              <span className="text-sm"></span>
+                          </div>
+                      </button>
+                    </div>;
+  } else {
+    items = [
+
+    ];
+
+    profile_items = []
+
+    profile = <div>
+        <Button    
+        icon="pi pi-user" 
+        label="Log in"
+        raised              
+                   severity="warning" rounded
+                   onClick={() => loginWithRedirect({})}
+                  > 
+               
+                  </Button>
+    </div>
+  }
+
+ 
+
+    useEffect(() => {
+    let isMounted = true;
+    console.log(userFull._id)
+    if (isAuthenticated) {
+       handleDataUpdate(user.email).then((data) => {
+      if (isMounted) {
+        console.log(data)
+        setUser(data)
+
+      }
+    });
+    }
+
+    return () => {
+      // isMounted = false;
+    };
+    // }
+  }, []);
+
   return (
     <div className="nav-container">
-      <Navbar color="light" light expand="md">
-        <Container>
-          <div>
-            <a href="">
-              <img className="mb-3 logo-small" src={logo_small} alt="React logo" />
-            </a>
-          </div>
-          <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar>
-              <NavItem>
-                <NavLink
-                  tag={RouterNavLink}
-                  to="/"
-                  exact
-                  activeClassName="router-link-exact-active"
-                >
-                  Home
-                </NavLink>
-              </NavItem>
-              
-              {isAuthenticated && (
-                <NavItem>
-                  <NavLink
-                    tag={RouterNavLink}
-                    to="/payments-submitted"
-                    exact
-                    activeClassName="router-link-exact-active"
-                  >
-                    Applications
-                  </NavLink>
-                </NavItem>
-              )}
-              {isAuthenticated && (
-                <NavItem>
-                  <NavLink
-                    tag={RouterNavLink}
-                    to="/lien-form"
-                    exact
-                    activeClassName="router-link-exact-active"
-                  >
-                    Lien Form
-                  </NavLink>
-                </NavItem>
-              )}
-            </Nav>
-            <Nav className="d-none d-md-block" navbar>
-              {!isAuthenticated && (
-                <NavItem>
-                  <Button
-                    id="qsLoginBtn"
-                    color="primary"
-                    className="btn-margin"
-                    onClick={() => loginWithRedirect()}
-                  >
-                    Log in
-                  </Button>
-                </NavItem>
-              )}
-              {isAuthenticated && (
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret id="profileDropDown">
-                    <img
-                      src={user.picture}
-                      alt="Profile"
-                      className="nav-user-profile rounded-circle"
-                      width="50"
-                    />
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem header>{user.name}</DropdownItem>
-                    <DropdownItem
-                      tag={RouterNavLink}
-                      to="/profile"
-                      className="dropdown-profile"
-                      activeClassName="router-link-exact-active"
-                    >
-                      <FontAwesomeIcon icon="user" className="mr-3" /> Profile
-                    </DropdownItem>
-                    <DropdownItem
-                      id="qsLogoutBtn"
-                      onClick={() => logoutWithRedirect()}
-                    >
-                      <FontAwesomeIcon icon="power-off" className="mr-3" /> Log
-                      out
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              )}
-            </Nav>
-            {!isAuthenticated && (
-              <Nav className="d-md-none" navbar>
-                <NavItem>
-                  <Button
-                    id="qsLoginBtn"
-                    color="primary"
-                    block
-                    onClick={() => loginWithRedirect({})}
-                  >
-                    Log in
-                  </Button>
-                </NavItem>
-              </Nav>
-            )}
-            {isAuthenticated && (
-              <Nav
-                className="d-md-none justify-content-between"
-                navbar
-                style={{ minHeight: 170 }}
-              >
-                <NavItem>
-                  <span className="user-info">
-                    <img
-                      src={user.picture}
-                      alt="Profile"
-                      className="nav-user-profile d-inline-block rounded-circle mr-3"
-                      width="50"
-                    />
-                    <h6 className="d-inline-block">{user.name}</h6>
-                  </span>
-                </NavItem>
-                <NavItem>
-                  <FontAwesomeIcon icon="user" className="mr-3" />
-                  <RouterNavLink
-                    to="/profile"
-                    activeClassName="router-link-exact-active"
-                  >
-                    Profile
-                  </RouterNavLink>
-                </NavItem>
-                <NavItem>
-                  <FontAwesomeIcon icon="power-off" className="mr-3" />
-                  <RouterNavLink
-                    to="#"
-                    id="qsLogoutBtn"
-                    onClick={() => logoutWithRedirect()}
-                  >
-                    Log out
-                  </RouterNavLink>
-                </NavItem>
-              </Nav>
-            )}
-          </Collapse>
-        </Container>
-      </Navbar>
+
+      <div className="card">
+            <Menubar model={items} start={start} end={profile} />
+        </div>
     </div>
   );
 };

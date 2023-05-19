@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Alert } from "reactstrap";
+import { Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
@@ -7,6 +7,14 @@ import Loading from "../components/Loading";
 import LienForm from "../components/LienForm";
 import { useHistory, useLocation } from 'react-router-dom';
 import moment from "moment";
+import { InputText } from 'primereact/inputtext';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
+
+import 'primeicons/primeicons.css';  
+import "primereact/resources/themes/lara-light-indigo/theme.css";     
+import "primereact/resources/primereact.min.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const LienFormComponent = () => {
   const location = useLocation();
@@ -102,10 +110,11 @@ export const LienFormComponent = () => {
       <>
         <div className="mb-5">
 
-          <h1>Lien Form</h1>
-          <p className="lead">
-
-          </p>
+          <Card style={{marginBottom: '20px'}}>
+            <h1>Lien Form</h1>
+          </Card>
+          
+ 
 
           <LienForm user={user} history={history} data={data} />
 

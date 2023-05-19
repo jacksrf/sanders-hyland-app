@@ -4,11 +4,20 @@ import { Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import ReactPDF from '@react-pdf/renderer';
+
+import Loading from "../components/Loading";
 import {useHistory} from 'react-router-dom';
 import moment from "moment";
-import {Form, Button} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 
+import { InputText } from 'primereact/inputtext';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
+
+import 'primeicons/primeicons.css';  
+import "primereact/resources/themes/lara-light-indigo/theme.css";     
+import "primereact/resources/primereact.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const styles = StyleSheet.create({
@@ -41,7 +50,8 @@ class LienForm extends Component {
       'errorStatus': false,
       'errorState': "",
       "attachementStatus": false,
-      "attachementStatusError": false
+      "attachementStatusError": false,
+      "loadingStatus": false
     };
     this.handlePmJobs = this.handlePmJobs.bind(this);
     this.handleContractor = this.handleContractor.bind(this);
@@ -96,6 +106,9 @@ class LienForm extends Component {
   };
 
   async setSelectedFile(event) {
+    this.setState({
+          loadingStatus: true
+    }); 
     console.log(event)
     const form = this.state.form;
     const file_data = new FormData();
@@ -116,13 +129,15 @@ class LienForm extends Component {
       this.setState({
         attachementStatus: true,
         attachementStatusError: false,
-        form: form
+        form: form,
+        loadingStatus: false,
       });
       console.log(this.state.form)
     } else {
       this.setState({
         attachementStatusError: true,
-        attachementStatus: false
+        attachementStatus: false,
+        loadingStatus: false,
       });
     }
   }
@@ -343,14 +358,14 @@ class LienForm extends Component {
 
   };
 
-    deleteLineItem(event) {
+    deleteLineItem(event, key) {
+      event.preventDefault()
       console.log(event);
-      const id = event.target.id;
-      console.log(id)
-
+      console.log(key)
        const form = this.state.form;
        const current_lineItems = form.lineItems;
-       current_lineItems.splice(id-1, 1);
+       console.log(current_lineItems)
+       current_lineItems.splice(key-1, 1);
 
        var lineItemsTotal = 0;
        current_lineItems.map((item, i) => {
@@ -365,14 +380,16 @@ class LienForm extends Component {
        })
     }
 
-    deleteHourlyLineItem(event) {
+    deleteHourlyLineItem(event, key) {
+      event.preventDefault()
       console.log(event);
-      const id = event.target.id;
-      console.log(id)
+      // const id = event.target.id;
+      // console.log(id)
 
        const form = this.state.form;
        const current_lineItems = form.lineItems_manHours;
-       current_lineItems.splice(id-1, 1);
+       console.log(current_lineItems)
+       current_lineItems.splice(key-1, 1);
 
        var lineItemsTotal = 0;
        current_lineItems.map((item, i) => {
@@ -388,14 +405,16 @@ class LienForm extends Component {
     }
 
 
-    deleteOtherLineItem(event) {
+    deleteOtherLineItem(event, key) {
+      event.preventDefault()
       console.log(event);
-      const id = event.target.id;
-      console.log(id)
+      // const id = event.target.id;
+      console.log(key)
 
        const form = this.state.form;
        const current_lineItems = form.lineItems_other;
-       current_lineItems.splice(id-1, 1);
+       console.log(current_lineItems)
+       current_lineItems.splice(key-1, 1);
 
        var lineItemsTotal = 0;
        current_lineItems.map((item, i) => {
@@ -560,7 +579,8 @@ class LienForm extends Component {
       }
   }
 
-  closeError() {
+  closeError(event) {
+    event.preventDefault()
    this.setState({
           errorStatus: false,
           errorText: ""
@@ -716,12 +736,16 @@ class LienForm extends Component {
 
   render() {
     return (
+      <Card>
       <Form>
           <div className={ this.state.errorStatus ? 'error_popup active' : 'error_popup' }>
             <div className="error_popup_holder">
               <div className="errortext">{ this.state.errorText }</div>
-              <Button variant="info" size="lg" onClick={this.closeError}>CLOSE</Button>
+              <Button raised rounded severity="info" size="lg" label="CLOSE" onClick={(e) => this.closeError(e)} />
             </div>
+          </div>
+          <div className={ this.state.loadingStatus ? 'loading active' : 'loading' }>
+            <Loading />
           </div>
           <Form.Control type="hidden" name="contractor" value={this.state.form.contractor} onChange={this.handleInputChange} />
 
@@ -826,14 +850,14 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
-                     <Button variant="danger" id={item.key} onClick={this.deleteLineItem}>Delete</Button>
+                     <Button raised rounded severity="danger" label="DELETE" id={item.key} onClick={(e) => this.deleteLineItem(e, i)} />
                   </Form.Label>
                   </Form.Group>
                  </div>
                );
              })}
              </Form.Group>
-           <Button className="addLineButton" variant="success" onClick={this.addInput}>Add Work Line Item</Button>
+           <Button className="addLineButton" raised rounded severity="success" onClick={this.addInput} label="Add Work Line Item" />
 
            <div className="total_holder">
                <span>Line Items Total:</span>
@@ -873,13 +897,13 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
-                     <Button variant="danger" id={item.key} onClick={this.deleteHourlyLineItem}>Delete</Button>
+                     <Button raised rounded severity="danger" id={item.key} label="DELETE" onClick={(e) => this.deleteHourlyLineItem(e, i)} />
                   </Form.Label>
                  </div>
                );
              })}
              </Form.Group>
-           <Button className="addLineButton" variant="success" onClick={this.addInput_hours}>Add Hours Line Item</Button>
+           <Button className="addLineButton" raised rounded severity="success" label="Add Hours Line Item" onClick={this.addInput_hours} />
            <div className="total_holder">
                <span>Hourly Items Total:</span>
                <div>${this.state.form.lineItems_manHours_total}</div>
@@ -915,13 +939,13 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
-                     <Button variant="danger" id={item.key} onClick={this.deleteOtherLineItem}>Delete</Button>
+                     <Button raised rounded severity="danger" id={item.key} label="DELETE" onClick={(e) => this.deleteOtherLineItem(e, i)} />
                   </Form.Label>
                  </div>
                );
              })}
              </Form.Group>
-           <Button className="addLineButton" variant="success" onClick={this.addInput_other}>Add Other Line Item</Button>
+           <Button className="addLineButton" raised rounded severity="success" label="Add Other Line Item" onClick={this.addInput_other} />
            <div className="total_holder">
                <span>Other Items Total:</span>
                <div>${this.state.form.lineItems_other_total}</div>
@@ -947,12 +971,14 @@ class LienForm extends Component {
             <span className={this.state.attachementStatus ? 'attachementSuccess active' : 'attachementSuccess'}>Attachment Upload Successful! Click save or submit to connect it to the application!</span>
           </Form.Group>
 
-          <div className="form_row submit d-grid gap-2">
-            <Button variant="info" size="lg" onClick={this.handleSave}>SAVE</Button>{" "}{" "}
-            <Button variant="warning" size="lg" onClick={this.handleSubmit}>SUBMIT</Button>
-          </div>
+         
       </Form>
 
+       <div className="form_row submit d-grid gap-2">
+            <Button raised rounded severity="info" size="lg" label="SAVE" onClick={this.handleSave} />{" "}{" "}
+            <Button raised rounded severity="warning" size="lg" label="SUBMIT" onClick={this.handleSubmit} />
+          </div>
+      </Card>
       
     );
   }
