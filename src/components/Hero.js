@@ -6,7 +6,6 @@ import React, {
 import logo from "../assets/sanders-hyland-logo-lg.png";
 import { Card } from 'primereact/card';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Chart } from 'primereact/chart';
 
 import 'primeicons/primeicons.css';  
 import "primereact/resources/themes/lara-light-indigo/theme.css";     
