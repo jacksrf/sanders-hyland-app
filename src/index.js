@@ -27,6 +27,7 @@ const providerConfig = {
 
 ReactDOM.render(
 <Auth0Provider
+useRefreshTokens={true}
 domain= {config.domain}
 clientId={config.clientId}
 redirectUri={window.location.origin}
