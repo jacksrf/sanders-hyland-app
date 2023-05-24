@@ -124,7 +124,9 @@ const NavBar = () => {
                           </div>
                       </button>
                     </div>;
-  } else {
+  } 
+
+  if (!isAuthenticated) {
     items = [
 
     ];

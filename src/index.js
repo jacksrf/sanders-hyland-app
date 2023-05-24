@@ -26,20 +26,14 @@ const providerConfig = {
 };
 
 ReactDOM.render(
-<Auth0Provider
-useRefreshTokens={true}
-domain= {config.domain}
-clientId={config.clientId}
-redirectUri={window.location.origin}
-audience={config.audience}
-scope={config.scope}
->
-<App />
-</Auth0Provider>,
-document.getElementById("root")
+  <Auth0Provider {...providerConfig}>
+    <App />
+  </Auth0Provider>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
