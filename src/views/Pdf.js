@@ -1,5 +1,5 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
-import { Button, Alert } from "reactstrap";
+import { Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
@@ -13,6 +13,22 @@ import ReactPDF ,{ Page, Text, View, Document, StyleSheet, Image, Font } from '@
 import SignatureCanvas from 'react-signature-canvas';
 import moment from "moment";
 import classNames from 'classnames';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Tag } from 'primereact/tag';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { Ripple } from 'primereact/ripple';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import { MultiSelect } from 'primereact/multiselect';
+import { Menu } from 'primereact/menu';
+import { Toast } from 'primereact/toast';
+
+import 'primeicons/primeicons.css';  
+import "primereact/resources/themes/lara-light-indigo/theme.css";     
+import "primereact/resources/primereact.min.css";
+
 
 import logo_small from "../assets/sanders-hyland-logo-lg.png";
 import roboto from "../assets/fonts/Roboto-Regular.ttf"
@@ -539,7 +555,9 @@ export const PdfComponent = () => {
   if (data.status === 'started') {
     return (
       <>
-      <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
+      <div className='pdf_buttons'>
+        <Button raised rounded severity="info" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
+        </div>
       <Signature user={user} history={history} data={data}/>
        <PDFDownloadLink 
       className="PDFDownload"
@@ -558,7 +576,9 @@ export const PdfComponent = () => {
   } else if (data.status === 'unsubmitted') {
     return (
       <>
-      <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
+      <div className='pdf_buttons'>
+       <Button raised rounded severity="info" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
+       </div>
       <Signature user={user} history={history} data={data}/>
        <PDFDownloadLink 
       className="PDFDownload"
@@ -578,7 +598,7 @@ export const PdfComponent = () => {
     return (
       <>
 
-      <div className='status approved'>
+      <div className='pdf_buttons status approved'>
 
       </div>
 
@@ -600,10 +620,10 @@ export const PdfComponent = () => {
     return (
       <>
 
-      <div className='status rejected'>
-      <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
-        <Button className="edit" variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button className="success" variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
+      <div className='pdf_buttons status rejected'>
+      <Button raised rounded severity="info" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
+        <Button raised rounded className="edit" severity="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
+        <Button raised rounded className="success" severity="success" size="Lg" onClick={(e)=>{submitApp(data)}}>RESUBMIT</Button>
       </div>
 
       <div className="pm_comments_holder">
@@ -631,10 +651,10 @@ export const PdfComponent = () => {
     return (
       <>
 
-      <div className='status rejected'>
-        <Button variant="warning" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
-        <Button className="edit" variant="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
-        <Button className="success" variant="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
+      <div className='pdf_buttons status rejected'>
+        <Button raised rounded severity="info" size="Lg" onClick={(e)=>{handleSubmit(data)}}>REFRESH</Button>
+        <Button raised rounded className="edit" severity="warning" size="Lg" onClick={(e)=>{editApp(data)}}>EDIT</Button>
+        <Button raised rounded className="success" severity="success" size="Lg" onClick={(e)=>{submitApp(data)}}>SUBMIT</Button>
       </div>
 
        <PDFDownloadLink 
@@ -654,7 +674,7 @@ export const PdfComponent = () => {
   } else {
     return (
       <>
-      <div className='status approved'>
+      <div className='pdf_buttons status approved'>
 
       </div>
 

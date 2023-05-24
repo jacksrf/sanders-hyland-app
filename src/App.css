@@ -27,6 +27,32 @@
     margin-top: 0px!important;
 }
 
+.pdf_buttons button {
+    margin-top: 0px!important;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.dashboard {
+    width: 90vw;
+}
+
+.card_stats_view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.card.chart {
+    height: 300px;
+}
+
+.card.chart .p-skeleton {
+    height: 100%!important;
+}
+
 @media (max-width: 768px) {
   .next-steps .col-md-5 {
     margin-bottom: 0;
