@@ -511,7 +511,7 @@ export const PdfComponent = () => {
   const submitApp = async (item) => {
 
       // var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
-    var response = await fetch("http://localhost:4000/lien/submit/"+ item._id, {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
          method: "POST",
          headers: {
            "Content-Type": "application/json",

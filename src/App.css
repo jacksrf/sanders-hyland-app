@@ -23,6 +23,10 @@
     display: block;
 }
 
+.p-menubar-end button {
+    margin-top: 0px!important;
+}
+
 @media (max-width: 768px) {
   .next-steps .col-md-5 {
     margin-bottom: 0;
