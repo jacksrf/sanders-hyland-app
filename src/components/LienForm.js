@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import { Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,13 +7,16 @@ import ReactPDF from '@react-pdf/renderer';
 
 import Loading from "../components/Loading";
 import {useHistory} from 'react-router-dom';
-import moment from "moment";
+// import moment from "moment";
+import moment from 'moment-timezone';
+
 import {Form} from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 
 import { InputText } from 'primereact/inputtext';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 
 import 'primeicons/primeicons.css';  
 import "primereact/resources/themes/lara-light-indigo/theme.css";     
@@ -32,6 +35,8 @@ const styles = StyleSheet.create({
   }
 });
 
+moment().tz("America/Chicago").format();
+
 class LienForm extends Component {
 
 
@@ -39,6 +44,8 @@ class LienForm extends Component {
     console.log(props)
     super(props);
     const user = this.props.user;
+    this.toast = React.createRef(null);
+    this.toastBC = React.createRef(null);
     var date = moment().format()
     this.state = {
       "data": this.props.data,
@@ -77,6 +84,9 @@ class LienForm extends Component {
     this.closeError = this.closeError.bind(this);
     this.addInput_other = this.addInput_other.bind(this);
     this.setSelectedFile = this.setSelectedFile.bind(this);
+    this.confirm = this.confirm.bind(this);
+    this.show = this.show.bind(this);
+    this.clear = this.clear.bind(this);
   };
 
   addInput(event) {
@@ -104,6 +114,46 @@ class LienForm extends Component {
       form: form
     });
   };
+
+    show() {
+        this.toast.current.show({ severity: 'success', summary: 'Submission Received', detail: 'Thank you, we have received your submission.' });
+    };
+
+    clear(submit) {
+        this.toastBC.current.clear();
+        this.handleSubmit()
+    };
+
+    confirm(e) {
+      e.preventDefault();
+      var m = moment().day();
+      console.log(m)
+      if (m === 3) {
+        var a = moment().hour();
+        console.log(a)
+        if (a > 9) {
+          this.toastBC.current.show({
+            severity: 'info',
+            sticky: true,
+            className: 'border-none',
+            content: (
+                <div className="flex flex-column align-items-center" style={{ flex: '1' }}>
+                    <div className="text-center">
+                        <i className="pi pi-exclamation-triangle" style={{ fontSize: '3rem' }}></i>
+                        <div className="font-bold text-xl my-3">Please be aware that this was submitted after the 10am Central cut off and will be approved for next weeks pay period.<br></br><br></br>Click accept if you understand.<br></br></div>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button onClick={(e) => this.clear(true)} type="button" label="Confirm" className="p-button-success w-6rem" />
+                        <Button onClick={(e) => this.clear(false)} type="button" label="Cancel" className="p-button-warning w-6rem" />
+                    </div>
+                </div>
+            )
+        });
+        }
+      }
+
+        
+    };
 
   async setSelectedFile(event) {
     this.setState({
@@ -496,7 +546,7 @@ class LienForm extends Component {
 
   async handleSubmit(e) {
     const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
-    e.preventDefault();
+    // e.preventDefault();
      const form = this.state.form;
      if (this.state.form.jobNumber != "" && this.state.form.job_id != "") {
       form.status = 'unsubmitted';
@@ -525,7 +575,12 @@ class LienForm extends Component {
         })
         .then((response) => response.json())
         console.log(response)
-        this.props.history.push('/pdf/'+response.id)
+        this.show();
+        var current_props = this.props;
+        setTimeout(function() {
+          current_props.history.push('/pdf/'+response.id)
+        }, 1000)
+        
       }
      } else {
        this.setState({
@@ -976,8 +1031,11 @@ class LienForm extends Component {
 
        <div className="form_row submit d-grid gap-2">
             <Button raised rounded severity="info" size="lg" label="SAVE" onClick={this.handleSave} />{" "}{" "}
-            <Button raised rounded severity="warning" size="lg" label="SUBMIT" onClick={this.handleSubmit} />
+            <Button raised rounded severity="warning" size="lg" label="SUBMIT" onClick={this.confirm} />
           </div>
+
+          <Toast ref={this.toast} />
+          <Toast ref={this.toastBC} position="bottom-center" />
       </Card>
       
     );

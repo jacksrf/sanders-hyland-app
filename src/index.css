@@ -35,3 +35,10 @@ iframe {
     width: 100%;
     height: 80vh;
 }
+
+.p-toast-message-content .flex.gap-2 {
+    justify-content: space-evenly;
+    width: 100%;
+    display: flex;
+    margin-top: 40px;
+}
