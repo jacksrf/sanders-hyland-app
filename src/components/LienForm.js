@@ -50,7 +50,9 @@ class LienForm extends Component {
     this.state = {
       "data": this.props.data,
       "form": this.props.data,
-      "contractor": {},
+      "contractor": {
+        "_id": ""
+      },
       'projectManagers': [{}],
       'jobs': [],
       'materials': [],
@@ -528,6 +530,8 @@ class LienForm extends Component {
        console.log(contractorFromJob)
        form.retention = contractorFromJob.retention;
        form.job_id = jobCurrent._id;
+       form.projectManagerId = jobCurrent.project_manager_id;
+       form.projectManager = jobCurrent.project_manager_name;
      }
      this.setState({
        form: form
@@ -699,14 +703,14 @@ class LienForm extends Component {
   }
 
   async handleJobs(id, id2) {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/" + id + "/" + id2, {
+    var response = await fetch("https://sanders-hyland-server.herokuapp.com/jobs/", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
        }
     })
     .then((response) => response.json())
-
+    console.log(response)
     this.setState({
       jobs: response
     });
@@ -772,7 +776,7 @@ class LienForm extends Component {
 
   componentDidMount() {
     this.handleContractor()
-    this.handlePms()
+    this.handleJobs()
     this.handleMaterials()
 
     // this.handleJobs()
@@ -803,33 +807,39 @@ class LienForm extends Component {
             <Loading />
           </div>
           <Form.Control type="hidden" name="contractor" value={this.state.form.contractor} onChange={this.handleInputChange} />
+          <Form.Control type="hidden" name="projectManagerId" value={this.state.form.projectManagerId}/>
 
-          <Form.Group className="form_row full">
-            <Form.Label>
-              <span>Project Manager:</span>
-            </Form.Label>
-            <Form.Select name="projectManager" value={this.state.form.projectManager} onChange={this.handleInputChange}  aria-label="Default select example">
-                <option id="none" key="none">Select One</option>
-            {this.state.projectManagers.map((item, i) => {
-               return (
-                 <option id={i} key={i} value={item.name} defaultValue={this.state.form.projectManager == item.name}>{item.name}</option>
-               );
-             })}
-            </Form.Select>
-          </Form.Group>
           <Form.Group className="form_row full">
             <Form.Label>
               <span>Job Number:</span>
             </Form.Label>
             <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
             <option id="none" key="none">Select One</option>
-            {this.state.jobs.map((item, i) => {
-               return (
-                 <option key={i} value={item.number}>{item.number} - {item.name}</option>
+            {this.state.jobs.map((job, i) => {
+              console.log(job.contractors)
+              if (job.contractors) {
+                console.log(this.state.contractor._id)
+                var jobCheck = job.contractors.find(x => x.id === this.state.contractor._id);
+                console.log(jobCheck)
+                if (jobCheck != undefined) {
+                   return (
+                 <option key={i} value={job.number}>{job.number} - {job.name}</option>
                );
+                }
+              
+              }
+              
              })}
             </Form.Select>
           </Form.Group>
+
+          <Form.Group className="form_row full">
+            <Form.Label>
+              <span>Project Manager:</span>
+            </Form.Label>
+            <Form.Control type="text" name="projectManager" value={this.state.form.projectManager} disabled/>
+          </Form.Group>
+          
 
           <Form.Group className="form_row notFull">
             <Form.Label>
@@ -883,7 +893,7 @@ class LienForm extends Component {
                    <Form.Group className="lineitem_row">
                    <Form.Label className="small_input">
                      <span>Quantity:</span>
-                     <Form.Control type="text" id={item.id}  name="quantity" value={this.state.form.lineItems[i].quantity} onChange={this.handleLineItemChange} />
+                     <Form.Control type="number" id={item.id}  name="quantity" value={this.state.form.lineItems[i].quantity} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Type:</span>
@@ -897,11 +907,11 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Price Per:</span>
-                     <Form.Control type="text" id={item.id}  name="price_per" value={this.state.form.lineItems[i].price_per} onChange={this.handleLineItemChange} />
+                     <Form.Control type="number" id={item.id}  name="price_per" value={this.state.form.lineItems[i].price_per} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Total:</span>
-                     <Form.Control type="text" id={item.id}  name="total" value={this.state.form.lineItems[i].total} onChange={this.handleLineItemChange} />
+                     <Form.Control type="number" id={item.id}  name="total" value={this.state.form.lineItems[i].total} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
@@ -936,19 +946,19 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Men:</span>
-                     <Form.Control type="text" id={item.id}  name="men" value={this.state.form.lineItems_manHours[i].men} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={item.id}  name="men" value={this.state.form.lineItems_manHours[i].men} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Hours:</span>
-                     <Form.Control type="text" id={item.id}  name="hours" value={this.state.form.lineItems_manHours[i].hours} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={item.id}  name="hours" value={this.state.form.lineItems_manHours[i].hours} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>rate:</span>
-                     <Form.Control type="text" id={item.id}  name="rate" value={this.state.form.lineItems_manHours[i].rate} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={item.id}  name="rate" value={this.state.form.lineItems_manHours[i].rate} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Total:</span>
-                     <Form.Control type="text" id={item.id}  name="total" value={this.state.form.lineItems_manHours[i].total} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={item.id}  name="total" value={this.state.form.lineItems_manHours[i].total} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
@@ -982,15 +992,15 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Quantity:</span>
-                     <Form.Control type="text" id={item.id}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="number" id={item.id}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Price Per:</span>
-                     <Form.Control type="text" id={item.id}  name="price_per" value={this.state.form.lineItems_other[i].price_per} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="number" id={item.id}  name="price_per" value={this.state.form.lineItems_other[i].price_per} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Total:</span>
-                     <Form.Control type="text" id={item.id}  name="total" value={this.state.form.lineItems_other[i].total} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="number" id={item.id}  name="total" value={this.state.form.lineItems_other[i].total} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
