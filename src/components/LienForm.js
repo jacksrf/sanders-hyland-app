@@ -172,7 +172,7 @@ class LienForm extends Component {
     console.log(file_data.get('file'))
 
     // var response = await fetch("http://localhost:4000/file_upload/", {
-    var response = await fetch("https://api.sandershylandtest.com//file_upload/", {
+    var response = await fetch("https://api.sandershylandtest.com/file_upload/", {
       method: "POST",
       body: file_data
     })
@@ -485,7 +485,7 @@ class LienForm extends Component {
 
     async handlePmJobs (id, id2) {
       console.log(id)
-        var jobs = await fetch("https://api.sandershylandtest.com//jobs/"+ id+ "/" + id2, {
+        var jobs = await fetch("https://api.sandershylandtest.com/jobs/"+ id+ "/" + id2, {
          method: "GET",
          headers: {
            "Content-Type": "application/json",
@@ -564,7 +564,7 @@ class LienForm extends Component {
       });
 
       if (this.state.form._id) {
-        var response = await fetch("https://api.sandershylandtest.com//lien/update/"+ studentId, {
+        var response = await fetch("https://api.sandershylandtest.com/lien/update/"+ studentId, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -575,7 +575,7 @@ class LienForm extends Component {
         console.log(response)
         this.props.history.push('/pdf/'+studentId)
       } else {
-        var response = await fetch("https://api.sandershylandtest.com//lien/add", {
+        var response = await fetch("https://api.sandershylandtest.com/lien/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -609,7 +609,7 @@ class LienForm extends Component {
       if (this.state.form.jobNumber != "" && this.state.form.job_id != "") {
       if (studentId != undefined) {
         console.log(this.state.form)
-        var response = await fetch("https://api.sandershylandtest.com//lien/update/"+ studentId, {
+        var response = await fetch("https://api.sandershylandtest.com/lien/update/"+ studentId, {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
@@ -624,7 +624,7 @@ class LienForm extends Component {
         console.log(response)
         this.props.history.push('/payments-submitted/')
       } else {
-        var response = await fetch("https://api.sandershylandtest.com//lien/add", {
+        var response = await fetch("https://api.sandershylandtest.com/lien/add", {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
@@ -655,7 +655,7 @@ class LienForm extends Component {
   async handleDataUpdate() {
     const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     const response = await fetch(
-      "https://api.sandershylandtest.com//pdf/"+ studentId
+      "https://api.sandershylandtest.com/pdf/"+ studentId
     ).then((response) => response.json());
     console.log(response)
     console.log(response.contractorCompany)
@@ -693,7 +693,7 @@ class LienForm extends Component {
   }
 
   async handlePms() {
-    var response = await fetch("https://api.sandershylandtest.com//project-managers", {
+    var response = await fetch("https://api.sandershylandtest.com/project-managers", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -708,7 +708,7 @@ class LienForm extends Component {
   }
 
   async handleJobs(id, id2) {
-    var response = await fetch("https://api.sandershylandtest.com//jobs/", {
+    var response = await fetch("https://api.sandershylandtest.com/jobs/", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -725,7 +725,7 @@ class LienForm extends Component {
   }
 
   async handleMaterials() {
-    var materials = await fetch("https://api.sandershylandtest.com//materials", {
+    var materials = await fetch("https://api.sandershylandtest.com/materials", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -739,7 +739,7 @@ class LienForm extends Component {
   }
 
   async handleInvoiceNumber() {
-    var response = await fetch("https://api.sandershylandtest.com//invoice-number", {
+    var response = await fetch("https://api.sandershylandtest.com/invoice-number", {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -756,7 +756,7 @@ class LienForm extends Component {
   }
 
   async handleContractor() {
-    var contractor = await fetch("https://api.sandershylandtest.com//user/"+ this.props.user.email, {
+    var contractor = await fetch("https://api.sandershylandtest.com/user/"+ this.props.user.email, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",

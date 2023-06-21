@@ -75,7 +75,7 @@ export const PaymentsComponent = () => {
   }
 
   const deleteApp = async (item) => {
-    var response = await fetch("https://api.sandershylandtest.com//lien/delete/" + item._id, {
+    var response = await fetch("https://api.sandershylandtest.com/lien/delete/" + item._id, {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
@@ -217,14 +217,14 @@ export const PaymentsComponent = () => {
   //   setCurrentSort(column)
   //   console.log(column)
   //    const response = await fetch(
-  //     "https://api.sandershylandtest.com//liens-sort/" + userFull._id + "/" + column + "/" + ascending
+  //     "https://api.sandershylandtest.com/liens-sort/" + userFull._id + "/" + column + "/" + ascending
   //   ).then((response) => response.json());
   //   console.log(response)
   //   setPayments(response)
   // }
 
   const handleSubmit = async () => {
-    var contractor = await fetch("https://api.sandershylandtest.com//user/"+ user.email, {
+    var contractor = await fetch("https://api.sandershylandtest.com/user/"+ user.email, {
        method: "GET",
        headers: {
          "Content-Type": "application/json",
@@ -233,7 +233,7 @@ export const PaymentsComponent = () => {
     .then((contractor) => contractor.json())
     setUser(contractor)
     const response = await fetch(
-      "https://api.sandershylandtest.com//liens-clean/" + contractor._id
+      "https://api.sandershylandtest.com/liens-clean/" + contractor._id
     ).then((response) => response.json());
     console.log(response)
     setPayments(response.reverse())
