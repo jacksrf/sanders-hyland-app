@@ -54,7 +54,7 @@ export const LienFormComponent = () => {
 
   const handleDataUpdate = async (id) => {
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/pdf/"+ id
+      "https://api.sandershylandtest.com//pdf/"+ id
     ).then((response) => response.json());
     console.log(response)
     return response

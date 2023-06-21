@@ -54,7 +54,7 @@ const NavBar = () => {
 
   const handleDataUpdate = async (email) => {
     console.log(email)
-      var response = await fetch("https://sanders-hyland-server.herokuapp.com/user/"+ email, {
+      var response = await fetch("https://api.sandershylandtest.com//user/"+ email, {
         // mode:'no-cors',
        method: "GET",
        headers: {

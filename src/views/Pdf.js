@@ -503,7 +503,7 @@ export const PdfComponent = () => {
 
   const handleSubmit = async () => {
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/pdf/"+ id
+      "https://api.sandershylandtest.com//pdf/"+ id
     ).then((response) => response.json());
     // console.log(response)
     response.invoice = response.invoice.toString().padStart(5, '0')
@@ -526,8 +526,8 @@ export const PdfComponent = () => {
 
   const submitApp = async (item) => {
 
-      // var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
+      // var response = await fetch("https://api.sandershylandtest.com//lien/submit/"+ item._id, {
+    var response = await fetch("https://api.sandershylandtest.com//lien/submit/"+ item._id, {
          method: "POST",
          headers: {
            "Content-Type": "application/json",

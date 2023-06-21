@@ -45,7 +45,7 @@ class Signature extends Component {
     newData.pm_signature = '';
     newData.status = 'signed';
     console.log(newData)
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/update-signature/" + this.props.data._id, {
+    var response = await fetch("https://api.sandershylandtest.com//update-signature/" + this.props.data._id, {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
