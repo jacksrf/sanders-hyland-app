@@ -559,6 +559,7 @@ class LienForm extends Component {
     const studentId = window.location.href.replace('https://', '').replace('http://', '').split('/')[2]
     // e.preventDefault();
      const form = this.state.form;
+     console.log(form)
      if (this.state.form.jobNumber != "" && this.state.form.job_id != "") {
       form.status = 'unsubmitted';
       this.setState({
@@ -752,9 +753,10 @@ class LienForm extends Component {
        }
     })
     .then((response) => response.json())
-
+    console.log(response)
     const currentForm = this.state.form;
-    currentForm.invoice = response+1;
+    var setNumber = Number(response);
+    currentForm.invoice = setNumber.toString().padStart(5, '0');
 
     this.setState({
       form: currentForm
