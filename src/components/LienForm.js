@@ -151,7 +151,9 @@ class LienForm extends Component {
                 </div>
             )
         });
-        }
+        } 
+      } else {
+        this.clear(true)
       }
 
         
@@ -523,7 +525,8 @@ class LienForm extends Component {
        this.handlePmJobs(projectManagerCurrent._id, this.state.contractor._id);
      }
      if (name === 'jobNumber') {
-       var jobCurrent = this.state.jobs.find(x => x.number === target.value);
+
+       var jobCurrent = this.state.jobs.find(x => x._id === target.value);
        console.log(jobCurrent);
        console.log(this.state.contractor)
        var contractorFromJob = jobCurrent.contractors.find(x => x.id === this.state.contractor._id);
@@ -714,11 +717,9 @@ class LienForm extends Component {
     this.setState({
       jobs: response
     });
-    const form = this.state.form;
-    form.jobNumber = this.state.data.jobNumber;
-    this.setState({
-      form: form
-    });
+    // const form = this.state.form;
+    console.log(response)
+    // form.jobNumber = this.state.data.jobNumber;
   }
 
   async handleMaterials() {
@@ -816,18 +817,20 @@ class LienForm extends Component {
             <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
             <option id="none" key="none">Select One</option>
             {this.state.jobs.map((job, i) => {
-              console.log(job.contractors)
+              if (job.project_manager_name != "Trey Jackson") {
+              // console.log(job.contractors)
               if (job.contractors) {
-                console.log(this.state.contractor._id)
+                // console.log(this.state.contractor._id)
                 var jobCheck = job.contractors.find(x => x.id === this.state.contractor._id);
-                console.log(jobCheck)
+                // console.log(jobCheck)
                 if (jobCheck != undefined) {
                    return (
-                 <option key={i} value={job.number}>{job.number} - {job.name}</option>
+                 <option key={i} value={job._id}>{job.number} - {job.name}</option>
                );
                 }
               
               }
+            }
               
              })}
             </Form.Select>

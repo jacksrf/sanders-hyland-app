@@ -86,6 +86,20 @@ export const PaymentsComponent = () => {
     handleSubmit()
   }
 
+      const formatCurrency = (value) => {
+        console.log(value)
+        if (value != null) {
+          return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        } else {
+          return "$0.00";
+        }
+        
+    }
+
+    const balanceBodyTemplate = (rowData) => {
+        return formatCurrency(rowData.value);
+    }
+
   const getSeverity = (lien) => {
         console.log(lien.status)
         switch (lien.status) {
@@ -236,7 +250,7 @@ export const PaymentsComponent = () => {
     <Container className="mb-5">
       <DataTable header={header}  footer={footer} value={payments} filters={filters} filterDisplay="row" sortMode="multiple" showGridlines stripedRows paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }} globalFilterFields={['invoice', 'value', 'projectManger', 'status']} emptyMessage="No Payments found.">
         <Column field="date" sortable header="Date"></Column>
-        <Column field="value" sortable header="Value"></Column>
+        <Column field="value" sortable header="Value" dataType="numeric" body={balanceBodyTemplate}></Column>
         <Column field="jobNumber" sortable header="Job Number"></Column>
         <Column field="invoice" sortable header="Invoice"></Column>
         <Column field="projectManager" sortable header="Project Manager"></Column>
