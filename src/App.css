@@ -33,6 +33,17 @@
     margin-right: 10px;
 }
 
+/*label.form-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+label.form-label span {
+    width: auto;
+    margin-right: 10px;
+}*/
+
 .dashboard {
     width: 90vw;
 }
@@ -230,6 +241,15 @@ a.PDFDownload {
     align-items: flex-start;
     justify-content: flex-start;
     justify-content: space-between;
+}
+
+.lineitem_row, .multiInputRow {
+    flex-wrap: wrap;
+}
+
+label.form-label span {
+    width: 100%;
+    float: left;
 }
 
 .form_row.full label {
