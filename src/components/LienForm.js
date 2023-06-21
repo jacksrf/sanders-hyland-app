@@ -816,7 +816,7 @@ class LienForm extends Component {
             <Form.Label>
               <span>Job Number:</span>
             </Form.Label>
-            <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
+            <Form.Select name="jobNumber" value={this.state.form.job_id} onChange={this.handleInputChange}  aria-label="Default select example">
             <option id="none" key="none">Select One</option>
             {this.state.jobs.map((job, i) => {
               // if (job.project_manager_name != "Trey Jackson") {
