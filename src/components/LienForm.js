@@ -133,7 +133,7 @@ class LienForm extends Component {
       if (m === 3) {
         var a = moment().hour();
         console.log(a)
-        if (a > 9) {
+        if (a > 10) {
           this.toastBC.current.show({
             severity: 'info',
             sticky: true,
@@ -151,7 +151,9 @@ class LienForm extends Component {
                 </div>
             )
         });
-        } 
+        } else {
+          this.clear(true)
+        }
       } else {
         this.clear(true)
       }

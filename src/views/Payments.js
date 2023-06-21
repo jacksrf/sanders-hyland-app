@@ -233,7 +233,7 @@ export const PaymentsComponent = () => {
     .then((contractor) => contractor.json())
     setUser(contractor)
     const response = await fetch(
-      "https://sanders-hyland-server.herokuapp.com/liens-clean/" + contractor._id
+      "https://sanders-hyland-server.herokuapp.com/liens-clean/" + contractor._id,
     ).then((response) => response.json());
     console.log(response)
     setPayments(response.reverse())
