@@ -514,7 +514,7 @@ class LienForm extends Component {
      const name = target.name;
      console.log(name)
      const form = this.state.form;
-     form[name] = value;
+     
      if (name === 'projectManager') {
        console.log(event)
        console.log(this.state.projectManagers)
@@ -523,8 +523,7 @@ class LienForm extends Component {
 
        form.projectManagerId = projectManagerCurrent._id
        this.handlePmJobs(projectManagerCurrent._id, this.state.contractor._id);
-     }
-     if (name === 'jobNumber') {
+     } else if (name === 'jobNumber') {
 
        var jobCurrent = this.state.jobs.find(x => x._id === target.value);
        console.log(jobCurrent);
@@ -533,8 +532,11 @@ class LienForm extends Component {
        console.log(contractorFromJob)
        form.retention = contractorFromJob.retention;
        form.job_id = jobCurrent._id;
+       form.jobNumber = jobCurrent.number;
        form.projectManagerId = jobCurrent.project_manager_id;
        form.projectManager = jobCurrent.project_manager_name;
+     } else {
+        form[name] = value;
      }
      this.setState({
        form: form
@@ -817,7 +819,7 @@ class LienForm extends Component {
             <Form.Select name="jobNumber" value={this.state.form.jobNumber} onChange={this.handleInputChange}  aria-label="Default select example">
             <option id="none" key="none">Select One</option>
             {this.state.jobs.map((job, i) => {
-              if (job.project_manager_name != "Trey Jackson") {
+              // if (job.project_manager_name != "Trey Jackson") {
               // console.log(job.contractors)
               if (job.contractors) {
                 // console.log(this.state.contractor._id)
@@ -830,7 +832,7 @@ class LienForm extends Component {
                 }
               
               }
-            }
+            // }
               
              })}
             </Form.Select>
