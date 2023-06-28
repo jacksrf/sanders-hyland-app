@@ -11,7 +11,6 @@ import ReactDOM from 'react-dom';
 import { PDFDownloadLink, PDFViewer, BlobProvider } from '@react-pdf/renderer';
 import ReactPDF ,{ Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import SignatureCanvas from 'react-signature-canvas';
-import moment from "moment";
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -24,6 +23,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
 import { Menu } from 'primereact/menu';
 import { Toast } from 'primereact/toast';
+import moment from 'moment-timezone';
 
 import 'primeicons/primeicons.css';  
 import "primereact/resources/themes/lara-light-indigo/theme.css";     
@@ -500,6 +500,7 @@ export const PdfComponent = () => {
   const location = useLocation();
   const id = location.pathname.replace('/pdf/', '')
   // console.log('id', id);
+  const toast = useRef(null);
 
   const handleSubmit = async () => {
     const response = await fetch(
@@ -518,24 +519,71 @@ export const PdfComponent = () => {
   };
 
 
-
+  
   const editApp = async (item) => {
     console.log(item)
     history.push('/lien-form/' + item._id)
   };
 
-  const submitApp = async (item) => {
+  const show = async () => {
+        toast.current.show({ severity: 'success', summary: 'Submission Received', detail: 'Thank you, we have received your submission.' });
+    };
 
-      // var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
-    var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-         }
-      })
-      .then((response) => response.json())
-      // console.log(response)
-      history.push('/payments-submitted/')
+    const clear = async (submit, item) => {
+      if (submit === false) {
+        toast.current.clear();
+      } else {
+        toast.current.clear();
+         var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+           }
+        })
+        .then((response) => response.json())
+        // console.log(response)
+        history.push('/payments-submitted/')
+      }
+        
+       
+    };
+
+  const submitApp = async (item) => {
+    var lien = item;
+      var m = moment().day();
+      console.log(m)
+      if (m === 3) {
+        var a = moment().hour();
+        var b = moment().minute();
+        console.log(a)
+        console.log(b)
+        if (a > 9) {
+            toast.current.show({
+              severity: 'info',
+              sticky: true,
+              className: 'border-none',
+              content: (
+                  <div className="flex flex-column align-items-center" style={{ flex: '1' }}>
+                      <div className="text-center">
+                          <i className="pi pi-exclamation-triangle" style={{ fontSize: '3rem' }}></i>
+                          <div className="font-bold text-xl my-3">Please be aware that this was submitted after the 10am Central cut off and will be approved for next weeks pay period.<br></br><br></br>Click accept if you understand.<br></br></div>
+                      </div>
+                      <div className="flex gap-2">
+                          <Button onClick={(e) => clear(true, lien)} type="button" label="Confirm" className="p-button-success w-6rem" />
+                          <Button onClick={(e) => clear(false, lien)} type="button" label="Cancel" className="p-button-warning w-6rem" />
+                      </div>
+                  </div>
+              )
+          });
+        } else {
+          // toast.current.show({ severity: 'success', summary: 'Submission Received', detail: 'Its Wednesday before 10' });
+          // console.log('')
+          clear(true, lien)
+        }
+      } else {
+        clear(true, lien)
+      }
+    
   }
 
 
@@ -669,6 +717,8 @@ export const PdfComponent = () => {
       }}
     </PDFDownloadLink>
        <PDFViewer><MyDocument /></PDFViewer>
+
+          <Toast ref={toast} position="center" />
       </>
     );
   } else {
