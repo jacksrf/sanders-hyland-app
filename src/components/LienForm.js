@@ -424,7 +424,7 @@ class LienForm extends Component {
        const form = this.state.form;
        const current_lineItems = form.lineItems;
        console.log(current_lineItems)
-       current_lineItems.splice(key-1, 1);
+       current_lineItems.splice(key, 1);
 
        var lineItemsTotal = 0;
        current_lineItems.map((item, i) => {
@@ -448,7 +448,7 @@ class LienForm extends Component {
        const form = this.state.form;
        const current_lineItems = form.lineItems_manHours;
        console.log(current_lineItems)
-       current_lineItems.splice(key-1, 1);
+       current_lineItems.splice(key, 1);
 
        var lineItemsTotal = 0;
        current_lineItems.map((item, i) => {
@@ -473,7 +473,7 @@ class LienForm extends Component {
        const form = this.state.form;
        const current_lineItems = form.lineItems_other;
        console.log(current_lineItems)
-       current_lineItems.splice(key-1, 1);
+       current_lineItems.splice(key, 1);
 
        var lineItemsTotal = 0;
        current_lineItems.map((item, i) => {
