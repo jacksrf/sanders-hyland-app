@@ -301,8 +301,6 @@ class LienForm extends Component {
          });
        }
      })
-
-
   };
 
   handleLineItemDateChange2(i, date) {
@@ -324,8 +322,6 @@ class LienForm extends Component {
          });
        }
      })
-
-
   };
 
   handleLineItemChange2(event) {
