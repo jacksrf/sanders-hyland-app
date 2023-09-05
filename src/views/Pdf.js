@@ -343,7 +343,7 @@ export const PdfComponent = () => {
               <Text style={styles.list_item_blank}></Text>
               <Text style={styles.list_item_blank}></Text>
               <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Work Total:</Text>
-              <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${(data.lineItemsTotal).toFixed(2)}</Text>
+              <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${Number(data.lineItemsTotal).toFixed(2)}</Text>
             </View>
             </View>
      
@@ -381,7 +381,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Hourly Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${(data.lineItems_manHours_total).toFixed(2)}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${Number(data.lineItems_manHours_total).toFixed(2)}</Text>
           </View>
           </View>
    
@@ -419,7 +419,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={[styles.list_item_blank, {width: "24%", textAlign: "right", paddingRight: "2.5%", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}>Other Total:</Text>
-            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${(data.lineItems_other_total).toFixed(2)}</Text>
+            <Text style={[styles.list_item_blank, { textAlign: "center", paddingTop: "10px", marginTop: "10px", borderTopWidth: "1px"}]}> ${Number(data.lineItems_other_total).toFixed(2)}</Text>
           </View>
           </View>
   
@@ -450,7 +450,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "50%", textAlign: "right", paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total: ${( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
+            <Text style={[styles.list_item_blank, {width: "50%", textAlign: "right", paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Retention Total: ${Number( (Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total) ) * (Number(data.retention)/100)).toFixed(2)}</Text>
           </View>
           </View>
 
@@ -460,7 +460,7 @@ export const PdfComponent = () => {
             <Text style={styles.list_item_blank_description}></Text>
             <Text style={styles.list_item_blank}></Text>
             <Text style={styles.list_item_blank}></Text>
-            <Text style={[styles.list_item_blank, {width: "50%",  textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Application Total: ${((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total)) * (data.retention/100))).toFixed(2)}</Text>
+            <Text style={[styles.list_item_blank, {width: "50%",  textAlign: "right",paddingRight: "20px", paddingTop: "10px", marginTop: "10px", borderTopWidth: "2px", borderBottomWidth: "2px", borderRightWidth: "2px", borderLeftWidth: "2px"}]}>Application Total: ${Number((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total)) - ((Number(data.lineItems_manHours_total) + Number(data.lineItemsTotal) + Number(data.lineItems_other_total)) * (data.retention/100))).toFixed(2)}</Text>
           </View>
           </View>
       </Page>

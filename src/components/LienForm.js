@@ -1036,12 +1036,12 @@ class LienForm extends Component {
 
           <div className="total_holder">
               <span>Retention ({this.state.form.retention}%):</span>
-              <div>${Number((this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) * (this.state.form.retention/100)).toFixed(2)}</div>
+              <div>${Number((Number(this.state.form.lineItemsTotal) + Number(this.state.form.lineItems_manHours_total) + Number(this.state.form.lineItems_other_total)) * (Number(this.state.form.retention)/100)).toFixed(2)}</div>
           </div>
           <div className="formDivider"></div>
           <div className="total_holder grand">
               <span>Grand Total (after retention):</span>
-              <div>${(this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) - ((this.state.form.lineItemsTotal + this.state.form.lineItems_manHours_total + this.state.form.lineItems_other_total) * (this.state.form.retention/100))}</div>
+              <div>${Number(Number(this.state.form.lineItemsTotal) + Number(this.state.form.lineItems_manHours_total) + Number(this.state.form.lineItems_other_total)) - ((Number(this.state.form.lineItemsTotal) + Number(this.state.form.lineItems_manHours_total) + Number(this.state.form.lineItems_other_total)) * (Number(this.state.form.retention)/100)).toFixed(2)}</div>
           </div>
 
           <Form.Group className="form_row section attachment">
