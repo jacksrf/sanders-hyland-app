@@ -246,7 +246,7 @@ class LienForm extends Component {
   handleLineItemChange(event) {
     event.preventDefault();
     console.log(event);
-    const id = event.target.id;
+    const id = Number(event.target.id);
     console.log(id)
      const target = event.target;
      console.log(target)
@@ -257,11 +257,11 @@ class LienForm extends Component {
      const form = this.state.form;
      const current_lineItems = form.lineItems;
      console.log(current_lineItems)
-     console.log(current_lineItems[id-1])
-     current_lineItems[id-1][name] = value;
+     console.log(current_lineItems[id])
+     current_lineItems[id][name] = value;
      if (name === "price_per" || name === "quantity") {
-       var total = current_lineItems[id-1].quantity * current_lineItems[id-1].price_per;
-       current_lineItems[id-1].total = total;
+       var total = current_lineItems[id].quantity * current_lineItems[id].price_per;
+       current_lineItems[id].total = total;
      }
 
 
@@ -327,7 +327,7 @@ class LienForm extends Component {
   handleLineItemChange2(event) {
     event.preventDefault();
     console.log(event);
-    const id = event.target.id;
+    const id = Number(event.target.id);
     console.log(id)
      const target = event.target;
      console.log(target)
@@ -338,10 +338,10 @@ class LienForm extends Component {
      const form = this.state.form;
      const current_lineItems = form.lineItems_manHours;
      console.log(current_lineItems)
-     console.log(current_lineItems[id-1])
-     current_lineItems[id-1][name] = value;
-     var total = Number(current_lineItems[id-1].men) * Number(current_lineItems[id-1].hours) * Number(current_lineItems[id-1].rate);
-     current_lineItems[id-1].total = total;
+     console.log(current_lineItems[id])
+     current_lineItems[id][name] = value;
+     var total = Number(current_lineItems[id].men) * Number(current_lineItems[id].hours) * Number(current_lineItems[id].rate);
+     current_lineItems[id].total = total;
      var lineItemsTotal = 0;
      current_lineItems.map((item, i) => {
        lineItemsTotal += item.total;
@@ -360,7 +360,7 @@ class LienForm extends Component {
   handleLineItemChange3(event) {
     event.preventDefault();
     console.log(event);
-    const id = event.target.id;
+    const id = Number(event.target.id);
     console.log(id)
      const target = event.target;
      console.log(target)
@@ -371,10 +371,10 @@ class LienForm extends Component {
      const form = this.state.form;
      const current_lineItems = form.lineItems_other;
      console.log(current_lineItems)
-     console.log(current_lineItems[id-1])
-     current_lineItems[id-1][name] = value;
-     var total = Number(current_lineItems[id-1].quantity) *  Number(current_lineItems[id-1].price_per);
-     current_lineItems[id-1].total = total;
+     console.log(current_lineItems[id])
+     current_lineItems[id][name] = value;
+     var total = Number(current_lineItems[id].quantity) *  Number(current_lineItems[id].price_per);
+     current_lineItems[id].total = total;
      var lineItemsTotal = 0;
      current_lineItems.map((item, i) => {
        lineItemsTotal += item.total;
@@ -871,28 +871,29 @@ class LienForm extends Component {
             <div className="section_title">Scope(s) of Work Completed Requesting Payment:</div>
             <Form.Group className="form_row">
             {this.state.form.lineItems.map((item, i) => {
-               return (
-                 <div className="multiInputRow" key={item.id}>
+              if (i === 0) {
+                   return (
+                 <div className="multiInputRow" key={0}>
                  <Form.Group className="lineitem_row">
                  <Form.Label className="small_input">
                    <span>Date:</span>
-                   <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
+                   <DatePicker name="date" id={0} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
                  </Form.Label>
                  <Form.Label className="large_input">
                    <span>Description:</span>
-                   <Form.Control type="text" id={item.id} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
+                   <Form.Control type="text" id={0} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
                  </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Product Code:</span>
-                     <Form.Control type="text" id={item.id} name="product_code" value={this.state.form.lineItems[i].product_code} onChange={this.handleLineItemChange} />
+                     <Form.Control type="text" id={0} name="product_code" value={this.state.form.lineItems[i].product_code} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="medium_input">
                      <span>Product Dimensions:</span>
-                     <Form.Control type="text" id={item.id} name="product_dimensions" value={this.state.form.lineItems[i].product_dimensions} onChange={this.handleLineItemChange} />
+                     <Form.Control type="text" id={0} name="product_dimensions" value={this.state.form.lineItems[i].product_dimensions} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Material:</span>
-                     <Form.Select id={item.id} name="material" value={this.state.form.lineItems[i].material} onChange={this.handleLineItemChange}>
+                     <Form.Select id={0} name="material" value={this.state.form.lineItems[i].material} onChange={this.handleLineItemChange}>
                         <option id="none" key="none">Select One</option>
                         {this.state.materials.map((item, i) => {
                            return (
@@ -905,11 +906,11 @@ class LienForm extends Component {
                    <Form.Group className="lineitem_row">
                    <Form.Label className="small_input">
                      <span>Quantity:</span>
-                     <Form.Control type="number" id={item.id}  name="quantity" value={this.state.form.lineItems[i].quantity} onChange={this.handleLineItemChange} />
+                     <Form.Control type="number" id={0}  name="quantity" value={this.state.form.lineItems[i].quantity} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Type:</span>
-                     <Form.Select id={item.id} name="type" value={this.state.form.lineItems[i].type} onChange={this.handleLineItemChange}>
+                     <Form.Select id={0} name="type" value={this.state.form.lineItems[i].type} onChange={this.handleLineItemChange}>
                         <option id="none" key="none">Select One</option>
                         <option value="sf">SF - square feet</option>
                         <option value="sy">SY - square yards</option>
@@ -919,19 +920,83 @@ class LienForm extends Component {
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Price Per:</span>
-                     <Form.Control type="number" id={item.id}  name="price_per" value={this.state.form.lineItems[i].price_per} onChange={this.handleLineItemChange} />
+                     <Form.Control type="number" id={0}  name="price_per" value={this.state.form.lineItems[i].price_per} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Total:</span>
-                     <Form.Control type="number" id={item.id}  name="total" value={this.state.form.lineItems[i].total} onChange={this.handleLineItemChange} />
+                     <Form.Control type="number" id={0}  name="total" value={this.state.form.lineItems[i].total} onChange={this.handleLineItemChange} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
-                     <Button raised rounded severity="danger" label="DELETE" id={item.key} onClick={(e) => this.deleteLineItem(e, i)} />
+                     <Button raised rounded severity="danger" label="DELETE" id={0} onClick={(e) => this.deleteLineItem(e, i)} />
                   </Form.Label>
                   </Form.Group>
                  </div>
                );
+              } else {
+                   return (
+                 <div className="multiInputRow" key={i}>
+                 <Form.Group className="lineitem_row">
+                 <Form.Label className="small_input">
+                   <span>Date:</span>
+                   <DatePicker name="date" id={i} selected={moment(this.state.form.lineItems[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange(i, date)} />
+                 </Form.Label>
+                 <Form.Label className="large_input">
+                   <span>Description:</span>
+                   <Form.Control type="text" id={i} name="description" value={this.state.form.lineItems[i].description} onChange={this.handleLineItemChange} />
+                 </Form.Label>
+                   <Form.Label className="medium_input">
+                     <span>Product Code:</span>
+                     <Form.Control type="text" id={i} name="product_code" value={this.state.form.lineItems[i].product_code} onChange={this.handleLineItemChange} />
+                   </Form.Label>
+                   <Form.Label className="medium_input">
+                     <span>Product Dimensions:</span>
+                     <Form.Control type="text" id={i} name="product_dimensions" value={this.state.form.lineItems[i].product_dimensions} onChange={this.handleLineItemChange} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Material:</span>
+                     <Form.Select id={i} name="material" value={this.state.form.lineItems[i].material} onChange={this.handleLineItemChange}>
+                        <option id="none" key="none">Select One</option>
+                        {this.state.materials.map((item, i) => {
+                           return (
+                             <option key={i} value={item.name}>{item.name}</option>
+                           );
+                         })}
+                     </Form.Select>
+                   </Form.Label>
+                   </Form.Group>
+                   <Form.Group className="lineitem_row">
+                   <Form.Label className="small_input">
+                     <span>Quantity:</span>
+                     <Form.Control type="number" id={i}  name="quantity" value={this.state.form.lineItems[i].quantity} onChange={this.handleLineItemChange} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Type:</span>
+                     <Form.Select id={i} name="type" value={this.state.form.lineItems[i].type} onChange={this.handleLineItemChange}>
+                        <option id="none" key="none">Select One</option>
+                        <option value="sf">SF - square feet</option>
+                        <option value="sy">SY - square yards</option>
+                        <option value="lf">LF - linear feet</option>
+                        <option value="ea">EA - Each</option>
+                     </Form.Select>
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Price Per:</span>
+                     <Form.Control type="number" id={i}  name="price_per" value={this.state.form.lineItems[i].price_per} onChange={this.handleLineItemChange} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Total:</span>
+                     <Form.Control type="number" id={i}  name="total" value={this.state.form.lineItems[i].total} onChange={this.handleLineItemChange} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <div></div>
+                     <Button raised rounded severity="danger" label="DELETE" id={i} onClick={(e) => this.deleteLineItem(e, i)} />
+                  </Form.Label>
+                  </Form.Group>
+                 </div>
+               );
+              }
+             
              })}
              </Form.Group>
            <Button className="addLineButton" raised rounded severity="success" onClick={this.addInput} label="Add Work Line Item" />
@@ -946,31 +1011,65 @@ class LienForm extends Component {
             <div className="section_title">Scope(s) of Man Hours Requesting Payment:</div>
             <Form.Group className="form_row">
             {this.state.form.lineItems_manHours.map((item, i) => {
-               return (
-                 <div className="multiInputRow" key={item.id}>
+              if (i === 0) {
+return (
+                 <div className="multiInputRow" key={0}>
                    <Form.Label className="small_input">
                      <span>Date:</span>
-                     <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems_manHours[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
+                     <DatePicker name="date" id={0} selected={moment(this.state.form.lineItems_manHours[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
                    </Form.Label>
                    <Form.Label className="large_input">
                      <span>Description:</span>
-                     <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems_manHours[i].description} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="textarea" id={0} name="description" value={this.state.form.lineItems_manHours[i].description} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Men:</span>
-                     <Form.Control type="number" id={item.id}  name="men" value={this.state.form.lineItems_manHours[i].men} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={0}  name="men" value={this.state.form.lineItems_manHours[i].men} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Hours:</span>
-                     <Form.Control type="number" id={item.id}  name="hours" value={this.state.form.lineItems_manHours[i].hours} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={0}  name="hours" value={this.state.form.lineItems_manHours[i].hours} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>rate:</span>
-                     <Form.Control type="number" id={item.id}  name="rate" value={this.state.form.lineItems_manHours[i].rate} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={0}  name="rate" value={this.state.form.lineItems_manHours[i].rate} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Total:</span>
-                     <Form.Control type="number" id={item.id}  name="total" value={this.state.form.lineItems_manHours[i].total} onChange={this.handleLineItemChange2} />
+                     <Form.Control type="number" id={0}  name="total" value={this.state.form.lineItems_manHours[i].total} onChange={this.handleLineItemChange2} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <div></div>
+                     <Button raised rounded severity="danger" id={0} label="DELETE" onClick={(e) => this.deleteHourlyLineItem(e, i)} />
+                  </Form.Label>
+                 </div>
+               );
+              } else {
+                return (
+                 <div className="multiInputRow" key={item.id}>
+                   <Form.Label className="small_input">
+                     <span>Date:</span>
+                     <DatePicker name="date" id={i} selected={moment(this.state.form.lineItems_manHours[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange2(i, date)} />
+                   </Form.Label>
+                   <Form.Label className="large_input">
+                     <span>Description:</span>
+                     <Form.Control type="textarea" id={i} name="description" value={this.state.form.lineItems_manHours[i].description} onChange={this.handleLineItemChange2} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Men:</span>
+                     <Form.Control type="number" id={i}  name="men" value={this.state.form.lineItems_manHours[i].men} onChange={this.handleLineItemChange2} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Hours:</span>
+                     <Form.Control type="number" id={i}  name="hours" value={this.state.form.lineItems_manHours[i].hours} onChange={this.handleLineItemChange2} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>rate:</span>
+                     <Form.Control type="number" id={i}  name="rate" value={this.state.form.lineItems_manHours[i].rate} onChange={this.handleLineItemChange2} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Total:</span>
+                     <Form.Control type="number" id={i}  name="total" value={this.state.form.lineItems_manHours[i].total} onChange={this.handleLineItemChange2} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
@@ -978,6 +1077,8 @@ class LienForm extends Component {
                   </Form.Label>
                  </div>
                );
+              }
+               
              })}
              </Form.Group>
            <Button className="addLineButton" raised rounded severity="success" label="Add Hours Line Item" onClick={this.addInput_hours} />
@@ -992,34 +1093,66 @@ class LienForm extends Component {
             <div className="section_title">Scope(s) of Other Work Requesting Payment:</div>
             <Form.Group className="form_row">
             {this.state.form.lineItems_other.map((item, i) => {
-               return (
-                 <div className="multiInputRow" key={item.id}>
+              if (i === 0) {
+                  return (
+                 <div className="multiInputRow" key={0}>
                    <Form.Label className="small_input">
                      <span>Date:</span>
-                     <DatePicker name="date" id={item.id} selected={moment(this.state.form.lineItems_other[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange3(i, date)} />
+                     <DatePicker name="date" id={0} selected={moment(this.state.form.lineItems_other[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange3(i, date)} />
                    </Form.Label>
                    <Form.Label className="large_input">
                      <span>Description:</span>
-                     <Form.Control type="textarea" id={item.id} name="description" value={this.state.form.lineItems_other[i].description} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="textarea" id={0} name="description" value={this.state.form.lineItems_other[i].description} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Quantity:</span>
-                     <Form.Control type="number" id={item.id}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="number" id={0}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Price Per:</span>
-                     <Form.Control type="number" id={item.id}  name="price_per" value={this.state.form.lineItems_other[i].price_per} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="number" id={0}   name="price_per" value={this.state.form.lineItems_other[i].price_per} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <span>Total:</span>
-                     <Form.Control type="number" id={item.id}  name="total" value={this.state.form.lineItems_other[i].total} onChange={this.handleLineItemChange3} />
+                     <Form.Control type="number" id={0}   name="total" value={this.state.form.lineItems_other[i].total} onChange={this.handleLineItemChange3} />
                    </Form.Label>
                    <Form.Label className="small_input">
                      <div></div>
-                     <Button raised rounded severity="danger" id={item.key} label="DELETE" onClick={(e) => this.deleteOtherLineItem(e, i)} />
+                     <Button raised rounded severity="danger" id={0} label="DELETE" onClick={(e) => this.deleteOtherLineItem(e, i)} />
                   </Form.Label>
                  </div>
                );
+              } else {
+                return (
+                 <div className="multiInputRow" key={i}>
+                   <Form.Label className="small_input">
+                     <span>Date:</span>
+                     <DatePicker name="date" id={i} selected={moment(this.state.form.lineItems_other[i].date).toDate()} onChange={(date:Date) => this.handleLineItemDateChange3(i, date)} />
+                   </Form.Label>
+                   <Form.Label className="large_input">
+                     <span>Description:</span>
+                     <Form.Control type="textarea" id={i} name="description" value={this.state.form.lineItems_other[i].description} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Quantity:</span>
+                     <Form.Control type="number" id={i}  name="quantity" value={this.state.form.lineItems_other[i].quantity} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Price Per:</span>
+                     <Form.Control type="number" id={i}  name="price_per" value={this.state.form.lineItems_other[i].price_per} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <span>Total:</span>
+                     <Form.Control type="number" id={i}  name="total" value={this.state.form.lineItems_other[i].total} onChange={this.handleLineItemChange3} />
+                   </Form.Label>
+                   <Form.Label className="small_input">
+                     <div></div>
+                     <Button raised rounded severity="danger" id={i} label="DELETE" onClick={(e) => this.deleteOtherLineItem(e, i)} />
+                  </Form.Label>
+                 </div>
+               );
+              }
+               
              })}
              </Form.Group>
            <Button className="addLineButton" raised rounded severity="success" label="Add Other Line Item" onClick={this.addInput_other} />
