@@ -128,38 +128,38 @@ class LienForm extends Component {
 
     confirm(e) {
       this.clear(true)
-      // e.preventDefault();
-      // var m = moment().day();
-      // console.log(m)
-      // if (m === 3) {
-      //   var a = moment().hour();
-      //   console.log(a)
-      //   if (a > 10) {
-      //     this.toastBC.current.show({
-      //       severity: 'info',
-      //       sticky: true,
-      //       className: 'border-none',
-      //       content: (
-      //           <div className="flex flex-column align-items-center" style={{ flex: '1' }}>
-      //               <div className="text-center">
-      //                   <i className="pi pi-exclamation-triangle" style={{ fontSize: '3rem' }}></i>
-      //                   <div className="font-bold text-xl my-3">Please be aware that this was submitted after the 10am Central cut off and will be approved for next weeks pay period.<br></br><br></br>Click accept if you understand.<br></br></div>
-      //               </div>
-      //               <div className="flex gap-2">
-      //                   <Button onClick={(e) => this.clear(true)} type="button" label="Confirm" className="p-button-success w-6rem" />
-      //                   <Button onClick={(e) => this.clear(false)} type="button" label="Cancel" className="p-button-warning w-6rem" />
-      //               </div>
-      //           </div>
-      //       )
-      //   });
-      //   } else {
-      //     // this.toast.current.show({ severity: 'success', summary: 'Submission Received', detail: 'Its Wednesday before 10' });
-      //     // console.log('')
-      //     this.clear(true)
-      //   }
-      // } else {
-      //   this.clear(true)
-      // }
+      e.preventDefault();
+      var m = moment().day();
+      console.log(m)
+      if (m === 3) {
+        var a = moment().hour();
+        console.log(a)
+        if (a > 10) {
+          this.toastBC.current.show({
+            severity: 'info',
+            sticky: true,
+            className: 'border-none',
+            content: (
+                <div className="flex flex-column align-items-center" style={{ flex: '1' }}>
+                    <div className="text-center">
+                        <i className="pi pi-exclamation-triangle" style={{ fontSize: '3rem' }}></i>
+                        <div className="font-bold text-xl my-3">Please be aware that this was submitted after the 10am Central cut off and will be approved for next weeks pay period.<br></br><br></br>Click accept if you understand.<br></br></div>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button onClick={(e) => this.clear(true)} type="button" label="Confirm" className="p-button-success w-6rem" />
+                        <Button onClick={(e) => this.clear(false)} type="button" label="Cancel" className="p-button-warning w-6rem" />
+                    </div>
+                </div>
+            )
+        });
+        } else {
+          // this.toast.current.show({ severity: 'success', summary: 'Submission Received', detail: 'Its Wednesday before 10' });
+          // console.log('')
+          this.clear(true)
+        }
+      } else {
+        this.clear(true)
+      }
 
         
     };
@@ -534,8 +534,8 @@ class LienForm extends Component {
        form.retention = contractorFromJob.retention;
        form.job_id = jobCurrent._id;
        form.jobNumber = jobCurrent.number;
-       form.projectManagerId = jobCurrent.project_manager_id;
-       form.projectManager = jobCurrent.project_manager_name;
+       form.projectManagerId = jobCurrent.project_managers[0].id;
+       form.projectManager = jobCurrent.project_managers[0].name;
      } else {
         form[name] = value;
      }
