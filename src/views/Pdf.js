@@ -534,18 +534,24 @@ export const PdfComponent = () => {
         toast.current.clear();
       } else {
         toast.current.clear();
-         var response = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-           }
-        })
-        .then((response) => response.json())
-        // console.log(response)
-        history.push('/payments-submitted/')
+        try {
+          var res = await fetch("https://sanders-hyland-server.herokuapp.com/lien/submit/"+ item._id, {
+             method: "POST",
+             headers: {
+               "Content-Type": "application/json",
+             }
+          });
+          if (!res.ok) {
+            throw new Error("Server returned " + res.status);
+          }
+          var result = await res.json();
+          console.log("Submit result:", result);
+          history.push('/payments-submitted/')
+        } catch (error) {
+          console.error("Submit failed:", error);
+          toast.current.show({ severity: 'error', summary: 'Submission Failed', detail: 'There was an error submitting your lien. Please try again.' });
+        }
       }
-        
-       
     };
 
   const submitApp = async (item) => {
